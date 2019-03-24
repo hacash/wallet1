@@ -1,0 +1,19 @@
+{
+  "name": "hacash",
+  "version": "0.1.0",
+  "description": "",
+  "repository": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js",
+    "watch": "node watch.js",
+    "debug": "node $NODE_DEBUG_OPTION server.js"
+  },
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4"
+  }
+}

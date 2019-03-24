@@ -1,0 +1,31 @@
+
+<div id="balance" class="card">
+    <div class="container">
+        <h1 class="title">查询余额：</h1>
+        <p class="tip">将钱包地址输入或粘贴到下面的框中，一行一个或用逗号、空格隔开。点击“确认查询”则显示账户余额。一次查询不超过20个账号地址。</p>
+        <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
+        <button ref="btn" class="submit" @click="getBalance">确认查询</button>
+        <div class="result"v-if="balances.length>0">
+            <p class="total">{{balances.length}} 个地址总余额 : <b>{{totalamt}}</b></p>
+            <table class="list">
+                <tr v-for="one in balances">
+                    <td>{{one.addr}} :</td>
+                    <td>{{one.amt}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="tips" class="card">
+    <div class="container">
+        <div class="wrap">
+            <p>特别提示：</p>
+            <p>本在线钱包并不会储存或泄露你的密码、私钥或其他敏感数据，但并不绝对保证可能的服务器被入侵导致的资金安全问题。如果您的账户内有大量资金或需要保证绝对安全，我们建议您使用<a>离线命令行钱包工具</a>。（注：查询余额功能没有潜在资金安全问题）</p>
+            <p>本程序由 Hacash 首位开发者<a target="blank" href="https://github.com/jojoin">Jojoin(杨捷)</a>提供，并开放<a target="blank" href="https://github.com/hacash/wallet">源代码</a>。</p>
+        </div>
+    </div>
+</div>
+
