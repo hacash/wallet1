@@ -1,3 +1,67 @@
+/*
+
+
+7F3FAC91802082EE90C5B3F5D63B0FB241A90569A427AF8FB9261BC6D991AC98
+
+*/
+
+
+
+var vAppTxStatus = new Vue({
+    el: '#txstatus',
+    data: {
+        txhash: "",
+        result: null,
+    },
+    methods:{
+        statusTx: function(){
+            var that = this
+            if(!that.txhash){
+                return alert("请输入交易的 txhash")
+            }
+            apiget("/api/tx_status", {
+                txhash: that.txhash,
+            }, function(data){
+                // console.log(data)
+                that.txhash = ""
+                that.result = data
+            }, function(errmsg){
+                that.result = {
+                    err: errmsg
+                }
+            })
+        },
+    }
+})
+
+
+
+
+var vAppSendTx = new Vue({
+    el: '#sendtx',
+    data: {
+        txbody: "",
+        result: null,
+    },
+    methods:{
+        sendTx: function(){
+            var that = this
+            if(!that.txbody){
+                return alert("请输入交易的 txbody")
+            }
+            apipost("/api/send_tx", {
+                txbody: that.txbody,
+            }, function(data){
+                that.txbody = ""
+                that.result = data // 提交成功
+            }, function(errmsg){
+                that.result = {
+                    err: errmsg,
+                }
+            })
+        }
+    }
+})
 
 
 var vAppTransfer = new Vue({
@@ -51,7 +115,7 @@ var vAppTransfer = new Vue({
                         // 交易已被确认，do nothing
                         console.log(data)
                     }else{
-                        that.txstatusupdatesec = 60
+                        that.txstatusupdatesec = 30
                         setTimeout(that.statusTx, 1000)
                     }
                 })
@@ -80,6 +144,12 @@ var vAppTransfer = new Vue({
             }, function(errmsg){
                 alert("创建交易失败：" + errmsg)
             })
+        },
+        inputTx: function(){
+            if( !this.from_addr || !this.to_addr || !this.amount ){
+                return alert("请完善交易内容")
+            }
+            this.step = 2
         },
         cancel: function(){
             if( confirm("是否确认取消转账？") ){
