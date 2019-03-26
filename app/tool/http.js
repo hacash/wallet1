@@ -22,7 +22,7 @@ exports.json = function(url, querys, opts) {
                     // console.log(data)
                     ok(data)
                 }catch(e){
-                    err("res str is not json")
+                    err("res str is not json: "+str)
                 }
             })
         })

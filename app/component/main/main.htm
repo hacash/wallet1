@@ -1,3 +1,27 @@
+<div id="newacc" class="card">
+    <div class="container">
+        <h1 class="title">创建新账户：</h1>
+        <p class="tip">通过一个私密的密码生成一个私钥并创建收款地址（注意：请妥善保管和备份您的密码，一旦丢失则账户内资金将永久损失。本程序不会保存或泄露您的密码）。</p>
+        <textarea v-model="passstr" placeholder="支持区分大小写字母、数字、符号~!@#$%^&*_+-=,.:;，不支持空格和中文及中文符号，不少于6位，不多于128位"></textarea>
+        <button ref="btn" class="submit" @click="newAccount">创建账户</button>
+        <div class="result" v-if="accobj">
+            <div class="close" @click="accobj=null,passstr=''">×</div>
+            <p>通过密码 <b>{{passstr.substr(0,4)+'...'}}</b> 生成的新账户：</p>
+            <table>
+                <tr>
+                    <td>收款地址：</td>
+                    <td>{{accobj.address}}</td>
+                    <td class="t">可公开，发送给别人，收款用</td>
+                </tr>
+                <tr>
+                    <td>私钥：</td>
+                    <td>{{accobj.private_key.toUpperCase()}}</td>
+                    <td class="w">私钥通过密码生成，密码和私钥，千万不要泄露</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div id="balance" class="card">
     <div class="container">
@@ -13,6 +37,113 @@
                     <td>{{one.amt}}</td>
                 </tr>
             </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="transfer" class="card">
+    <div class="container">
+        <h1 class="title">转账：</h1>
+        <p class="step_nav">
+            <b v-bind:class="{active: step==1}">1. 创建一笔交易</b>
+            <i>▷</i>
+            <b v-bind:class="{active: step==2}">2. 输入密码签名</b>
+            <i>▷</i>
+            <b v-bind:class="{active: step==3}">3. 提交到主网确认</b>
+        </p>
+        <div class="step" v-show="step==1">
+            <table class="newtx">
+                <tr>
+                    <td>付款地址:</td>
+                    <td><input class="block" v-model="from_addr" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>收款地址:</td>
+                    <td><input class="block" v-model="to_addr" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>金额:</td>
+                    <td>
+                        <input class="block" v-model="amount" placeholder="" />
+                        <p>
+                            单位: 　
+                            <input type="radio" class="radio" id="ua1" name="amtunit" v-model="unit" value="248" checked><label for="ua1">枚(:248)</label>
+                            <input type="radio" class="radio" id="ua2" name="amtunit" v-model="unit" value="240"><label for="ua2">铢(:240)</label>
+                            <i class="tip">提示： 1枚 = 100000000铢（一亿铢）</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>手续费:</td>
+                    <td>
+                        <input class="block" v-model="fee" placeholder="" />
+                        <p>
+                            单位: 　<input type="radio" class="radio" id="ua3" name="feeunit" v-model="fee_unit" value="240" checked><label for="ua3">铢(:240)</label>
+                            <i class="tip">当前手续费建议值： 10000铢（0.0001枚）</i>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <div class="btns">
+                <button class="cancel" @click="cancel">取消</button>
+                <button class="next" @click="step=2">下一步</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==2">
+            <div class="check">
+                <p>请确认以下交易信息：</p>
+                <p class="focus">地址 {{from_addr}} 给地址 {{to_addr}} 转账 {{amount}} {{ {'248':'枚(:248)','244':'铢(:244)'}[unit+''] }} HCX，手续费 {{fee}} 铢(:244)</p>
+            </div>
+            <div class="passwd">
+                <label>请输入或粘贴付款地址 {{from_addr}} 的密码或私钥，用于签名交易：</label>
+                <input type="password" class="block" placeholder="密码或私钥" v-model="password" value="" />
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="cancel">取消</button>
+                <button class="cancel" @click="step=1">上一步</button>
+                <button class="next" @click="createTx">下一步</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==3">
+            <div class="txcon">
+                <p>通过填写的信息成功生成了交易，请【务必】复制保存以下信息，用于查询交易确认情况和：</p>
+                <table>
+                    <tr>
+                        <td class="l">交易Hash标识:</td>
+                        <td>{{txhash.toUpperCase()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="l">交易内容Hex值:</td>
+                        <td>{{txbody.toUpperCase()}}</td>
+                    </tr>
+                </table>
+                <p>点击“确认转账并发送交易”按钮，即将交易发送给Hacash网络确认。交易一旦发出无法撤回，请注意是否重复转账。</p>
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="cancel">取消</button>
+                <button class="cancel" @click="step=2">上一步</button>
+                <button class="submit" @click="sendTx">确认转账并发送交易</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==4">
+            <div class="confirm">
+                <p>交易hash值：{{txhash.toUpperCase()}}</p>
+                <p v-if="txconfirm" :class="'stat '+txconfirm.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[txconfirm.status] }}</p>
+                <p v-if="!(txconfirm&&txconfirm.block_hash)">正在等待交易确认状态更新，倒计时 <b class="tt">{{txstatusupdatesec}}</b> 秒后将再次发起请求。</p>
+                <p v-if="!(txconfirm&&txconfirm.block_hash)">大约 3 ~ 10 分钟，你的交易将被区块链网络确认，请耐心等待。</p>
+                <p v-if="txconfirm&&txconfirm.block_hash">
+                    交易已成功被确认，转账成功！<br>
+                    确认区块高度:<br>
+                    {{txconfirm.block_height}}
+                    确认区块hash:<br>
+                    {{txconfirm.block_hash}}
+                </p>
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="close">关闭</button>
+            </div>
         </div>
     </div>
 </div>
