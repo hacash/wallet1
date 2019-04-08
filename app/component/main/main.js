@@ -115,7 +115,7 @@ var vAppTransfer = new Vue({
                         // 交易已被确认，do nothing
                         console.log(data)
                     }else{
-                        that.txstatusupdatesec = 30
+                        that.txstatusupdatesec = 60
                         setTimeout(that.statusTx, 1000)
                     }
                 })
