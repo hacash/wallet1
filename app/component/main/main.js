@@ -11,6 +11,7 @@ var vAppTxStatus = new Vue({
     el: '#txstatus',
     data: {
         txhash: "",
+        txhash_show: "",
         result: null,
     },
     methods:{
@@ -23,6 +24,7 @@ var vAppTxStatus = new Vue({
                 txhash: that.txhash,
             }, function(data){
                 // console.log(data)
+                that.txhash_show = that.txhash+""
                 that.txhash = ""
                 that.result = data
             }, function(errmsg){

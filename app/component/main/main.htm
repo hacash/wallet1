@@ -167,7 +167,7 @@
         <textarea v-model="txhash" placeholder="txhash..."></textarea>
         <button ref="btn" class="submit" @click="statusTx">确认查询</button>
         <div class="result" v-if="result && !txhash">
-            <p>{{txhash}}</p>
+            <p>{{txhash_show}}</p>
             <p :class="'stat '+result.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[result.status] }}</p>
             <table v-if="result.block_height">
                 <tr><td>区块高度:</td><td>{{result.block_height}}</td></tr>
