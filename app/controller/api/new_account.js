@@ -10,7 +10,7 @@ module.exports = async function(req, res)
 {
     try{
         let password = req.body.password
-        let obj = await toolhttp.json(config.hcx_node_api_url + '/query?action=passwd&password='+password)
+        let obj = await toolhttp.json(config.hcx_node_api_url + '/query?action=passwd&password='+encodeURIComponent(password))
         // console.log(obj)
         obj.ret = 0
         api.success(res, obj)
