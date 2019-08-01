@@ -180,22 +180,33 @@ var vAppNewAccount = new Vue({
         newAccount: function(){
             var that = this
             , ps = that.passstr
-            // 判断条件
-            , hav = ps.replace(/[A-Za-z0-9\~\!\@\#\$\%\^\&\*\_\+\-\=\,\.\:\;]+/ig, "")
-            if( hav != "" ){
-                return alert("请勿输入不支持的符号")
-            }
-            if( ps.length<6 ){
-                return alert("密码不能少于6位")
-            }
-            if( ps.length>128 ){
-                return alert("密码不能多于128位")
+            // 通过密码生成
+            if(ps.length > 0){
+                // 判断条件
+                var hav = ps.replace(/[A-Za-z0-9\~\!\@\#\$\%\^\&\*\_\+\-\=\,\.\:\;]+/ig, "")
+                if( hav != "" ){
+                    return alert("请勿输入不支持的符号")
+                }
+                if( ps.length < 6 ){
+                    return alert("密码不能少于6位")
+                }
+                if( ps.length > 128 ){
+                    return alert("密码不能多于256位")
+                }
+                if( ps.length < 16 && ps.replace(/[a-z0-9]+/ig, "") == "" ){
+                    if( !confirm("你设置的密码过于简单，可能会被技术遍历猜中，有潜在被盗窃丢失资产的风险，确认继续吗？") ){
+                        return
+                    }
+                }
+            }else{
+                // 随机生成私钥
             }
             // alert(lss)
             apipost("/api/new_account", {
                 password: ps,
             }, function(data){
                 // alert(data.address)
+                data.passstr = that.passstr
                 that.accobj = data
             }, function(err){
                 alert("创建失败：" + err.msg)
