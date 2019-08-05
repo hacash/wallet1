@@ -72,7 +72,7 @@ var vAppTransfer = new Vue({
         step: 1,
         from_addr: "",
         to_addr: "",
-        amount: 0,
+        amount: "",
         unit: 248,
         fee: 10000,
         fee_unit: 240,
@@ -88,7 +88,7 @@ var vAppTransfer = new Vue({
             this.step = 1
             this.from_addr = ""
             this.to_addr = ""
-            this.amount = 0
+            this.amount = ""
             this.unit = 248
             this.fee = 10000
             this.fee_unit = 240
@@ -150,6 +150,9 @@ var vAppTransfer = new Vue({
         inputTx: function(){
             if( !this.from_addr || !this.to_addr || !this.amount ){
                 return alert("请完善交易内容")
+            }
+            if(this.amount.replace(/[0-9]+/,"") != ""){
+                return alert("转账金额格式错误，仅支持整数。若金额低于一枚，请选择单位 [铢(240)]")
             }
             this.step = 2
         },

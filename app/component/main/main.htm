@@ -67,7 +67,7 @@
                 <tr>
                     <td>金额:</td>
                     <td>
-                        <input class="block" v-model="amount" placeholder="" />
+                        <input class="block" v-model="amount" placeholder="必须是整数，不支持小数" />
                         <p>
                             单位: 　
                             <input type="radio" class="radio" id="ua1" name="amtunit" v-model="unit" value="248" checked><label for="ua1">枚(:248)</label>
@@ -95,7 +95,7 @@
         <div class="step" v-show="step==2">
             <div class="check">
                 <p>请确认以下交易信息：</p>
-                <p class="focus">地址 {{from_addr}} 给地址 {{to_addr}} 转账 {{amount}} {{ {'248':'枚(:248)','244':'铢(:244)'}[unit+''] }} HCX，手续费 {{fee}} 铢(:244)</p>
+                <p class="focus">地址 {{from_addr}} 给地址 {{to_addr}} 转账 {{amount}} {{ {'248':'枚(:248)','240':'铢(:240)'}[unit+''] }} HCX，手续费 {{fee}} 铢(:240)</p>
             </div>
             <div class="passwd">
                 <label>请输入或粘贴付款地址 {{from_addr}} 的密码或私钥，用于签名交易：</label>
