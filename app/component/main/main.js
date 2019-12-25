@@ -6,6 +6,46 @@
 */
 
 
+var vAppSendTx = new Vue({
+    el: '#quotefee',
+    data: {
+        txhash: "",
+        fee: "",
+        password: "",
+        result: null,
+    },
+    methods:{
+        quoteFee: function(){
+            var that = this
+            if(!that.txhash){
+                return alert("请输入交易哈希 txhash")
+            }
+            if(!that.fee){
+                return alert("请输入重设的手续费 fee")
+            }
+            if(!that.password){
+                return alert("请输入密码或私钥 password")
+            }
+            apipost("/api/quote_fee", {
+                txhash: that.txhash,
+                fee: that.fee,
+                password: that.password,
+            }, function(data){
+                if(data.status == "ok"){
+                    that.txhash = ""
+                    that.fee = ""
+                    that.password = ""
+                    that.result = ""
+                    alert("修改手续费成功！")
+                }
+            }, function(errmsg){
+                that.result =   errmsg
+            })
+        }
+    }
+})
+
+
 
 var vAppTxStatus = new Vue({
     el: '#txstatus',

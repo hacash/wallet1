@@ -183,6 +183,35 @@
 </div>
 
 
+<div id="quotefee" class="card">
+    <div class="container">
+        <h1 class="title">手续费竞价： </h1>
+        <p class="tip">重新设置增加交易池内待确认交易的手续费数额，用于将交易排队位置提前，更早得到确认。也可用于钻石挖掘后待确认的手续费竞价。</p>
+        <div class="create">
+            <table class="newfee">
+                <tr>
+                    <td class="lb">交易哈希 :</td>
+                    <td><input class="txhash" v-model="txhash" placeholder="txhash" /></td>
+                </tr>
+                <tr>
+                    <td class="lb">重置的交易手续费:</td>
+                    <td><input class="fee" v-model="fee" placeholder="例如：ㄜ1:244" value="ㄜ1:244" /></td>
+                </tr>
+                <tr class="bottom">
+                    <td class="lb">签名交易的私钥或密码:</td>
+                    <td><input class="password" v-model="password" placeholder="password" /></td>
+                </tr>
+            </table>
+        </div>
+        <div class="result" v-if="result">
+            <p>{{result}}</p>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="quoteFee">确认修改手续费</button>
+        </div>
+    </div>
+</div>
+
 <!--
 
 <div id="sigtx" class="card">
