@@ -6,7 +6,46 @@
 */
 
 
-var vAppSendTx = new Vue({
+
+var vAppDiamondsTransferTx = new Vue({
+    el: '#transferdiamonds',
+    data: {
+        fee_password: "",
+        diamond_password: "",
+        to_address: "",
+        diamonds: "",
+        result: null,
+    },
+    methods:{
+        transferDiamonds: function(){
+            var that = this
+            if(!that.fee_password || !that.diamond_password || !that.to_address || !that.diamonds){
+                return alert("请完善表单内容")
+            }
+            apipost("/api/transfer_diamonds", {
+                fee_password: that.fee_password,
+                diamond_password: that.diamond_password,
+                to_address: that.to_address,
+                diamonds: that.diamonds,
+            }, function(data){
+                if(data.status == "ok"){
+                    that.fee_password = ""
+                    that.diamond_password = ""
+                    that.to_address = ""
+                    that.diamonds = ""
+                    that.result = null
+                    alert("转移钻石成功！")
+                }
+            }, function(errmsg){
+                that.result =   errmsg
+            })
+        }
+    }
+})
+
+
+
+var vAppQuoteFeeTx = new Vue({
     el: '#quotefee',
     data: {
         txhash: "",

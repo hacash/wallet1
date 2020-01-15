@@ -183,6 +183,47 @@
 </div>
 
 
+<div id="transferdiamonds" class="card">
+    <div class="container">
+        <h1 class="title">区块钻石转账： </h1>
+        <p class="tip">创建批量转移区块钻石交易，并立即提交到主网确认生效。</p>
+        <div class="create">
+            <table class="newfee">
+                <tr>
+                    <td class="lb">
+                        <p>付出转移钻石交易手续费账户密码或私钥：</p>
+                        <input class="fee_password" v-model="fee_password" placeholder="fee_password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lb">
+                        <p>拥有钻石的地址账户密码或私钥：</p>
+                        <input class="diamond_password" v-model="diamond_password" placeholder="diamond_password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lb">
+                        <p>收取钻石的账户地址：</p>
+                        <input class="to_address" v-model="to_address" placeholder="to_address" />
+                    </td>
+                </tr>
+                <tr class="bottom">
+                    <td class="lb">
+                        <p>批量钻石字面值（英文逗号隔开）：</p>
+                        <input class="diamonds" v-model="diamonds" placeholder="例如：AAABBB,WETYMN" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="result" v-if="result">
+            <p>{{result}}</p>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="transferDiamonds">确认转移钻石</button>
+        </div>
+    </div>
+</div>
+
 <div id="quotefee" class="card">
     <div class="container">
         <h1 class="title">手续费竞价： </h1>

@@ -24,6 +24,27 @@ textarea {
 .tip.warning {
   color: red;
 }
+#transferdiamonds table {
+  width: 100%;
+}
+#transferdiamonds table td {
+  padding: 10px 0;
+}
+#transferdiamonds table td.bottom {
+  border: none;
+}
+#transferdiamonds table input {
+  cursor: text;
+  display: block;
+  width: 100%;
+  border: 1px #ddd solid;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 14px;
+}
+#transferdiamonds .btns {
+  padding-top: 16px;
+}
 #quotefee table {
   width: 100%;
 }
