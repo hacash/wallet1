@@ -7,6 +7,85 @@
 
 
 
+var vAppDiamondsTransferTx = new Vue({
+    el: '#transferdiamonds',
+    data: {
+        fee_password: "",
+        diamond_password: "",
+        to_address: "",
+        diamonds: "",
+        result: null,
+    },
+    methods:{
+        transferDiamonds: function(){
+            var that = this
+            if(!that.fee_password || !that.diamond_password || !that.to_address || !that.diamonds){
+                return alert("请完善表单内容")
+            }
+            apipost("/api/transfer_diamonds", {
+                fee_password: that.fee_password,
+                diamond_password: that.diamond_password,
+                to_address: that.to_address,
+                diamonds: that.diamonds,
+            }, function(data){
+                if(data.status == "ok"){
+                    that.fee_password = ""
+                    that.diamond_password = ""
+                    that.to_address = ""
+                    that.diamonds = ""
+                    that.result = null
+                    alert("转移钻石成功！")
+                }
+            }, function(errmsg){
+                that.result =   errmsg
+            })
+        }
+    }
+})
+
+
+
+var vAppQuoteFeeTx = new Vue({
+    el: '#quotefee',
+    data: {
+        txhash: "",
+        fee: "",
+        password: "",
+        result: null,
+    },
+    methods:{
+        quoteFee: function(){
+            var that = this
+            if(!that.txhash){
+                return alert("请输入交易哈希 txhash")
+            }
+            if(!that.fee){
+                return alert("请输入重设的手续费 fee")
+            }
+            if(!that.password){
+                return alert("请输入密码或私钥 password")
+            }
+            apipost("/api/quote_fee", {
+                txhash: that.txhash,
+                fee: that.fee,
+                password: that.password,
+            }, function(data){
+                if(data.status == "ok"){
+                    that.txhash = ""
+                    that.fee = ""
+                    that.password = ""
+                    that.result = ""
+                    alert("修改手续费成功！")
+                }
+            }, function(errmsg){
+                that.result =   errmsg
+            })
+        }
+    }
+})
+
+
+
 var vAppTxStatus = new Vue({
     el: '#txstatus',
     data: {
