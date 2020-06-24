@@ -17,6 +17,7 @@ var vAppTxStatus = new Vue({
     methods:{
         statusTx: function(){
             var that = this
+            that.txhash = that.txhash.replace(/[\s\n]+/ig, "")
             if(!that.txhash){
                 return alert("请输入交易的 txhash")
             }
@@ -48,6 +49,7 @@ var vAppSendTx = new Vue({
     methods:{
         sendTx: function(){
             var that = this
+            that.txbody = that.txbody.replace(/[\s\n]+/ig, "")
             if(!that.txbody){
                 return alert("请输入交易的 txbody")
             }
