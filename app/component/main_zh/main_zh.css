@@ -1,0 +1,403 @@
+input,
+textarea {
+  box-shadow: 2px 2px 3px #eee inset;
+}
+.card {
+  padding: 40px 0;
+  border-bottom: 1px #ccc solid;
+}
+.card h1.title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
+.card textarea {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px #999 solid;
+  width: 100%;
+  min-height: 60px;
+  font-size: 13px;
+  line-height: 15px;
+}
+.tip.warning {
+  color: red;
+}
+#transferdiamonds table {
+  width: 100%;
+}
+#transferdiamonds table td {
+  padding: 10px 0;
+}
+#transferdiamonds table td.bottom {
+  border: none;
+}
+#transferdiamonds table input {
+  cursor: text;
+  display: block;
+  width: 100%;
+  border: 1px #ddd solid;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 14px;
+}
+#transferdiamonds .btns {
+  padding-top: 16px;
+}
+#quotefee table {
+  width: 100%;
+}
+#quotefee table td {
+  padding: 10px 0;
+  border-top: 1px #ddd dotted;
+}
+#quotefee table tr.bottom td {
+  border-bottom: 1px #ddd dotted;
+}
+#quotefee table td.lb {
+  width: 140px;
+}
+#quotefee table input {
+  cursor: text;
+  display: block;
+  width: 100%;
+  border: 1px #ddd solid;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 14px;
+}
+#quotefee .btns {
+  padding: 10px 0;
+}
+#quotefee .result {
+  padding: 10px;
+  color: chocolate;
+  background: cornsilk;
+  margin: 12px 0;
+}
+#quotefee .submit {
+  background-color: indianred;
+}
+#txstatus button.submit {
+  background: teal;
+}
+#txstatus textarea {
+  min-height: 30px;
+}
+#txstatus .result {
+  padding-top: 20px;
+}
+#txstatus .result p {
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+#txstatus .result p.stat {
+  padding: 5px 10px;
+  color: #fff;
+  background: darkkhaki;
+}
+#txstatus .result p.stat.block {
+  background: darkslateblue;
+}
+#txstatus .result p.stat.confirm {
+  background: cadetblue;
+}
+#txstatus .result p.stat.notfind {
+  background: darkgray;
+}
+#txstatus .result b.tt,
+#txstatus .result .ok {
+  font-size: 16px;
+  color: darkgreen;
+  font-weight: bold;
+}
+#txstatus .result table {
+  border-top: 1px #ddd solid;
+  border-left: 1px #ddd solid;
+  border-collapse: 0px;
+  border-spacing: 0px;
+}
+#txstatus .result table td {
+  padding: 5px 10px;
+  word-break: break-all;
+  border-bottom: 1px #ddd solid;
+  border-right: 1px #ddd solid;
+}
+#sendtx button.submit {
+  background: darkslateblue;
+}
+#sendtx .result {
+  padding: 10px;
+  border: #ddd 1px dotted;
+  margin: 10px 0;
+}
+#sendtx .result p {
+  font-size: 14px;
+}
+#sendtx .result .ok {
+  color: darkgreen;
+}
+#sendtx .result .err {
+  color: chocolate;
+}
+#sendtx textarea {
+  min-height: 90px;
+}
+#transfer input.block {
+  cursor: text;
+  display: block;
+  width: 100%;
+  border: 1px #ddd solid;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 14px;
+}
+#transfer .step_nav {
+  padding: 10px 0;
+}
+#transfer .step_nav b {
+  display: inine-block;
+  padding: 4px 8px 4px 4px;
+  border-radius: 0 100px 100px 0;
+  color: cadetblue;
+}
+#transfer .step_nav b.active {
+  color: #fff;
+  background: cadetblue;
+}
+#transfer .confirm {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px cadetblue solid;
+}
+#transfer .confirm p {
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+#transfer .confirm p.stat {
+  padding: 5px 10px;
+  color: #fff;
+  background: darkkhaki;
+}
+#transfer .confirm p.stat.block {
+  background: darkslateblue;
+}
+#transfer .confirm p.stat.confirm {
+  background: cadetblue;
+}
+#transfer .confirm p.stat.notfind {
+  background: darkgray;
+}
+#transfer .confirm b.tt,
+#transfer .confirm .ok {
+  font-size: 16px;
+  color: darkgreen;
+  font-weight: bold;
+}
+#transfer .confirm table {
+  border-top: 1px #ddd solid;
+  border-left: 1px #ddd solid;
+  border-collapse: 0px;
+  border-spacing: 0px;
+}
+#transfer .confirm table td {
+  padding: 5px 10px;
+  word-break: break-all;
+  border-bottom: 1px #ddd solid;
+  border-right: 1px #ddd solid;
+}
+#transfer .txcon {
+  padding-bottom: 20px;
+}
+#transfer .txcon table {
+  border-top: 1px #ddd solid;
+  border-left: 1px #ddd solid;
+  border-collapse: 0px;
+  border-spacing: 0px;
+}
+#transfer .txcon table td {
+  padding: 5px 10px;
+  word-break: break-all;
+  border-bottom: 1px #ddd solid;
+  border-right: 1px #ddd solid;
+}
+#transfer .txcon table td.l {
+  min-width: 80px;
+}
+#transfer .check {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #eee;
+  color: #666;
+}
+#transfer .check p.focus {
+  color: cornflowerblue;
+}
+#transfer .passwd {
+  padding-bottom: 20px;
+}
+#transfer .newtx {
+  width: 100%;
+  border-top: 1px #ddd dotted;
+  border-collapse: 0px;
+  border-spacing: 0px;
+  margin: 10px 0;
+}
+#transfer .newtx td {
+  padding: 10px;
+  padding-left: 0;
+  word-break: break-all;
+  border-bottom: 1px #ddd dotted;
+}
+#transfer .newtx p {
+  padding: 5px 0;
+}
+#transfer .newtx p * {
+  display: inline;
+  vertical-align: middle;
+}
+#transfer .newtx p i.tip {
+  color: #999;
+  float: right;
+}
+#transfer .newtx input.radio {
+  display: inline-block;
+  cursor: pointer;
+}
+#transfer .newtx label {
+  cursor: pointer;
+}
+#transfer button {
+  background: chocolate;
+}
+#transfer button.cancel {
+  margin-right: 20px;
+  background: #bbb;
+  color: #333;
+}
+#newacc button {
+  background: green;
+}
+#newacc .result {
+  position: relative;
+  margin-top: 10px;
+  background: #f6f6f6;
+  border: #ccc 1px solid;
+  padding: 10px;
+}
+#newacc .result p {
+  color: #666;
+}
+#newacc .result p b {
+  color: burlywood;
+}
+#newacc .result table {
+  margin-top: 5px;
+  border-top: 1px #ddd solid;
+  border-collapse: 0px;
+  border-spacing: 0px;
+}
+#newacc .result table td {
+  padding: 5px;
+  padding-left: 0;
+  word-break: break-all;
+  border-bottom: 1px #ddd solid;
+}
+#newacc .result table .t {
+  font-size: 12px;
+  color: green;
+}
+#newacc .result table .w {
+  font-size: 12px;
+  color: darkgoldenrod;
+}
+#newacc .result .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border-radius: 100px;
+  background: #999;
+  font-size: 20px;
+  line-height: 20px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+#newacc .result .close:hover {
+  cursor: pointer;
+  background: #777;
+}
+#balance textarea {
+  min-height: 90px;
+}
+#balance .result {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ddd;
+}
+#balance .result .total {
+  font-size: 13px;
+}
+#balance .result .total b {
+  font-size: 14px;
+  font-weight: bold;
+  color: darkgreen;
+}
+#balance .result .list li {
+  font-size: 13px;
+}
+#chcreate input.block {
+  cursor: text;
+  display: block;
+  width: 100%;
+  border: 1px #ddd solid;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 14px;
+}
+#chcreate .newtx {
+  width: 100%;
+  border-top: 1px #ddd dotted;
+  border-collapse: 0px;
+  border-spacing: 0px;
+  margin: 10px 0;
+}
+#chcreate .newtx td {
+  padding: 10px;
+  padding-left: 0;
+  word-break: break-all;
+  border-bottom: 1px #ddd dotted;
+}
+#chcreate .newtx input {
+  border: 1px #bbb solid;
+}
+#chcreate .newtx label {
+  cursor: pointer;
+}
+#chcreate button {
+  background: chocolate;
+}
+#tips .wrap {
+  margin-top: 60px;
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: chocolate 1px solid;
+  color: #333;
+}
+#tips .wrap p {
+  margin: 10px 0;
+}
+#tips .wrap a {
+  cursor: pointer;
+  color: dodgerblue;
+}
+#tips .wrap a:hover {
+  text-decoration: underline;
+}
+#footer {
+  margin-top: 20px !important;
+}

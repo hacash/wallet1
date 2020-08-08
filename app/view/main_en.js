@@ -8,7 +8,7 @@
 exports.components = [
     'header',
 
-    'main',
+    'main_en',
 
     'footer',
 ]
@@ -18,7 +18,7 @@ exports.components = [
 exports.datas = function(query, callback, req, res)
 {
     callback(null, {
-        pagetitle: res.lang.words.wallet + " - Hacash - HCX",
+        pagetitle: res.lang.words.wallet + " - Hacash",
     })
 }
 

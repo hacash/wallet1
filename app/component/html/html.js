@@ -17,6 +17,18 @@ function getScrollTop() {
 } 
 
 
+function setCookie (cname, cvalue, path, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    var path = "path=" + path;
+    var ck = cname + "=" + cvalue + "; " + expires + "; " + path
+    // console.info(ck);
+    document.cookie = ck;
+    // console.info(document.cookie);
+}
+
+
 function tppl(tpl, data){
   var fn =  function(d) {
       var i, k = [], v = [];

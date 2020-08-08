@@ -1,6 +1,8 @@
 module.exports = {
 
-    '/': 'main',
+    '/': 'main_en',
+    '/zh': 'main_zh',
+
 
     '/api/lang': 'api/lang',
     'POST/api/lang': 'api/lang',

@@ -1,0 +1,332 @@
+<div id="newacc" class="card">
+    <div class="container">
+        <h1 class="title">Create new account: </h1>
+        <p class="tip">Generate a private key through a private password and create a address (Note: please keep remember your password or private key, once the password or private key is lost, the funds in the account will be permanently lost)<br>This program will not back up, store or disclose your password or private key.</p>
+        <p class="tip">If the password is empty, the private key will be created randomly</p>
+        <p class="tip warning">Warning: a password that is too simple is not secure (for example, 123456 or birthday), and may be guessed and stolen by others.<br>　　　Be sure to use a password that contains a combination of uppercase and lowercase letters, numbers, and special characters of not less than 16 digits.</p>
+        <textarea v-model="passstr" placeholder="1. Support case sensitive letters, numbers, symbols ~! @ # $%^&*_ +-=,.:;, no spaces, Chinese and Chinese symbols, no less than 6, no more than 256\n2. If the password is empty, the private key will be created randomly"></textarea>
+        <p class="tip">If the password is empty, the private key will be generated randomly. At this time, the private key will ensure that it cannot be guessed by the algorithm. It is the most secure way to generate the private key. But the private key can't be memorized in the brain like a password, so it needs to be backed up to the hardware storage device. Please ensure the security of the backup device (Note: do not use the online note app or the online disk to back up the private key, the online personal computer may also be stolen by the virus. It's better to use the offline anti-virus U disk, and copy multiple u disks to store in different physical locations Deposit)</p>
+        <button ref="btn" class="submit" @click="newAccount">Create Address</button>
+        <div class="result" v-if="accobj">
+            <div class="close" @click="accobj=null,passstr=''">×</div>
+            <p v-if="accobj.passstr">By password <b>{{accobj.passstr.substr(0,5)+'...'}}</b> generated new account：</p>
+            <p v-if="!accobj.passstr">New account generated randomly (without password):</p>
+            <table>
+                <tr>
+                    <td>Address:</td>
+                    <td>{{accobj.address}}</td>
+                    <td class="t">Show to others, for collection</td>
+                </tr>
+                <tr>
+                    <td>Public key:</td>
+                    <td>{{accobj.public_key.toUpperCase()}}</td>
+                    <td class="t"></td>
+                </tr>
+                <tr>
+                    <td>Private key:</td>
+                    <td>{{accobj.private_key.toUpperCase()}}</td>
+                    <td class="w">Do not divulge, or the assets will be stolen and lost, and will never be recovered</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="balance" class="card">
+    <div class="container">
+        <h1 class="title">Check the balance:</h1>
+        <p class="tip">Type or paste the wallet address into the box below, one by one or separated by commas and spaces. Click "confirm query" to display the account balance. No more than 20 account addresses can be queried at a time.</p>
+        <textarea v-model="addrs" placeholder="Example: 1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
+        <button ref="btn" class="submit" @click="getBalance">Confirm Query</button>
+        <div class="result"v-if="balances.length>0">
+            <p class="total">Total balance of {{balances.length}} addresses : <b>{{totalamt}}</b></p>
+            <table class="list">
+                <tr v-for="one in balances">
+                    <td>{{one.addr}} :</td>
+                    <td>{{one.amt}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="transfer" class="card">
+    <div class="container">
+        <h1 class="title">Transfer:</h1>
+        <p class="step_nav">
+            <b v-bind:class="{active: step==1}">1. Create tx</b>
+            <i>▷</i>
+            <b v-bind:class="{active: step==2}">2. Enter password signature</b>
+            <i>▷</i>
+            <b v-bind:class="{active: step==3}">3. Submit to main network for confirmation</b>
+        </p>
+        <div class="step" v-show="step==1">
+            <table class="newtx">
+                <tr>
+                    <td>Payment address:</td>
+                    <td><input class="block" v-model="from_addr" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>Collection address:</td>
+                    <td><input class="block" v-model="to_addr" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>Amount:</td>
+                    <td>
+                        <input class="block" v-model="amount" placeholder="Must be an integer, decimal is not supported" />
+                        <p>
+                            Unit: 　
+                            <input type="radio" class="radio" id="ua1" name="amtunit" v-model="unit" value="248" checked><label for="ua1">Mei(:248)</label>
+                            <input type="radio" class="radio" id="ua2" name="amtunit" v-model="unit" value="240"><label for="ua2">Zhu(:240)</label>
+                            <i class="tip">Tips： 1Mei = 100000000Zhu</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fee:</td>
+                    <td>
+                        <input class="block" v-model="fee" placeholder="" />
+                        <p>
+                            Uint: 　<input type="radio" class="radio" id="ua3" name="feeunit" v-model="fee_unit" value="240" checked><label for="ua3">Zhu(:240)</label>
+                            <i class="tip">Proposed fee： 10000Zhu（0.0001Mei）</i>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <div class="btns">
+                <button class="cancel" @click="cancel">Cancel</button>
+                <button class="next" @click="inputTx">Next</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==2">
+            <div class="check">
+                <p>Please confirm the following transaction information:</p>
+                <p class="focus">Address {{from_addr}} transfer to address {{to_addr}} of {{amount}} {{ {'248':'Mei(:248)','240':'Zhu(:240)'}[unit+''] }} HAC，Fee {{fee}} Zhu(:240)</p>
+            </div>
+            <div class="passwd">
+                <label>Please enter or paste the payment address {{from_addr}} password or private key for signing transaction:</label>
+                <input type="password" class="block" placeholder="password or private key" v-model="password" value="" />
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="cancel">Cancel</button>
+                <button class="cancel" @click="step=1">Prev</button>
+                <button class="next" @click="createTx">Next</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==3">
+            <div class="txcon">
+                <p>The transaction has been successfully generated through the filled information. Please copy and save the following information to query the transaction confirmation status:</p>
+                <table>
+                    <tr>
+                        <td class="l">transaction hash:</td>
+                        <td>{{txhash.toUpperCase()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="l">transaction body (hex value) :</td>
+                        <td>{{txbody.toUpperCase()}}</td>
+                    </tr>
+                </table>
+                <p>Click the "confirm transfer and send transaction" button to send the transaction to the hacash network for confirmation. Once the transaction is sent and cannot be withdrawn, please pay attention to whether the transfer is repeated.</p>
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="cancel">Cancel</button>
+                <button class="cancel" @click="step=2">Prev</button>
+                <button class="submit" @click="sendTx">Confirm Transfer</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==4">
+            <div class="confirm">
+                <p>transaction hash: {{txhash.toUpperCase()}}</p>
+                <p v-if="txconfirm" :class="'stat '+txconfirm.status" >transaction status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[txconfirm.status] }}</p>
+                <p v-if="!(txconfirm&&txconfirm.confirm_height)">Waiting for transaction confirmation status update, countdown <b class="tt">{{txstatusupdatesec}}</b> seconds the request will be initiated again.</p>
+                <p v-if="!(txconfirm&&txconfirm.confirm_height)">About 3-7 minutes, your transaction will be confirmed by the blockchain network, please wait patiently.</p>
+                <p v-if="txconfirm&&txconfirm.block_height">
+                    <table>
+                        <tr><td>Block height:</td><td>{{txconfirm.block_height}}</td></tr>
+                        <tr v-if="txconfirm.status!='block'"><td>Block hash:</td><td>{{txconfirm.block_hash.toUpperCase()}}</td></tr>
+                    </table>
+                    <span class="ok" v-if="txconfirm.confirm_height">Transaction has been confirmed successfully, transfer succeeded!</span>
+                </p>
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="sendtx" class="card">
+    <div class="container">
+        <h1 class="title">Send transaction:</h1>
+        <p class="tip">Paste the txbody value of the transaction into the box below, and click confirm to submit it to the blockchain network for confirmation.</p>
+        <textarea v-model="txbody" placeholder="txbody..."></textarea>
+        <button ref="btn" class="submit" @click="sendTx">Send Tx</button>
+        <div class="result" v-if="result">
+            <p class="ok" v-if="result.ret==0">Transaction sent successfully! <br>txhash: {{result.txhash}}</p>
+            <p class="err" v-if="result.err">Send failed: {{result.err}}</p>
+        </div>
+    </div>
+</div>
+
+
+<div id="txstatus" class="card">
+    <div class="container">
+        <h1 class="title">Check transaction status:</h1>
+        <p class="tip">Paste the transaction hash (txhash) value into the box below, and click "Query" to query the transaction status.</p>
+        <textarea v-model="txhash" placeholder="txhash..."></textarea>
+        <button ref="btn" class="submit" @click="statusTx">Query</button>
+        <div class="result" v-if="result && !txhash">
+            <p>{{txhash_show}}</p>
+            <p :class="'stat '+result.status" >status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[result.status] }}</p>
+            <table v-if="result.block_height">
+                <tr><td>Block height:</td><td>{{result.block_height}}</td></tr>
+                <tr v-if="result.status!='block'"><td>Block hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
+                <tr v-if="result.confirm_height"><td>Confirmed height:</td><td>{{result.confirm_height}}</td></tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="transferdiamonds" class="card">
+    <div class="container">
+        <h1 class="title">Diamond transfer: </h1>
+        <p class="tip">Create a bulk transfer block diamond transaction and submit it to the main network immediately for validation.</p>
+        <div class="create">
+            <table class="newfee">
+                <tr>
+                    <td class="lb">
+                        <p>password or private key of account for fee:</p>
+                        <input class="fee_password" v-model="fee_password" placeholder="fee_password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lb">
+                        <p>password or private key with diamond:</p>
+                        <input class="diamond_password" v-model="diamond_password" placeholder="diamond_password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lb">
+                        <p>address for diamond collection:</p>
+                        <input class="to_address" v-model="to_address" placeholder="to_address" />
+                    </td>
+                </tr>
+                <tr class="bottom">
+                    <td class="lb">
+                        <p>diamond names (comma separated):</p>
+                        <input class="diamonds" v-model="diamonds" placeholder="example: AAABBB,WETYMN" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="result" v-if="result">
+            <p>{{result}}</p>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="transferDiamonds">Confirm Transfer</button>
+        </div>
+    </div>
+</div>
+
+<div id="quotefee" class="card">
+    <div class="container">
+        <h1 class="title">Fee competition:</h1>
+        <p class="tip">Reset and increase the fee of the transaction to be confirmed in the transaction pool to advance the queuing position of the transaction and get the confirmation earlier. It can also be used for the commission price to be confirmed after diamond excavation.</p>
+        <div class="create">
+            <table class="newfee">
+                <tr>
+                    <td class="lb">Transaction hash:</td>
+                    <td><input class="txhash" v-model="txhash" placeholder="txhash" /></td>
+                </tr>
+                <tr>
+                    <td class="lb">Reset fee:</td>
+                    <td><input class="fee" v-model="fee" placeholder="example: ㄜ1:244" value="ㄜ1:244" /></td>
+                </tr>
+                <tr class="bottom">
+                    <td class="lb">Private key or password of tx main address:</td>
+                    <td><input class="password" v-model="password" placeholder="password" /></td>
+                </tr>
+            </table>
+        </div>
+        <div class="result" v-if="result">
+            <p>{{result}}</p>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="quoteFee">Confirm Reset Fee</button>
+        </div>
+    </div>
+</div>
+
+
+<!--
+
+<div id="sigtx" class="card">
+    <div class="container">
+        <h1 class="title">签名交易</h1>
+        <p class="tip">对一笔创建的交易进行签名，可能需要多个账户进行签名。</p>
+    </div>
+</div>
+
+
+<div id="chcreate" class="card">
+    <div class="container">
+        <h1 class="title">创建交易： 创建支付通道</h1>
+        <p class="tip">用两个账户创建一个支付通道，并且各自锁定相应的资金进通道。创建完成后需要发送给各自去签署交易（签名）。</p>
+        <div class="create">
+            <table class="newtx">
+                <tr>
+                    <td>地址一:</td>
+                    <td><input class="block" v-model="addr1" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>金额一（枚）:</td>
+                    <td>
+                        <input class="block" v-model="amount1" placeholder="单位：枚(:248)， 支持小数" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>地址二:</td>
+                    <td><input class="block" v-model="addr2" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>金额二（枚）:</td>
+                    <td>
+                        <input class="block" v-model="amount2" placeholder="单位：枚(:248)， 支持小数" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>手续费（铢）:</td>
+                    <td>
+                        <input class="block" v-model="fee" value="40000" placeholder="单位：铢(:240)， 建议值：40000铢（0.0004枚）" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="submit">确认创建交易</button>
+        </div>
+    </div>
+</div>
+
+<div id="chclose" class="card">
+    <div class="container">
+        <h1 class="title">创建交易： 关闭支付通道</h1>
+        <p class="tip">注意：此关闭方式是按存入时的金额提取出锁定在通道内的资金，并按资金比例分配通道利息。创建完成后需要发送给各自去签署交易（签名）。</p>
+    </div>
+</div>
+
+-->
+
+
+
+
+<div id="tips" class="card">
+    <div class="container">
+        <div class="wrap">
+            <p>© copyright to hacash.org</p>
+        </div>
+    </div>
+</div>
+

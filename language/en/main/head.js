@@ -1,9 +1,7 @@
 
 module.exports = {
 
-
-hello: "hello!",
-
+    online_wallet: "Online Wallet",
 
 
 

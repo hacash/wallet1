@@ -2,7 +2,7 @@
 module.exports = {
 
 
-hello: "欢迎！",
+    online_wallet: "在线钱包",
 
 
 
