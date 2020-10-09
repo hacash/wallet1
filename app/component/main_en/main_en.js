@@ -324,7 +324,7 @@ var vAppBalance = new Vue({
             apiget("/api/get_balance", {
                 address: lss,
             }, function(data){
-                var amts = data.amounts.split(",")
+                var amts = data.amounts.split("|")
                 , adrs = lss.split(",")
                 , bls = []
                 for(var i in adrs){
