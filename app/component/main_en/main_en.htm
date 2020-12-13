@@ -1,4 +1,82 @@
-<div id="newacc" class="card">
+
+
+<div class="card" style="background-color: #efe;">
+    <div class="container">
+        <h1 class="title" style="color: mediumseagreen;">Download offline secure desktop Wallet:</h1>
+        <p class="p"><br/><a class="dld" href="http://download.hacash.org:8080/hacash_desktop_wallet_windows64.zip" target="_blank">⇩ Download Offline Desktop Wallet for Windows 64-bit</a></p>
+        <p class="p"><br/><a class="dld d2" href="http://download.hacash.org:8080/hacash_desktop_wallet_ubuntu64.zip" target="_blank">⇩ Download Offline Desktop Wallet  for Ubuntu 64-bit</a>
+        </p>
+    </div>
+</div>
+
+
+
+
+<div id="balance" class="card">
+    <div class="container">
+        <h1 class="title">Check the balance:</h1>
+        <p class="tip">Type or paste the wallet address into the box below, one by one or separated by commas and spaces. Click "confirm query" to display the account balance. No more than 20 account addresses can be queried at a time.</p>
+        <textarea v-model="addrs" placeholder="Example: 1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
+        <button ref="btn" class="submit" @click="getBalance">Confirm Query</button>
+        <div class="result"v-if="balances.length>0">
+            <p class="total">Total balance of {{balances.length}} addresses : <b>{{totalamt}}</b></p>
+            <table class="list">
+                <tr v-for="one in balances">
+                    <td>{{one.addr}} :</td>
+                    <td>{{one.amt}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="sendtx" class="card">
+    <div class="container">
+        <h1 class="title">Send transaction:</h1>
+        <p class="tip">Paste the txbody value of the transaction into the box below, and click confirm to submit it to the blockchain network for confirmation.</p>
+        <textarea v-model="txbody" placeholder="txbody..."></textarea>
+        <button ref="btn" class="submit" @click="sendTx">Send Tx</button>
+        <div class="result" v-if="result">
+            <p class="ok" v-if="result.ret==0">Transaction sent successfully! <br>txhash: {{result.txhash}}</p>
+            <p class="err" v-if="result.err">Send failed: {{result.err}}</p>
+        </div>
+    </div>
+</div>
+
+
+<div id="txstatus" class="card">
+    <div class="container">
+        <h1 class="title">Check transaction status:</h1>
+        <p class="tip">Paste the transaction hash (txhash) value into the box below, and click "Query" to query the transaction status.</p>
+        <textarea v-model="txhash" placeholder="txhash..."></textarea>
+        <button ref="btn" class="submit" @click="statusTx">Query</button>
+        <div class="result" v-if="result && !txhash">
+            <p>{{txhash_show}}</p>
+            <p :class="'stat '+result.status" >status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[result.status] }}</p>
+            <table v-if="result.block_height">
+                <tr><td>Block height:</td><td>{{result.block_height}}</td></tr>
+                <tr v-if="result.status!='block'"><td>Block hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
+                <tr v-if="result.confirm_height"><td>Confirmed height:</td><td>{{result.confirm_height}}</td></tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card" style="background-color: #fda;">
+    <div class="container">
+        <h1 style="color: indianred; font-weight: bold;">Security warning: the following webpage wallet functions need to transfer your private key on the Internet, which can not be 100% secure. It is recommended to use offline desktop wallet for account creation and transfer transaction, and submit it in online wallet after signature transaction is generated.</h1>
+    </div>
+</div>
+
+
+
+
+
+<div id="newacc" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">Create new account: </h1>
         <p class="tip">Generate a private key through a private password and create a address (Note: please keep remember your password or private key, once the password or private key is lost, the funds in the account will be permanently lost)<br>This program will not back up, store or disclose your password or private key.</p>
@@ -32,25 +110,8 @@
     </div>
 </div>
 
-<div id="balance" class="card">
-    <div class="container">
-        <h1 class="title">Check the balance:</h1>
-        <p class="tip">Type or paste the wallet address into the box below, one by one or separated by commas and spaces. Click "confirm query" to display the account balance. No more than 20 account addresses can be queried at a time.</p>
-        <textarea v-model="addrs" placeholder="Example: 1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
-        <button ref="btn" class="submit" @click="getBalance">Confirm Query</button>
-        <div class="result"v-if="balances.length>0">
-            <p class="total">Total balance of {{balances.length}} addresses : <b>{{totalamt}}</b></p>
-            <table class="list">
-                <tr v-for="one in balances">
-                    <td>{{one.addr}} :</td>
-                    <td>{{one.amt}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
 
-<div id="transfer" class="card">
+<div id="transfer" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">Transfer:</h1>
         <p class="step_nav">
@@ -155,41 +216,8 @@
     </div>
 </div>
 
-<div id="sendtx" class="card">
-    <div class="container">
-        <h1 class="title">Send transaction:</h1>
-        <p class="tip">Paste the txbody value of the transaction into the box below, and click confirm to submit it to the blockchain network for confirmation.</p>
-        <textarea v-model="txbody" placeholder="txbody..."></textarea>
-        <button ref="btn" class="submit" @click="sendTx">Send Tx</button>
-        <div class="result" v-if="result">
-            <p class="ok" v-if="result.ret==0">Transaction sent successfully! <br>txhash: {{result.txhash}}</p>
-            <p class="err" v-if="result.err">Send failed: {{result.err}}</p>
-        </div>
-    </div>
-</div>
 
-
-<div id="txstatus" class="card">
-    <div class="container">
-        <h1 class="title">Check transaction status:</h1>
-        <p class="tip">Paste the transaction hash (txhash) value into the box below, and click "Query" to query the transaction status.</p>
-        <textarea v-model="txhash" placeholder="txhash..."></textarea>
-        <button ref="btn" class="submit" @click="statusTx">Query</button>
-        <div class="result" v-if="result && !txhash">
-            <p>{{txhash_show}}</p>
-            <p :class="'stat '+result.status" >status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[result.status] }}</p>
-            <table v-if="result.block_height">
-                <tr><td>Block height:</td><td>{{result.block_height}}</td></tr>
-                <tr v-if="result.status!='block'"><td>Block hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
-                <tr v-if="result.confirm_height"><td>Confirmed height:</td><td>{{result.confirm_height}}</td></tr>
-            </table>
-
-        </div>
-    </div>
-</div>
-
-
-<div id="transferdiamonds" class="card">
+<div id="transferdiamonds" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">Diamond transfer: </h1>
         <p class="tip">Create a bulk transfer block diamond transaction and submit it to the main network immediately for validation.</p>
@@ -230,7 +258,8 @@
     </div>
 </div>
 
-<div id="quotefee" class="card">
+
+<div id="quotefee" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">Fee competition:</h1>
         <p class="tip">Reset and increase the fee of the transaction to be confirmed in the transaction pool to advance the queuing position of the transaction and get the confirmation earlier. It can also be used for the commission price to be confirmed after diamond excavation.</p>

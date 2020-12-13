@@ -1,4 +1,87 @@
-<div id="newacc" class="card">
+
+
+
+
+
+<div class="card" style="background-color: #efe;">
+    <div class="container">
+        <h1 class="title" style="color: mediumseagreen;">下载离线安全桌面钱包：</h1>
+        <p class="p"><br/><a class="dld" href="http://download.hacash.org:8080/hacash_desktop_wallet_windows64.zip" target="_blank">⇩ 下载离线桌面安全钱包（Windows 64-bit 版本）</a></p>
+        <p class="p"><br/><a class="dld d2" href="http://download.hacash.org:8080/hacash_desktop_wallet_ubuntu64.zip" target="_blank">⇩ 下载离线桌面安全钱包（Ubuntu 64-bit 版本）</a>
+        </p>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div id="balance" class="card">
+    <div class="container">
+        <h1 class="title">查询余额：</h1>
+        <p class="tip">将钱包地址输入或粘贴到下面的框中，一行一个或用逗号、空格隔开。点击“确认查询”则显示账户余额。一次查询不超过20个账号地址。</p>
+        <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
+        <button ref="btn" class="submit" @click="getBalance">确认查询</button>
+        <div class="result"v-if="balances.length>0">
+            <p class="total">{{balances.length}} 个地址总余额 : <b>{{totalamt}}</b></p>
+            <table class="list">
+                <tr v-for="one in balances">
+                    <td>{{one.addr}} :</td>
+                    <td>{{one.amt}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div id="sendtx" class="card">
+    <div class="container">
+        <h1 class="title">发送交易：</h1>
+        <p class="tip">将交易的 txbody 值粘贴到下面的框中，点击确认则提交到区块链网络进行确认。</p>
+        <textarea v-model="txbody" placeholder="txbody..."></textarea>
+        <button ref="btn" class="submit" @click="sendTx">确认提交</button>
+        <div class="result" v-if="result">
+            <p class="ok" v-if="result.ret==0">交易发送成功！<br>txhash: {{result.txhash}}</p>
+            <p class="err" v-if="result.err">发送失败： {{result.err}}</p>
+        </div>
+    </div>
+</div>
+
+
+<div id="txstatus" class="card">
+    <div class="container">
+        <h1 class="title">查询交易状态：</h1>
+        <p class="tip">将交易Hash（txhash）值粘贴到下面的框中，点击确认查询交易状态。</p>
+        <textarea v-model="txhash" placeholder="txhash..."></textarea>
+        <button ref="btn" class="submit" @click="statusTx">确认查询</button>
+        <div class="result" v-if="result && !txhash">
+            <p>{{txhash_show}}</p>
+            <p :class="'stat '+result.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[result.status] }}</p>
+            <table v-if="result.block_height">
+                <tr><td>区块高度:</td><td>{{result.block_height}}</td></tr>
+                <tr v-if="result.status!='block'"><td>区块hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
+                <tr v-if="result.confirm_height"><td>已确认:</td><td>{{result.confirm_height}}</td></tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card" style="background-color: #fda;">
+    <div class="container">
+        <h1 style="color: indianred; font-weight: bold;">安全警告：以下网页钱包功能需要在互联网上传输你的私钥，无法做到100%安全，建议创建账户和转账交易等使用离线桌面钱包，生成签名交易后于在线钱包进行提交。</h1>
+    </div>
+</div>
+
+
+
+
+<div id="newacc" class="card"  style="background-color: #fed;">
     <div class="container">
         <h1 class="title">创建新账户：</h1>
         <p class="tip">通过一个私密的密码生成一个私钥并创建收款地址（注意：请妥善保管/记忆您的密码/私钥，一旦密码/私钥丢失则账户内资金将永久损失）<br>本程序不会备份储存或泄露您的密码/私钥。</p>
@@ -31,25 +114,7 @@
     </div>
 </div>
 
-<div id="balance" class="card">
-    <div class="container">
-        <h1 class="title">查询余额：</h1>
-        <p class="tip">将钱包地址输入或粘贴到下面的框中，一行一个或用逗号、空格隔开。点击“确认查询”则显示账户余额。一次查询不超过20个账号地址。</p>
-        <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
-        <button ref="btn" class="submit" @click="getBalance">确认查询</button>
-        <div class="result"v-if="balances.length>0">
-            <p class="total">{{balances.length}} 个地址总余额 : <b>{{totalamt}}</b></p>
-            <table class="list">
-                <tr v-for="one in balances">
-                    <td>{{one.addr}} :</td>
-                    <td>{{one.amt}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div id="transfer" class="card">
+<div id="transfer" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">转账：</h1>
         <p class="step_nav">
@@ -154,41 +219,10 @@
     </div>
 </div>
 
-<div id="sendtx" class="card">
-    <div class="container">
-        <h1 class="title">发送交易：</h1>
-        <p class="tip">将交易的 txbody 值粘贴到下面的框中，点击确认则提交到区块链网络进行确认。</p>
-        <textarea v-model="txbody" placeholder="txbody..."></textarea>
-        <button ref="btn" class="submit" @click="sendTx">确认提交</button>
-        <div class="result" v-if="result">
-            <p class="ok" v-if="result.ret==0">交易发送成功！<br>txhash: {{result.txhash}}</p>
-            <p class="err" v-if="result.err">发送失败： {{result.err}}</p>
-        </div>
-    </div>
-</div>
 
 
-<div id="txstatus" class="card">
-    <div class="container">
-        <h1 class="title">查询交易状态：</h1>
-        <p class="tip">将交易Hash（txhash）值粘贴到下面的框中，点击确认查询交易状态。</p>
-        <textarea v-model="txhash" placeholder="txhash..."></textarea>
-        <button ref="btn" class="submit" @click="statusTx">确认查询</button>
-        <div class="result" v-if="result && !txhash">
-            <p>{{txhash_show}}</p>
-            <p :class="'stat '+result.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[result.status] }}</p>
-            <table v-if="result.block_height">
-                <tr><td>区块高度:</td><td>{{result.block_height}}</td></tr>
-                <tr v-if="result.status!='block'"><td>区块hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
-                <tr v-if="result.confirm_height"><td>已确认:</td><td>{{result.confirm_height}}</td></tr>
-            </table>
 
-        </div>
-    </div>
-</div>
-
-
-<div id="transferdiamonds" class="card">
+<div id="transferdiamonds" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">区块钻石转账： </h1>
         <p class="tip">创建批量转移区块钻石交易，并立即提交到主网确认生效。</p>
@@ -229,7 +263,7 @@
     </div>
 </div>
 
-<div id="quotefee" class="card">
+<div id="quotefee" class="card" style="background-color: #fed;">
     <div class="container">
         <h1 class="title">手续费竞价： </h1>
         <p class="tip">重新设置增加交易池内待确认交易的手续费数额，用于将交易排队位置提前，更早得到确认。也可用于钻石挖掘后待确认的手续费竞价。</p>
@@ -324,8 +358,7 @@
     <div class="container">
         <div class="wrap">
             <p>特别提示：</p>
-            <p>本在线钱包并不会储存或泄露你的密码、私钥或其他敏感数据，但并不绝对保证可能的服务器被入侵导致的资金安全问题。如果您的账户内有大量资金或需要保证绝对安全，我们建议您使用<a>离线命令行钱包工具</a>。（注：查询余额功能没有潜在资金安全问题）</p>
-            <p>本程序由 Hacash 首位开发者<a target="blank" href="https://github.com/jojoin">Jojoin(杨捷)</a>提供，并开放<a target="blank" href="https://github.com/hacash/wallet">源代码</a>。</p>
+            <p>本在线钱包并不会储存或泄露你的密码、私钥或其他敏感数据，但并不绝对保证可能的服务器被入侵导致的资金安全问题。如果您的账户内有大量资金或需要保证绝对安全，我们建议您使用<a>离线桌面钱包</a>。（注：查询余额功能没有潜在资金安全问题）</p>
         </div>
     </div>
 </div>
