@@ -40,12 +40,12 @@ module.exports = async function(req, res)
                     resobj.ret = 0
                     api.success(res, resobj)
                 }catch(e){
-                    let errmsg = resstr.toLocaleLowerCase().replace(/\s+/ig, "")
-                    if(errmsg.includes("feepurity")>0){
-                        resstr = "交易已经存在于交易池，正在等待确认，请勿重复添加"
-                    }else if(resstr.includes("exist")>0){
-                        resstr = "交易已经被确认，转账成功。"
-                    }
+                    // let errmsg = resstr.toLocaleLowerCase().replace(/\s+/ig, "")
+                    // if(errmsg.includes("feepurity")>0){
+                    //     resstr = "交易已经存在于交易池，正在等待确认，请勿重复添加"
+                    // }else if(resstr.includes("exist")>0){
+                    //     resstr = "交易已经被确认，转账成功。"
+                    // }
                     // console.log(e)
                     api.error(res, resstr)
                 }

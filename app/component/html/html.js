@@ -65,7 +65,8 @@ function apicallex(r, okcall, errcall) {
     if( r.data.ret === 0 ) {
         okcall && okcall(r.data)
     }else{
-        errcall && errcall(r.data.msg)
+        var emsg = r.data.msg || r.data.errmsg
+        errcall && errcall(emsg)
     }
 }
 
