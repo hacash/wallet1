@@ -84,7 +84,7 @@
         <p class="tip warning">Warning: a password that is too simple is not secure (for example, 123456 or birthday), and may be guessed and stolen by others.<br>　　　Be sure to use a password that contains a combination of uppercase and lowercase letters, numbers, and special characters of not less than 16 digits.</p>
         <textarea v-model="passstr" placeholder="1. Support case sensitive letters, numbers, symbols ~! @ # $%^&*_ +-=,.:;, no spaces, Chinese and Chinese symbols, no less than 6, no more than 256\n2. If the password is empty, the private key will be created randomly"></textarea>
         <p class="tip">If the password is empty, the private key will be generated randomly. At this time, the private key will ensure that it cannot be guessed by the algorithm. It is the most secure way to generate the private key. But the private key can't be memorized in the brain like a password, so it needs to be backed up to the hardware storage device. Please ensure the security of the backup device (Note: do not use the online note app or the online disk to back up the private key, the online personal computer may also be stolen by the virus. It's better to use the offline anti-virus U disk, and copy multiple u disks to store in different physical locations Deposit)</p>
-        <button ref="btn" class="submit" @click="newAccount">Create Address</button>
+        <button ref="btn" class="submit" @click="newAccount">Create Address {{passstr.length>0 ? 'by Password': 'Randomly'}}</button>
         <div class="result" v-if="accobj">
             <div class="close" @click="accobj=null,passstr=''">×</div>
             <p v-if="accobj.passstr">By password <b>{{accobj.passstr.substr(0,5)+'...'}}</b> generated new account：</p>
