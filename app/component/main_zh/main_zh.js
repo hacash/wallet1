@@ -278,7 +278,7 @@ var vAppNewAccount = new Vue({
                     return alert("密码不能多于256位")
                 }
                 if( ps.length < 16 && ps.replace(/[a-z0-9]+/ig, "") == "" ){
-                    if( !confirm("你设置的密码过于简单，可能会被技术遍历猜中，有潜在被盗窃丢失资产的风险，确认继续吗？") ){
+                    if( !confirm("【严重安全警告：资产可能被盗】\n你设置的密码过于简单，可能会被黑客撞库或遍历扫描猜中，有被盗窃丢失资产的风险，确认继续吗？") ){
                         return
                     }
                 }
