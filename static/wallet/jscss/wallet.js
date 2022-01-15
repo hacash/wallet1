@@ -1,119 +1,129 @@
-/*
+
+// url
+var HacashMinerNodeURL = "127.0.0.1:3338"
 
 
-7F3FAC91802082EE90C5B3F5D63B0FB241A90569A427AF8FB9261BC6D991AC98
-
-*/
-
-
+function $id(id){
+    return document.getElementById(id)
+}
 
 
 
-var vAppBalance = new Vue({
-    el: '#balance',
-    data: {
-        addrs: "",
-        balances: [],
-        totalamt: "",
-    },
-    methods:{
-        getBalance: function(){
-            var that = this
-            , lss = that.addrs.replace(/[\s,，]+/ig, ",").replace(/^,|,$/ig, "")
-            if( ! lss){
-                return "Please enter wallet address."
-            }
-            if( lss.split(",")>=20 ){
-                return "No more than 20 wallet addresses."
-            }
-            // alert(lss)
-            apiget("/api/get_balance", {
-                address: lss,
-            }, function(data){
-                var amts = data.amounts.split("|")
-                , adrs = lss.split(",")
-                , bls = []
-                for(var i in adrs){
-                    bls.push({
-                        addr: adrs[i],
-                        amt: amts[i],
-                    })
-                }
-                that.balances = bls // 显示
-                that.totalamt = data.total
-            }, function(err){
-                alert("Query failed: " + err.msg)
-                that.balances = []
-            })
-        }
+function getScrollTop() {  
+    var scrollPos;  
+    if (window.pageYOffset) {  
+    scrollPos = window.pageYOffset; }  
+    else if (document.compatMode && document.compatMode != 'BackCompat')  
+    { scrollPos = document.documentElement.scrollTop; }  
+    else if (document.body) { scrollPos = document.body.scrollTop; }   
+    return scrollPos;   
+} 
+
+
+function setCookie (cname, cvalue, path, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    var path = "path=" + path;
+    var ck = cname + "=" + cvalue + "; " + expires + "; " + path
+    // console.info(ck);
+    document.cookie = ck;
+    // console.info(document.cookie);
+}
+
+
+function tppl(tpl, data){
+  var fn =  function(d) {
+      var i, k = [], v = [];
+      for (i in d) {
+          k.push(i);
+          v.push(d[i]);
+      };
+      return (new Function(k, fn.$)).apply(d, v);
+  };
+  if(!fn.$){
+      var tpls = tpl.split('{:');
+      fn.$ = "var $=''";
+      for(var t = 0;t < tpls.length;t++){
+          var p = tpls[t].split(':}');
+          if(t!=0){
+              fn.$ += '='==p[0].charAt(0)
+                ? "+("+p[0].substr(1)+")"
+                : ";"+p[0].replace(/\r\n/g, '')+"$=$"
+          }
+          // 支持 <pre> 和 [::] 包裹的 js 代码
+          fn.$ += "+'"+p[p.length-1].replace(/\'/g,"\\'").replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n')+"'";
+      }
+      fn.$ += ";return $;";
+      // log(fn.$);
+  }
+  return data ? fn(data) : fn;
+}
+
+
+function apicallex(r, okcall, errcall) {
+    if( ! r.data || typeof r.data === ''  ) {
+        return errcall && errcall("cannot get data")
     }
-})
+    if ( typeof r.data === 'string' ) {
+        return errcall && errcall(r.data)
+    }
+    var emsg = r.data.err || r.data.errmsg || ( r.data.ret > 0 ?  r.data.ret : '')
+    if( emsg ) {
+        errcall && errcall(emsg)
+    }else{
+        okcall && okcall(r.data)
+    }
+}
+
+function apiget(url, data, okcall, errcall) {
+    url = 'http://' + HacashMinerNodeURL + url
+    console.log(url)
+    axios
+        .get(url, {
+            params: data,
+        })
+        .then(function(r){
+            apicallex(r, okcall, errcall)
+        })
+        .catch(errcall)
+}
 
 
+function apipost(url, data, okcall, errcall) {
+    url = 'http://' + HacashMinerNodeURL + url
+    console.log(url)
+    axios
+        .post(url, data)
+        .then(function(r){
+            apicallex(r, okcall, errcall)
+        })
+        .catch(errcall)
+}
 
 
-var vAppTxStatus = new Vue({
-    el: '#txstatus',
+minerurl
+
+
+/////////////////////////////////////////
+
+
+var vAppMinerUrl = new Vue({
+    el: '#minerurl',
     data: {
-        txhash: "",
-        txhash_show: "",
-        result: null,
+        ipport: HacashMinerNodeURL,
+        useipport: HacashMinerNodeURL,
     },
     methods:{
-        statusTx: function(){
-            var that = this
-            that.txhash = that.txhash.replace(/[\s\n]+/ig, "")
-            if(!that.txhash){
-                return alert("Please enter transaction hash.")
-            }
-            apiget("/api/tx_status", {
-                txhash: that.txhash,
-            }, function(data){
-                // console.log(data)
-                that.txhash_show = that.txhash+""
-                that.txhash = ""
-                that.result = data
-            }, function(errmsg){
-                that.result = {
-                    err: errmsg
-                }
-            })
+        change: function(){
+            HacashMinerNodeURL = this.ipport
+            alert('Change full node url successfully!')
+            this.useipport = this.ipport
         },
     }
 })
 
 
-
-
-var vAppSendTx = new Vue({
-    el: '#sendtx',
-    data: {
-        txbody: "",
-        result: null,
-    },
-    methods:{
-        sendTx: function(){
-            var that = this
-            that.txbody = that.txbody.replace(/[\s\n]+/ig, "")
-            if(!that.txbody){
-                return alert("Please enter transaction body.")
-            }
-            apipost("/api/send_tx", {
-                txbody: that.txbody,
-            }, function(data){
-                that.txbody = ""
-                that.result = data // 提交成功
-            }, function(errmsg){
-                that.result = {
-                    err: errmsg,
-                }
-            })
-        }
-    }
-})
-
-
-/*
 
 var vAppDiamondsTransferTx = new Vue({
     el: '#transferdiamonds',
@@ -130,11 +140,11 @@ var vAppDiamondsTransferTx = new Vue({
             if(!that.fee_password || !that.diamond_password || !that.to_address || !that.diamonds){
                 return alert("Please complete the form.")
             }
-            apipost("/api/transfer_diamonds", {
-                fee_password: that.fee_password,
-                diamond_password: that.diamond_password,
+            apiget("/query?action=transferdiamonds", {
                 to_address: that.to_address,
                 diamonds: that.diamonds,
+                fee_password: that.fee_password,
+                diamond_password: that.diamond_password,
             }, function(data){
                 if(data.status == "ok"){
                     that.fee_password = ""
@@ -173,7 +183,7 @@ var vAppQuoteFeeTx = new Vue({
             if(!that.password){
                 return alert("Please enter password or private key.")
             }
-            apipost("/api/quote_fee", {
+            apiget("/query?action=quotefee", {
                 txhash: that.txhash,
                 fee: that.fee,
                 password: that.password,
@@ -193,6 +203,65 @@ var vAppQuoteFeeTx = new Vue({
 })
 
 
+
+var vAppTxStatus = new Vue({
+    el: '#txstatus',
+    data: {
+        txhash: "",
+        txhash_show: "",
+        result: null,
+    },
+    methods:{
+        statusTx: function(){
+            var that = this
+            that.txhash = that.txhash.replace(/[\s\n]+/ig, "")
+            if(!that.txhash){
+                return alert("Please enter transaction hash.")
+            }
+            apiget("/query?action=txconfirm", {
+                txhash: that.txhash,
+            }, function(data){
+                // console.log(data)
+                that.txhash_show = that.txhash+""
+                that.txhash = ""
+                that.result = data
+            }, function(errmsg){
+                that.result = {
+                    err: errmsg
+                }
+            })
+        },
+    }
+})
+
+
+
+
+var vAppSendTx = new Vue({
+    el: '#sendtx',
+    data: {
+        txbody: "",
+        result: null,
+    },
+    methods:{
+        sendTx: function(){
+            var that = this
+            that.txbody = that.txbody.replace(/[\s\n]+/ig, "")
+            if(!that.txbody){
+                return alert("Please enter transaction body.")
+            }
+            apipost("/operatehex", '00000001' + that.txbody, function(data){
+                console.log(data)
+                that.txbody = ""
+                that.result = data // 提交成功
+            }, function(errmsg){
+                that.result = {
+                    err: errmsg,
+                }
+            })
+        }
+    }
+})
 
 
 var vAppTransfer = new Vue({
@@ -238,7 +307,7 @@ var vAppTransfer = new Vue({
             }
             if(that.txstatusupdatesec==1){
                 // 更新状态
-                apiget("/api/tx_status", {
+                apiget("/query?action=txconfirm", {
                     txhash: that.txhash,
                 }, function(data){
                     that.txconfirm = data
@@ -256,19 +325,23 @@ var vAppTransfer = new Vue({
         },
         sendTx: function(){
             var that = this
-            apipost("/api/send_tx", {
-                txbody: that.txbody,
-            }, function(data){
+            apipost("/operatehex", '00000001' + that.txbody, function(data){
                 that.step = 4
                 that.statusTx()
-                // console.log(data)
+                console.log(data)
             }, function(errmsg){
                 alert("Failed to send transaction: " + errmsg)
             })
         },
         createTx: function(){
             var that = this
-            apipost("/api/create_tx", vAppTransfer._data, function(data){
+            apiget("/query?action=createtx", {
+                'from':that.from_addr,
+                'to':that.to_addr,
+                'amount':'HCX'+that.amount+':'+that.unit,
+                'fee': 'HCX'+that.fee+':'+that.fee_unit,
+                'password': (that.password),
+            }, function(data){
                 that.txhash = data.txhash
                 that.txbody = data.txbody
                 that.step = 3 // 下一步
@@ -334,7 +407,10 @@ var vAppNewAccount = new Vue({
                 // 随机生成私钥
             }
             // alert(lss)
-            apipost("/api/new_account", {
+            var userurl = ps ? 
+                '/query?action=passwd' :
+                '/query?action=newacc'
+            apiget(userurl, {
                 password: ps,
             }, function(data){
                 // alert(data.address)
@@ -348,4 +424,54 @@ var vAppNewAccount = new Vue({
     }
 })
 
-*/
+
+
+
+var vAppBalance = new Vue({
+    el: '#balance',
+    data: {
+        addrs: "",
+        balances: [],
+        totalamt: "",
+    },
+    methods:{
+        getBalance: function(){
+            var that = this
+            , lss = that.addrs.replace(/[\s,，]+/ig, ",").replace(/^,|,$/ig, "")
+            if( ! lss){
+                return "Please enter wallet address."
+            }
+            if( lss.split(",")>=20 ){
+                return "No more than 20 wallet addresses."
+            }
+            // alert(lss)
+            apiget("/query?action=balance", {
+                address: lss,
+            }, function(data){
+                var amts = data.amounts.split("|")
+                , adrs = lss.split(",")
+                , bls = []
+                for(var i in adrs){
+                    bls.push({
+                        addr: adrs[i],
+                        amt: amts[i],
+                    })
+                }
+                that.balances = bls // 显示
+                that.totalamt = data.total
+            }, function(err){
+                alert("Query failed: " + err.msg)
+                that.balances = []
+            })
+        }
+    }
+})
+
+
+
+var vAppFooter = new Vue({
+    el: '#footer',
+    data: {
+    }
+})
+
