@@ -1,7 +1,16 @@
 // test
 // document.getElementById("init").className = "ok";
 
-var $init = document.getElementById("init");
+var $init = document.getElementById("init")
+, $init_progress = $init.getElementsByClassName("progress")[0]
+, $init_bar = $init_progress.getElementsByClassName("bar")[0]
+;
+
+// loading progress
+window.hacash_sdk_loading_progress = function (percent) {
+    $init_progress.classList.add("show")
+    $init_bar.style.width = percent + "%";
+}
 
 // check WebAssembly
 var WebAssemblyIsOK = false
