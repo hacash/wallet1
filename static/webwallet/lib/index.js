@@ -9,19 +9,19 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
     $init.innerHTML = "<div style='padding: 40px 20px; background: brown; color: azure; font-size: 18px; font-weight: bold;'>NOT support WebAssembly! Your browser version is too old, please upgrade your browser to the latest version.</div>"
 }else{
     WebAssemblyIsOK = true
-    function base64ToBuffer(b) {
-        const str = window.atob(b);
-        const buffer = new Uint8Array(str.length);
-        for (let i=0; i < str.length; i++) {
-            buffer[i] = str.charCodeAt(i);
-        }
-        return buffer;
+    function buildWasm(hacash_sdk_wasm_code) {
+        // console.log(hacash_sdk_wasm_code)
+        var go = new Go();
+        WebAssembly.instantiate(hacash_sdk_wasm_code, go.importObject).then(function({module, instance}){
+            go.run(instance);
+            hacash_wallet_main(instance.exports);
+        });
     }
-    var go = new Go();
-    WebAssembly.instantiate(base64ToBuffer(hacash_sdk_wasm_code_base64), go.importObject).then(function({module, instance}){
-        go.run(instance);
-        hacash_wallet_main(instance.exports);
-    });
+    if(window.hacash_sdk_wasm_code_callback) {
+        hacash_sdk_wasm_code_callback(buildWasm)
+    }else if(window.hacash_sdk_wasm_code) {
+        buildWasm(hacash_sdk_wasm_code)
+    }
 }
 
 
