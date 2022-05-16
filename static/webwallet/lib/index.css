@@ -269,53 +269,43 @@ div.btns > button {
   font-weight: normal;
   color: #666;
 }
-#hactrs table,
 .trscommon table {
   border-spacing: 0;
   border-collapse: collapse;
   border: 1px solid #bbb;
 }
-#hactrs table th,
 .trscommon table th,
-#hactrs table td,
 .trscommon table td {
   border-spacing: 0;
   border-collapse: collapse;
   border: 1px solid #bbb;
   padding: 5px;
 }
-#hactrs .box2,
 .trscommon .box2 {
   display: none;
   text-align: left;
 }
-#hactrs .check,
 .trscommon .check {
   overflow-x: scroll;
 }
-#hactrs .check b,
 .trscommon .check b {
   font-weight: normal;
 }
-#hactrs .check b.amt,
 .trscommon .check b.amt {
   color: #a10ebe;
   font-weight: bold;
   font-size: 18px;
 }
-#hactrs .check i,
 .trscommon .check i {
   font-size: 13px;
   color: #876;
 }
-#hactrs .tx,
 .trscommon .tx {
   background-color: lavender;
   padding: 20px;
   margin: 20px 0;
   box-shadow: 2px 2px 1px #0003;
 }
-#hactrs .tx label,
 .trscommon .tx label {
   display: block;
   padding: 5px 0;
@@ -323,28 +313,22 @@ div.btns > button {
   font-weight: bold;
   color: #3f9497;
 }
-#hactrs .tx p,
 .trscommon .tx p,
-#hactrs .tx textarea,
 .trscommon .tx textarea {
   display: block;
 }
-#hactrs .tx .txhx,
 .trscommon .tx .txhx {
   word-break: break-all;
 }
-#hactrs .tx .txbody,
 .trscommon .tx .txbody {
   width: 100%;
   min-height: 80px;
 }
-#hactrs .tx p.tip,
 .trscommon .tx p.tip {
   color: gray;
   font-size: 14px;
   padding: 5px;
 }
-#hactrs .success,
 .trscommon .success {
   display: none;
   color: #fff;
@@ -354,12 +338,10 @@ div.btns > button {
   border-radius: 4px;
   border: #53b953 1px solid;
 }
-#hactrs .offline,
 .trscommon .offline {
   display: none;
   padding: 20px 0;
 }
-#hactrs .offline p,
 .trscommon .offline p {
   color: crimson;
   font-size: 18px;
