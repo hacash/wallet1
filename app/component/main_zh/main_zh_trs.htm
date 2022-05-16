@@ -1,0 +1,278 @@
+
+
+<!--
+
+<div id="newacc" class="card"  style="background-color: #fed;">
+    <div class="container">
+        <h1 class="title">创建新账户：</h1>
+        <p class="tip">通过一个私密的密码生成一个私钥并创建收款地址（注意：请妥善保管/记忆您的密码/私钥，一旦密码/私钥丢失则账户内资金将永久损失）<br>本程序不会备份储存或泄露您的密码/私钥。</p>
+        <p class="tip warning">警告：太过简单的密码并不安全（例如 123456、abcdef、zhangsan0718、或电话号码、生日等组合），有可能被别人猜中密码并盗窃你的资产。<br>　　　请务必使用包含大小写字母、数字和特殊字符组合并不少于16位的密码。</p>
+        <textarea v-model="passstr" placeholder="1. 支持区分大小写字母、数字、符号~!@#$%^&*_+-=,.:; 不支持空格和中文及中文符号，不少于6位，不多于256位\n2. 密码为空则随机创建私钥"></textarea>
+        <p class="tip">如果密码为空则随机生成私钥，此时的私钥将确保无法被算法猜中，是最安全的私钥生成方式。但私钥无法像密码一样可以记忆在大脑中，需要将其备份至硬件储存设备，请确保备份设备的安全性（注意：不要使用在线笔记应用或者网盘备份私钥，联网的个人电脑也可能被病毒盗取备份的私钥，最好使用离线的防病毒U盘，并拷贝多个U盘分开不同物理位置储存）</p>
+        <button ref="btn" class="submit" @click="newAccount">{{passstr.length>0 ? '按密码': '随机'}}创建账户</button>
+        <div class="result" v-if="accobj">
+            <div class="close" @click="accobj=null,passstr=''">×</div>
+            <p v-if="accobj.passstr">通过密码 <b>{{accobj.passstr.substr(0,5)+'...'}}</b> 生成的新账户：</p>
+            <p v-if="!accobj.passstr">随机（无密码）生成的新账户：</p>
+            <table>
+                <tr>
+                    <td>收款地址：</td>
+                    <td>{{accobj.address}}</td>
+                    <td class="t">可公开，发送给别人，收款用</td>
+                </tr>
+                <tr>
+                    <td>公钥：</td>
+                    <td>{{accobj.public_key.toUpperCase()}}</td>
+                    <td class="t">可公开</td>
+                </tr>
+                <tr>
+                    <td>私钥：</td>
+                    <td>{{accobj.private_key.toUpperCase()}}</td>
+                    <td class="w">私钥千万不要泄露，否则资产将被盗窃丢失，永久无法找回</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="transfer" class="card" style="background-color: #fed;">
+    <div class="container">
+        <h1 class="title">转账：</h1>
+        <p class="step_nav">
+            <b v-bind:class="{active: step==1}">1. 创建一笔交易</b>
+            <i>▷</i>
+            <b v-bind:class="{active: step==2}">2. 输入密码签名</b>
+            <i>▷</i>
+            <b v-bind:class="{active: step==3}">3. 提交到主网确认</b>
+        </p>
+        <div class="step" v-show="step==1">
+            <table class="newtx">
+                <tr>
+                    <td>付款地址:</td>
+                    <td><input class="block" v-model="from_addr" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>收款地址:</td>
+                    <td><input class="block" v-model="to_addr" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>金额:</td>
+                    <td>
+                        <input class="block" v-model="amount" placeholder="必须是整数，不支持小数" />
+                        <p>
+                            单位: 　
+                            <input type="radio" class="radio" id="ua1" name="amtunit" v-model="unit" value="248" checked><label for="ua1">枚(:248)</label>
+                            <input type="radio" class="radio" id="ua2" name="amtunit" v-model="unit" value="240"><label for="ua2">铢(:240)</label>
+                            <i class="tip">提示： 1枚 = 100000000铢（一亿铢）</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>手续费:</td>
+                    <td>
+                        <input class="block" v-model="fee" placeholder="" />
+                        <p>
+                            单位: 　<input type="radio" class="radio" id="ua3" name="feeunit" v-model="fee_unit" value="240" checked><label for="ua3">铢(:240)</label>
+                            <i class="tip">当前手续费建议值： 10000铢（0.0001枚）</i>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <div class="btns">
+                <button class="cancel" @click="cancel">取消</button>
+                <button class="next" @click="inputTx">下一步</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==2">
+            <div class="check">
+                <p>请确认以下交易信息：</p>
+                <p class="focus">地址 {{from_addr}} 给地址 {{to_addr}} 转账 {{amount}} {{ {'248':'枚(:248)','240':'铢(:240)'}[unit+''] }} HCX，手续费 {{fee}} 铢(:240)</p>
+            </div>
+            <div class="passwd">
+                <label>请输入或粘贴付款地址 {{from_addr}} 的密码或私钥，用于签名交易：</label>
+                <input type="password" class="block" placeholder="密码或私钥" v-model="password" value="" />
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="cancel">取消</button>
+                <button class="cancel" @click="step=1">上一步</button>
+                <button class="next" @click="createTx">下一步</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==3">
+            <div class="txcon">
+                <p>通过填写的信息成功生成了交易，请【务必】复制保存以下信息，用于查询交易确认情况和：</p>
+                <table>
+                    <tr>
+                        <td class="l">交易Hash标识:</td>
+                        <td>{{txhash.toUpperCase()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="l">交易内容Hex值:</td>
+                        <td>{{txbody.toUpperCase()}}</td>
+                    </tr>
+                </table>
+                <p>点击“确认转账并发送交易”按钮，即将交易发送给Hacash网络确认。交易一旦发出无法撤回，请注意是否重复转账。</p>
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="cancel">取消</button>
+                <button class="cancel" @click="step=2">上一步</button>
+                <button class="submit" @click="sendTx">确认转账并发送交易</button>
+            </div>
+        </div>
+        <div class="step" v-show="step==4">
+            <div class="confirm">
+                <p>交易hash值：{{txhash.toUpperCase()}}</p>
+                <p v-if="txconfirm" :class="'stat '+txconfirm.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[txconfirm.status] }}</p>
+                <p v-if="!(txconfirm&&txconfirm.confirm_height)">正在等待交易确认状态更新，倒计时 <b class="tt">{{txstatusupdatesec}}</b> 秒后将再次发起请求。</p>
+                <p v-if="!(txconfirm&&txconfirm.confirm_height)">大约 3 ~ 7 分钟，你的交易将被区块链网络确认，请耐心等待。</p>
+                <p v-if="txconfirm&&txconfirm.block_height">
+                    <table>
+                        <tr><td>区块高度:</td><td>{{txconfirm.block_height}}</td></tr>
+                        <tr v-if="txconfirm.status!='block'"><td>区块hash:</td><td>{{txconfirm.block_hash.toUpperCase()}}</td></tr>
+                    </table>
+                    <span class="ok" v-if="txconfirm.confirm_height">交易已成功被确认，转账成功！</span>
+                </p>
+            </div>
+            <div class="btns">
+                <button class="cancel" @click="close">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="transferdiamonds" class="card" style="background-color: #fed;">
+    <div class="container">
+        <h1 class="title">区块钻石转账： </h1>
+        <p class="tip">创建批量转移区块钻石交易，并立即提交到主网确认生效。</p>
+        <div class="create">
+            <table class="newfee">
+                <tr>
+                    <td class="lb">
+                        <p>付出转移钻石交易手续费账户密码或私钥：</p>
+                        <input class="fee_password" v-model="fee_password" placeholder="fee_password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lb">
+                        <p>拥有钻石的地址账户密码或私钥：</p>
+                        <input class="diamond_password" v-model="diamond_password" placeholder="diamond_password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lb">
+                        <p>收取钻石的账户地址：</p>
+                        <input class="to_address" v-model="to_address" placeholder="to_address" />
+                    </td>
+                </tr>
+                <tr class="bottom">
+                    <td class="lb">
+                        <p>批量钻石字面值（英文逗号隔开）：</p>
+                        <textarea rows="2" style="font-family: 'Courier New', Courier, monospace;" class="diamonds" v-model="diamonds" placeholder="例如：AAABBB,WETYMN" ></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="result" v-if="result">
+            <p>{{result}}</p>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="transferDiamonds">确认转移钻石</button>
+        </div>
+    </div>
+</div>
+
+<div id="quotefee" class="card" style="background-color: #fed;">
+    <div class="container">
+        <h1 class="title">手续费竞价： </h1>
+        <p class="tip">重新设置增加交易池内待确认交易的手续费数额，用于将交易排队位置提前，更早得到确认。也可用于钻石挖掘后待确认的手续费竞价。</p>
+        <div class="create">
+            <table class="newfee">
+                <tr>
+                    <td class="lb">交易哈希 :</td>
+                    <td><input class="txhash" v-model="txhash" placeholder="txhash" /></td>
+                </tr>
+                <tr>
+                    <td class="lb">重置的交易手续费:</td>
+                    <td><input class="fee" v-model="fee" placeholder="例如：ㄜ1:244" value="ㄜ1:244" /></td>
+                </tr>
+                <tr class="bottom">
+                    <td class="lb">签名交易的私钥或密码:</td>
+                    <td><input class="password" v-model="password" placeholder="password" /></td>
+                </tr>
+            </table>
+        </div>
+        <div class="result" v-if="result">
+            <p>{{result}}</p>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="quoteFee">确认修改手续费</button>
+        </div>
+    </div>
+</div>
+
+
+-->
+<!--
+
+<div id="sigtx" class="card">
+    <div class="container">
+        <h1 class="title">签名交易</h1>
+        <p class="tip">对一笔创建的交易进行签名，可能需要多个账户进行签名。</p>
+    </div>
+</div>
+
+
+<div id="chcreate" class="card">
+    <div class="container">
+        <h1 class="title">创建交易： 创建支付通道</h1>
+        <p class="tip">用两个账户创建一个支付通道，并且各自锁定相应的资金进通道。创建完成后需要发送给各自去签署交易（签名）。</p>
+        <div class="create">
+            <table class="newtx">
+                <tr>
+                    <td>地址一:</td>
+                    <td><input class="block" v-model="addr1" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>金额一（枚）:</td>
+                    <td>
+                        <input class="block" v-model="amount1" placeholder="单位：枚(:248)， 支持小数" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>地址二:</td>
+                    <td><input class="block" v-model="addr2" placeholder="" /></td>
+                </tr>
+                <tr>
+                    <td>金额二（枚）:</td>
+                    <td>
+                        <input class="block" v-model="amount2" placeholder="单位：枚(:248)， 支持小数" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>手续费（铢）:</td>
+                    <td>
+                        <input class="block" v-model="fee" value="40000" placeholder="单位：铢(:240)， 建议值：40000铢（0.0004枚）" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="btns">
+            <button class="submit" @click="submit">确认创建交易</button>
+        </div>
+    </div>
+</div>
+
+<div id="chclose" class="card">
+    <div class="container">
+        <h1 class="title">创建交易： 关闭支付通道</h1>
+        <p class="tip">注意：此关闭方式是按存入时的金额提取出锁定在通道内的资金，并按资金比例分配通道利息。创建完成后需要发送给各自去签署交易（签名）。</p>
+    </div>
+</div>
+
+-->
+
+
+

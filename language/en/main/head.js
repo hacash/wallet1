@@ -1,7 +1,7 @@
 
 module.exports = {
 
-    online_wallet: "Online Wallet",
+    online_wallet: "Hacash Wallet",
 
 
 
