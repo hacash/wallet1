@@ -108,7 +108,7 @@ function init_hac_transfer() {
         $btn3.classList.add("ban")
         // post
         axios.post("/api/send_tx", {
-            txbody: that.txbody,
+            txbody: txbody,
         }).then(function(r){
             $btn3.classList.remove("ban")
             console.log(r.data)
