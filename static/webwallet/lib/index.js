@@ -117,7 +117,7 @@ function init_hac_transfer() {
                 $success.style.display = "block"
                 $cno($success, "hx").innerText = txhash
             }else{
-                alert(r.data.err)
+                alert(r.data.msg)
             }
         }).catch(function(e){
             $btn3.classList.remove("ban")
