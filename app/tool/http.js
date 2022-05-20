@@ -1,9 +1,6 @@
 const http = require("http")
 const https = require("https")
 
-
-
-
 exports.json = function(url, querys, opts) {
     opts = opts || {}
     let http_obj = opts.https ? https : http

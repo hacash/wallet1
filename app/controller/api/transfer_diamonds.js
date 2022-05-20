@@ -1,16 +1,9 @@
-
 const api = appload('tool/apiRespond')
 const toolhttp = appload('tool/http')
-
 const config = appload('config')
-
-
-
 
 module.exports = async function(req, res)
 {
-
-
     try{
         if(!req.body.fee_password){
             return api.error(res, "fee_password must")

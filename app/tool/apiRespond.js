@@ -1,4 +1,3 @@
-
 function writeHead(res){
     res.writeHead(200,{
         "Content-Type":" application/json;charset=UTF-8", 
@@ -7,12 +6,7 @@ function writeHead(res){
     });
 }
 
-
-
 ///////////////////////////////////////////
-
-
-
 exports.success = function (res, dataobj) {
     writeHead(res)
     dataobj.ret = 0

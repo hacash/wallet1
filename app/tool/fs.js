@@ -1,12 +1,8 @@
 /**
  * 文件系统辅助处理
  */
-
 var fs = require('fs');
 var path = require('path');
-
-
-
 
 /**
  * 按文件名数组读取文件并按顺序合并，异步版本
@@ -28,6 +24,7 @@ exports.reads = function(nameAry, opts, callback)
     for(var i=0;i<leg;i++){
         read(i);
     }
+
     //读取文件
     function read(k){
         var file = nameAry[k];
@@ -43,25 +40,17 @@ exports.reads = function(nameAry, opts, callback)
             fileCon[k] = data;
             if(hasNum==leg){ //已经读完
                 callback(null, opts.merge ? fileCon.join(opts.join||'') : fileCon);
-                /*if(true==opts.merge){
-                    var content = '';
-                    for(var j=0;j<leg;j++){ //合并文件
-                        content += fileCon[j]
-                    }
-                    callback(err,content);
-                }else{
-                    //console.log(fileCon);
-                    callback(err,fileCon); //返回数组
-                }*/
             }
         });
     }
 };
+
 // 同步版本
 exports.readsSync = function(fileAry, opts)
 {
     opts = opts || {};
     var cons = [];
+
     // 依次读取文件
     for(var f in fileAry){
         var file = fileAry[f];
@@ -81,19 +70,9 @@ exports.readsSync = function(fileAry, opts)
         }
         cons.push( one );
     }
+
     return opts.merge ? cons.join('') : cons;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * 扫描文件夹下的文件和目录
@@ -120,8 +99,6 @@ exports.scan = function(path, rec){
             }  
         });  
     };  
-    // console.log('扫描' + path +'成功');
-
     return {
         'files': fileList,
         'folders': folderList
