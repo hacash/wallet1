@@ -1,16 +1,9 @@
-
 const api = appload('tool/apiRespond')
 const toolhttp = appload('tool/http')
-
 const config = appload('config')
-
-
-
 
 module.exports = async function(req, res)
 {
-
-
     try{
         let psstr = req.body.password
         if(!psstr){

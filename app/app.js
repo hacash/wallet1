@@ -1,15 +1,11 @@
 /**
  *
  */
-
 const path = require('path')
-
 const routes = require('./routes.js');
 const viewer = require('./viewer.js');
 const config = require('../config.js');
-
 const toolfs = require('./tool/fs.js')
-
 
 module.exports = function(app)
 {
@@ -23,6 +19,7 @@ module.exports = function(app)
         // console.log(res.lang)
         next()
     })
+
     // routes
     for(let i in routes){
         var isPost = false
@@ -37,6 +34,7 @@ module.exports = function(app)
             app.get(i, ctrl)
         }
     }
+
     // views compile
     viewer.compile({})
 }
@@ -48,6 +46,7 @@ function loadLanguage(type) {
     if( loadLanguageCache[type] ) {
         return loadLanguageCache[type] 
     }
+
     const langs = {}
     let folders = loadLanguageItem(langs, './language/'+type)
     for(let i in folders){
@@ -57,10 +56,13 @@ function loadLanguage(type) {
     }
     // console.log(langs)
     loadLanguageCache[type] = langs
+
     return langs
 }
+
 function loadLanguageItem(langs, dir, bsk) {
     const flist = toolfs.scan(dir)
+
     for(let i in flist.files){
         let one = flist.files[i]
         , key = path.basename(one).replace('.js', '')
@@ -73,28 +75,24 @@ function loadLanguageItem(langs, dir, bsk) {
             langs[key] = lobj
         }
     }
+
     return flist.folders
 }
 
-
-
-
 ////////////////////// loader //////////////////////
-
-
-
 global.appload = function(path) {
     if(path=="config"){
         return require("../config.js")
     }
+
     // others
     if( !path.startsWith('../') && !path.startsWith('./') ){
         path = './' + path
     }
+
     if( ! path.endsWith('.js') ){
         path += '.js'
     }
+
     return require(path)
 }
-
-
