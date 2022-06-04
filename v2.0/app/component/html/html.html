@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>[:=this.title||'Koappx v2.0':]</title>
+
+    <!-- twitter share link -->
+    [: if(this.twitter){ :]
+    [: if(twitter.card){ :]<meta name="twitter:card" content="[:=twitter.card:]"/>[: } :]
+    [: if(twitter.title){ :]<meta name="twitter:title" content="[:=twitter.title:]"/>[: } :]
+    [: if(twitter.description){ :]<meta name="twitter:description" content="[:=twitter.description:]"/>[: } :]
+    [: if(twitter.image){ :]<meta name="twitter:image" content="[:=twitter.image:]"/>[: } :]
+    [: } :]
+
+    <link rel="stylesheet" href="/jscss/[:=this.page.name:].css?v=[:=this.page.version:]">
+
+
+</head>
+<body>    
+    

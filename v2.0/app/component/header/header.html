@@ -1,0 +1,31 @@
+
+
+<div id="topbar" class="hide"><div class="container">
+
+    <div class="box">
+        <a class="logoft bktt" title="Back to top" href="/">
+            <b class="fthac tblG">ㄜ</b><b class="hacash">[:=lang.index.topbarttl:]</b>
+        </a>
+        <div class="navs">
+            <div class="item">
+                <!-- 
+                    'fr_FR': 'Français',
+                -->
+                [: var langlist = {
+                    'en_US': 'English',
+                    'zh_CN': '简体中文',
+                }; :]
+                <!-- <b class="b"><i class="ftico">&#xf1ab;</i>[:=langlist[lang.useset]:]</b> -->
+                <b class="b nt"><i class="ftico">&#xf1ab;</i>EN/中</b>
+                <div class="swt">
+                    <ul>
+                        [: for(var i in langlist) { :]
+                            <li><a href="?lang=[:=i:]">[:=langlist[i]:]</a></li>
+                        [: } :]
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div></div>
