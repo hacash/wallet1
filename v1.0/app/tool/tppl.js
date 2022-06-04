@@ -12,7 +12,6 @@
  *
  */
 
-
 module.exports = function(tpl, data){
   var fn =  function(d) {
       var i, k = [], v = [];
@@ -22,6 +21,7 @@ module.exports = function(tpl, data){
       };
       return (new Function(k, fn.$)).apply(d, v);
   };
+
   if(!fn.$){
       var tpls = tpl.split('[:');
       fn.$ = "var $=''";
@@ -36,7 +36,7 @@ module.exports = function(tpl, data){
           fn.$ += "+'"+p[p.length-1].replace(/\'/g,"\\'").replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n')+"'";
       }
       fn.$ += ";return $;";
-      // log(fn.$);
   }
+
   return data ? fn(data) : fn;
 }

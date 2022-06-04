@@ -2,12 +2,9 @@
 // url
 var HacashMinerNodeURL = "127.0.0.1:3338"
 
-
 function $id(id){
     return document.getElementById(id)
 }
-
-
 
 function getScrollTop() {  
     var scrollPos;  
@@ -18,7 +15,6 @@ function getScrollTop() {
     else if (document.body) { scrollPos = document.body.scrollTop; }   
     return scrollPos;   
 } 
-
 
 function setCookie (cname, cvalue, path, exdays) {
     var d = new Date();
@@ -31,7 +27,6 @@ function setCookie (cname, cvalue, path, exdays) {
     // console.info(document.cookie);
 }
 
-
 function tppl(tpl, data){
   var fn =  function(d) {
       var i, k = [], v = [];
@@ -41,6 +36,7 @@ function tppl(tpl, data){
       };
       return (new Function(k, fn.$)).apply(d, v);
   };
+
   if(!fn.$){
       var tpls = tpl.split('{:');
       fn.$ = "var $=''";
@@ -55,19 +51,20 @@ function tppl(tpl, data){
           fn.$ += "+'"+p[p.length-1].replace(/\'/g,"\\'").replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n')+"'";
       }
       fn.$ += ";return $;";
-      // log(fn.$);
   }
+
   return data ? fn(data) : fn;
 }
-
 
 function apicallex(r, okcall, errcall) {
     if( ! r.data || typeof r.data === ''  ) {
         return errcall && errcall("cannot get data")
     }
+
     if ( typeof r.data === 'string' ) {
         return errcall && errcall(r.data)
     }
+
     var emsg = r.data.err || r.data.errmsg || ( r.data.ret > 0 ?  r.data.ret : '')
     if( emsg ) {
         errcall && errcall(emsg)
@@ -89,7 +86,6 @@ function apiget(url, data, okcall, errcall) {
         .catch(errcall)
 }
 
-
 function apipost(url, data, okcall, errcall) {
     url = 'http://' + HacashMinerNodeURL + url
     console.log(url)
@@ -101,13 +97,8 @@ function apipost(url, data, okcall, errcall) {
         .catch(errcall)
 }
 
-
 minerurl
-
-
 /////////////////////////////////////////
-
-
 var vAppMinerUrl = new Vue({
     el: '#minerurl',
     data: {
@@ -122,8 +113,6 @@ var vAppMinerUrl = new Vue({
         },
     }
 })
-
-
 
 var vAppDiamondsTransferTx = new Vue({
     el: '#transferdiamonds',
@@ -160,8 +149,6 @@ var vAppDiamondsTransferTx = new Vue({
         }
     }
 })
-
-
 
 var vAppQuoteFeeTx = new Vue({
     el: '#quotefee',
@@ -202,8 +189,6 @@ var vAppQuoteFeeTx = new Vue({
     }
 })
 
-
-
 var vAppTxStatus = new Vue({
     el: '#txstatus',
     data: {
@@ -234,9 +219,6 @@ var vAppTxStatus = new Vue({
     }
 })
 
-
-
-
 var vAppSendTx = new Vue({
     el: '#sendtx',
     data: {
@@ -262,7 +244,6 @@ var vAppSendTx = new Vue({
         }
     }
 })
-
 
 var vAppTransfer = new Vue({
     el: '#transfer',
@@ -374,7 +355,6 @@ var vAppTransfer = new Vue({
     }
 })
 
-
 var vAppNewAccount = new Vue({
     el: '#newacc',
     data: {
@@ -424,9 +404,6 @@ var vAppNewAccount = new Vue({
     }
 })
 
-
-
-
 var vAppBalance = new Vue({
     el: '#balance',
     data: {
@@ -467,11 +444,8 @@ var vAppBalance = new Vue({
     }
 })
 
-
-
 var vAppFooter = new Vue({
     el: '#footer',
     data: {
     }
 })
-

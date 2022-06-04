@@ -1,6 +1,3 @@
-// test
-// document.getElementById("init").className = "ok";
-
 // getElementsByClassName one
 function $cno(a, n) {
     return a.getElementsByClassName(n)[0]
@@ -38,7 +35,6 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
     }
 }
 
-
 /**
  * CreateNewRandomAccount
  * GetAccountByPrivateKeyOrPassword
@@ -47,8 +43,6 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
  * 
  * 
  */
-
-
 // start
 function hacash_wallet_main(wasm){
     if(!WebAssemblyIsOK){
@@ -59,10 +53,6 @@ function hacash_wallet_main(wasm){
     var acc = CreateNewRandomAccount()
     console.log(acc, acc.Address)
 
-    // var acc = GetAccountByPrivateKeyOrPassword("123456")
-    // console.log(acc, acc.Address)
-
-
     // init
     init_create_account()
     init_hac_transfer()
@@ -70,7 +60,6 @@ function hacash_wallet_main(wasm){
 
     // loading ok
     $init.className = "ok";
-
 }
 
 // hacd transfer
@@ -174,9 +163,7 @@ function init_hacd_transfer() {
             genTx(ret)
         }
     }
-
 }
-
 
 // hac transfer
 function init_hac_transfer() {
@@ -276,9 +263,7 @@ function init_hac_transfer() {
             genTx(ret)
         }
     }
-
 }
-
 
 // create account
 function init_create_account() {
@@ -340,13 +325,4 @@ function init_create_account() {
         result(acc, v)
         $btn1.classList.remove("ban")
     }
-
-
-
 }
-
-
-
-
-
-

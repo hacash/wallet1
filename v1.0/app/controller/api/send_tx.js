@@ -1,13 +1,8 @@
-
 const api = appload('tool/apiRespond')
 const toolhttp = appload('tool/http')
 const http = require('http')
 const url = require('url')
-
-
 const config = appload('config')
-
-
 
 module.exports = async function(req, res)
 {
