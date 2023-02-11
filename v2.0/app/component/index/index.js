@@ -4,8 +4,8 @@ var walletLeaveTip = $id('hdrtip1').innerText;
 var walletLeaveTip2 = $id('hdrtip2').innerText;
 window.onbeforeunload=function(e){
     e = e || window.event || {}
-    e.returnValue = walletLeaveTip
-    return ifCreateWallet
+    // e.returnValue = walletLeaveTip
+    // return ifCreateWallet
 }
 
 
@@ -28,6 +28,17 @@ var vAppWallet = new Vue({
         prikey: "",
     },
     methods:{
+        selectCopy: function(e) {
+            var tarelm = e.target;
+            // select
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            var range = document.createRange();
+            range.selectNodeContents(tarelm.firstChild);
+            selection.addRange(range);
+            // copy
+            document.execCommand('copy');
+        },
         create: function(){
             if(this.addr && !confirm(walletLeaveTip2)) {
                 return
@@ -39,7 +50,7 @@ var vAppWallet = new Vue({
         }
     }
 })
-// vAppWallet.create()
+vAppWallet.create()
 
 
 var vAppBalance = new Vue({
