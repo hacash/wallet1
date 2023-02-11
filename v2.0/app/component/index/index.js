@@ -4,8 +4,8 @@ var walletLeaveTip = $id('hdrtip1').innerText;
 var walletLeaveTip2 = $id('hdrtip2').innerText;
 window.onbeforeunload=function(e){
     e = e || window.event || {}
-    // e.returnValue = walletLeaveTip
-    // return ifCreateWallet
+    e.returnValue = walletLeaveTip
+    return ifCreateWallet
 }
 
 
