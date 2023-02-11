@@ -50,7 +50,7 @@ var vAppWallet = new Vue({
         }
     }
 })
-vAppWallet.create()
+// vAppWallet.create()
 
 
 var vAppBalance = new Vue({
