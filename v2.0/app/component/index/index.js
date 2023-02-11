@@ -1,5 +1,45 @@
 /* index.js */
 
+var walletLeaveTip = $id('hdrtip1').innerText;
+var walletLeaveTip2 = $id('hdrtip2').innerText;
+window.onbeforeunload=function(e){
+    e = e || window.event || {}
+    e.returnValue = walletLeaveTip
+    return ifCreateWallet
+}
+
+
+
+function createWalletRandom() {
+    var genbtckey = new Bitcoin.ECKey(false)
+    , address = genbtckey.getBitcoinAddressCompressed()
+    , prikeys = bytesToHex(genbtckey.getBitcoinPrivateKeyByteArray())
+    return {
+        genbtckey: genbtckey,
+        address: address,
+        prikeys: prikeys,
+    }
+}
+
+var vAppWallet = new Vue({
+    el: '#wallet',
+    data: {
+        addr: "",
+        prikey: "",
+    },
+    methods:{
+        create: function(){
+            if(this.addr && !confirm(walletLeaveTip2)) {
+                return
+            }
+            // 创建钱包地址
+            var addrobj = createWalletRandom()
+            this.addr = addrobj.address;
+            this.prikey = addrobj.prikeys;
+        }
+    }
+})
+// vAppWallet.create()
 
 
 var vAppBalance = new Vue({

@@ -3,6 +3,23 @@
 
 [: if(lang.useset == 'zh_CN') { :]
 
+<div id="hdrtip1" style="display: none;">离开、刷新或关闭页面后私钥也将丢弃，你是否已经备份好了私钥？</div>
+<div id="hdrtip2" style="display: none;">再次创建钱包将覆盖已经创建的私钥和地址的显示，你是否已经备份好了要使用的私钥和地址？</div>
+<div id="wallet" class="card wallet">
+    <div class="container">
+        <h1 class="title">快速创建 Hacash 钱包：</h1>
+        <p class="tip">立即随机创建一个可用的钱包地址，可以用于收取 Hacash 链上的 HAC 货币、 HACD 钻石和单向转移的 BTC 等资产。采用前端 JS 代码随机方式生成，您的私钥并不会在互联网上传输，也不会存储在任何远端的服务器上，安全可靠。<b>请务必备份好生成的私钥，且不要泄露，一旦丢失或泄露私钥，你的资产也将永远丢失无法找回！</b></p>
+        <div class="addrwrap" v-if="addr">
+            <table>
+                <tr><td class="tt">地址：</td><td><b class="addr">{{addr}}</b></td><td class="tp">收取资产，可发送给别人</td></tr>
+                <tr><td class="tt">私钥：</td><td class="max"><b class="prikey">{{prikey}} (私钥必须备份)</b></td><td class="tp warning">请务必安全备份，丢失或泄露私钥将导致资产永远无法找回！</td></tr>
+            </table>
+        </div>
+        <div class="crts">
+            <button class="crtbtn" @click="create">{{addr?'再次':''}}创建钱包</button>
+        </div>
+    </div>
+</div>
 
 
 <div id="download" class="card download">
@@ -113,6 +130,25 @@
 [: }else{ :]
 
 
+<div id="hdrtip1" style="display: none;">The private key will be discarded after leaving, refreshing or closing the page. Have you backed up the private key?</div>
+<div id="hdrtip2" style="display: none;">Creating the wallet again will overwrite the display of the created private key and address. Have you backed up the private key and address to use?</div>
+<div id="wallet" class="card wallet">
+    <div class="container">
+        <h1 class="title">Create a Hacash wallet:</h1>
+        <p class="tip">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain. The  wallet is generated randomly by  front-end JS code. Your private key will not be transmitted on the Internet or stored on any remote server. It is safe and reliable. <b>Please make sure to back up the generated private key and do not disclose it. Once you lose or disclose the private key, your assets will be lost forever. </b></p>
+        <div class="addrwrap" v-if="addr">
+            <table>
+                <tr><td class="tt">Address:</td><td><b class="addr">{{addr}}</b></td><td class="tp">For collection, can show to others</td></tr>
+                <tr><td class="tt">Private key:</td><td class="max"><b class="prikey">{{prikey}} (Must be backed up)</b></td><td class="tp warning">Please be sure to back up private key safely. The loss or disclosure of the private key will cause the asset to lost forever!</td></tr>
+            </table>
+        </div>
+        <div class="crts">
+            <button class="crtbtn" @click="create">Create Wallet{{addr?' Again':''}}</button>
+        </div>
+    </div>
+</div>
+
+
 <div id="download" class="card download">
     <div class="container">
 
@@ -220,3 +256,8 @@
 
 
 [: } :]
+
+
+
+<script src="/jslib/hacaddress.min.js"></script>
+

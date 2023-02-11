@@ -86,6 +86,86 @@ p.wrap.w2 {
 
 }
 
+.card.wallet {
+    background-color: #333;
+    border-bottom: none;
+    h1.title {
+        color: #fff;
+        font-size: 18px;
+    }
+    p.tip {
+        font-size: 14px;
+        color: #999;
+        margin-top: 10px;
+        b {
+            font-size: inherit;
+            color: #c75555;
+
+        }
+    }
+    .crts {
+        padding-top: 10px;
+    }
+    .crtbtn {
+        padding: 10px 30px;
+        border-radius: 4px;
+        border: 1px #ffffff44 solid;
+        background-color: salmon;
+        background: linear-gradient(to bottom, salmon, #cc5c50);
+        &:hover {
+            background: linear-gradient(to bottom, salmon, #af4b40);
+            box-shadow: 2px 2px 4px #00000099;            
+        }
+        &:active {
+            background: #eb7365;
+            box-shadow: none;
+        }
+    }
+    .addrwrap {
+        margin: 20px 0 0 0;
+        background-color: #ffffff99;
+        padding: 10px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px #999 solid;
+            background-color: #fff;
+            td {
+                border: 1px #999 solid;
+                padding: 10px;
+            }
+            td.max {
+                b {
+
+                    max-width: 400px;
+                    display: block;
+                    word-break: break-all;
+                }
+            }
+            .addr {
+                font-size: 18px;
+                color: #000;
+            }
+            .prikey {
+                color: #c75555;
+                font-size: 16px;
+            }
+            .tp {
+                font-size: 13px;
+                color: green;
+                max-width: 150px;
+                &.warning {
+                    color: red;
+                }
+            }
+            .tt {
+                font-size: 14px;
+                font-weight: bold;
+                color: #666;
+            }
+        }
+    }
+}
 
 .tip.warning {
     color: red;
