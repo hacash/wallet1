@@ -43,15 +43,18 @@ var vAppWallet = new Vue({
             document.execCommand('copy');
         },
         create: function(){
-            if(this.addr && !confirm(walletLeaveTip2)) {
+            var t = this
+            if(t.addr && !confirm(walletLeaveTip2)) {
                 return
             }
             // 创建钱包地址
-            var addrobj = createWalletRandom()
-            this.addr = addrobj.address;
-            this.prikey = addrobj.prikeys;
-            // set
-            createdAddr = this.addr+''
+            setTimeout(function(){
+                var addrobj = createWalletRandom()
+                t.addr = addrobj.address;
+                t.prikey = addrobj.prikeys;
+                // set
+                createdAddr = t.addr+''
+            }, 30)
         }
     }
 })

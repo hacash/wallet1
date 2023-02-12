@@ -2777,15 +2777,16 @@ if(document && document.body) {
     var sdupd = function(){
         SecureRandom.seedTime();
     }
-    document.body.onclick = sdupd
-    document.body.onkeydown = sdupd
-    var ctime = new Date().getTime()
-    document.body.onmousemove = function(e) {
+    var ctime = new Date().getTime();
+    var sdclk = function(e) {
         sdupd()
         var sdint = parseInt(ctime * e.clientX / e.clientY)
         SecureRandom.seedInt(sdint);
-        // console.log(sdint)
+        console.log(sdint)
     }
+    document.body.onclick = sdclk;
+    document.body.onkeydown = sdupd;
+    document.body.onmousemove = sdclk;
 }
 
 
