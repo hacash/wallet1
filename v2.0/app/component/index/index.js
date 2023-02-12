@@ -1,11 +1,14 @@
 /* index.js */
 
+var createdAddr = null;
 var walletLeaveTip = $id('hdrtip1').innerText;
 var walletLeaveTip2 = $id('hdrtip2').innerText;
 window.onbeforeunload=function(e){
-    e = e || window.event || {}
-    e.returnValue = walletLeaveTip
-    return ifCreateWallet
+    if(createdAddr){
+        e = e || window.event || {}
+        e.returnValue = walletLeaveTip
+        return ifCreateWallet
+    }
 }
 
 
@@ -47,6 +50,8 @@ var vAppWallet = new Vue({
             var addrobj = createWalletRandom()
             this.addr = addrobj.address;
             this.prikey = addrobj.prikeys;
+            // set
+            createdAddr = this.addr+''
         }
     }
 })
