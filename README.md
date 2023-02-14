@@ -1,5 +1,5 @@
 # hacash online wallet
 
-hacash 在线钱包程序
+Hacash web wallet and js sdk.
 
 
