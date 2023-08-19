@@ -4,5 +4,6 @@ module.exports = {
     
     scr: ["Find a<br/>Hacash Wallet", "Choose your most suitable wallet based on usage scenarios and user habits"],
 
+    pttl: "Wallet Tools",
 }
     

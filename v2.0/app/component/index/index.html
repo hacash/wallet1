@@ -1,14 +1,15 @@
 
 [:
     var cnft = lang.useset != "en_US" ? ' clnfthm' : '';
+    var ind = lang.index;
 :]
 
 
 <div id="src"><div class="container">
     <div class="box [:=cnft:]">
         <div>
-            <h1 class="ttw">[:=lang.index.scr[0]:]</h1>
-            <p class="desc">[:=lang.index.scr[1]:]</p>
+            <h1 class="ttw">[:=ind.scr[0]:]</h1>
+            <p class="desc">[:=ind.scr[1]:]</p>
         </div>
         <div><img src="/favicon.ico" /></div>
         <!-- <div><h1 class="ttw">FIND A HACASH WALLET</h1></div> -->
@@ -71,10 +72,66 @@
 </div></div>
 
 <div class="pttl"><div class="container">
-    <h1 class="">Wallet Tools</h1>
+    <h1 class="">[:=ind.pttl:]</h1>
 </div></div>
 
 
+
+
+
+<div id="sendtx" class="card">
+    <div class="container"><div class="box">
+        <h1 class="title">[:=ind.stat[0]:]</h1>
+        <p class="tip">[:=ind.stat[1]:]</p>
+        <textarea v-model="txbody" placeholder="txbody..."></textarea>
+        <button ref="btn" class="submit" @click="sendTx">[:=ind.stat[2]:]</button>
+        <div class="result" v-if="result">
+            <p class="ok" v-if="result.ret==0">交易发送成功！<br>txhash: {{result.txhash}}</p>
+            <p class="err" v-if="result.err">发送失败： {{result.err}}</p>
+        </div>
+    </div></div>
+</div>
+
+
+<div id="txstatus" class="card">
+    <div class="container"><div class="box">
+        <h1 class="title">查询交易状态</h1>
+        <p class="tip">将交易Hash（txhash）值粘贴到下面的框中，点击确认查询交易状态。</p>
+        <textarea v-model="txhash" placeholder="txhash..."></textarea>
+        <button ref="btn" class="submit" @click="statusTx">确认查询</button>
+        <div class="result" v-if="result && result.err">
+            <p class="stat notfind" >{{result.err}}</p>
+        </div>
+        <div class="result" v-if="result && !txhash">
+            <p>{{txhash_show}}</p>
+            <p :class="'stat '+result.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[result.status] }}</p>
+            <table v-if="result.block_height">
+                <tr><td>区块高度:</td><td>{{result.block_height}}</td></tr>
+                <tr v-if="result.status!='block'"><td>区块hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
+                <tr v-if="result.confirm_height"><td>已确认:</td><td>{{result.confirm_height}}</td></tr>
+            </table>
+        </div>
+    </div></div>
+</div>
+
+
+<div id="balance" class="card">
+    <div class="container"><div class="box">
+        <h1 class="title">查询HAC余额</h1>
+        <p class="tip">将钱包地址输入或粘贴到下面的框中，一行一个或用逗号、空格隔开。点击“确认查询”则显示账户余额。一次查询不超过20个账号地址。</p>
+        <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
+        <button ref="btn" class="submit" @click="getBalance">确认查询</button>
+        <div class="result"v-if="balances.length>0">
+            <p class="total">{{balances.length}} 个地址总余额 : <b>{{totalamt}}</b></p>
+            <table class="list">
+                <tr v-for="one in balances">
+                    <td>{{one.addr}} :</td>
+                    <td>{{one.amt}}</td>
+                </tr>
+            </table>
+        </div>
+    </div></div>
+</div>
 
 
 
@@ -192,61 +249,6 @@
     </div>
 </div>  
 -->
-
-
-<div id="balance" class="card white">
-    <div class="container">
-        <h1 class="title">查询余额：</h1>
-        <p class="tip">将钱包地址输入或粘贴到下面的框中，一行一个或用逗号、空格隔开。点击“确认查询”则显示账户余额。一次查询不超过20个账号地址。</p>
-        <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
-        <button ref="btn" class="submit" @click="getBalance">确认查询</button>
-        <div class="result"v-if="balances.length>0">
-            <p class="total">{{balances.length}} 个地址总余额 : <b>{{totalamt}}</b></p>
-            <table class="list">
-                <tr v-for="one in balances">
-                    <td>{{one.addr}} :</td>
-                    <td>{{one.amt}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-
-
-<div id="sendtx" class="card white">
-    <div class="container">
-        <h1 class="title">发送交易：</h1>
-        <p class="tip">将交易的 txbody 值粘贴到下面的框中，点击确认则提交到区块链网络进行确认。</p>
-        <textarea v-model="txbody" placeholder="txbody..."></textarea>
-        <button ref="btn" class="submit" @click="sendTx">确认提交</button>
-        <div class="result" v-if="result">
-            <p class="ok" v-if="result.ret==0">交易发送成功！<br>txhash: {{result.txhash}}</p>
-            <p class="err" v-if="result.err">发送失败： {{result.err}}</p>
-        </div>
-    </div>
-</div>
-
-
-<div id="txstatus" class="card white">
-    <div class="container">
-        <h1 class="title">查询交易状态：</h1>
-        <p class="tip">将交易Hash（txhash）值粘贴到下面的框中，点击确认查询交易状态。</p>
-        <textarea v-model="txhash" placeholder="txhash..."></textarea>
-        <button ref="btn" class="submit" @click="statusTx">确认查询</button>
-        <div class="result" v-if="result && result.err">
-            <p class="stat notfind" >{{result.err}}</p>
-        </div>
-        <div class="result" v-if="result && !txhash">
-            <p>{{txhash_show}}</p>
-            <p :class="'stat '+result.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[result.status] }}</p>
-            <table v-if="result.block_height">
-                <tr><td>区块高度:</td><td>{{result.block_height}}</td></tr>
-                <tr v-if="result.status!='block'"><td>区块hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
-                <tr v-if="result.confirm_height"><td>已确认:</td><td>{{result.confirm_height}}</td></tr>
-            </table>
-        </div>
-    </div>
-</div>
 
 <div id="other" class="card white"><div class="container">
 

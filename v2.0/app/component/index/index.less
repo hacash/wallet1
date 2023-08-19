@@ -22,7 +22,9 @@ input, textarea{
         line-height: 40px;
         letter-spacing: 4px;
         color: #ffffffaa;
-
+        display: inline-block;
+        padding: 0 0 4px 0;
+        // border-bottom: 3px solid #ffffff99;
     }
 }
 
@@ -207,14 +209,165 @@ input, textarea{
     .i5 .bgico .fic { color: @cc5; }
     .i6 .bgico .fic { color: @cc6; }
 
-
-
-
-
-    
-
-
 }
+
+
+.card{
+    // margin-top: 50px;
+    padding: 50px 0;
+    background-image: linear-gradient(to top, #ffffff09, #ffffff00);
+    .box {
+        // padding-left: 24px;
+        // border-left: 1px solid #ffffff22;
+    }
+    h1.title {
+        color: #fff;
+        font-size: 22px;
+    }
+    p.tip {
+        font-size: 16px;
+        color: #999;
+        margin-top: 10px;
+        b {
+            font-size: inherit;
+            font-weight: inherit;
+            color: #bf9e6c;
+
+        }
+    }
+
+    textarea{
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ffffff44;
+        width: 100%;
+        min-height: 60px;
+        font-size: 13px;
+        line-height: 15px;
+        background: #ffffff10;
+        box-shadow: none;
+        border-radius: 8px;
+    }
+    textarea:focus {
+        background: #ffffff22;
+        border-color: #ffffff88;
+        box-shadow: 2px 2px 8px #000 inset;
+    }
+
+    button {
+        background: @thmcol;
+        line-height: 40px;
+        height: 40px;
+        padding: 0 20px;
+        font-size: 16px;
+        border-radius: 20%;
+        box-shadow: 3px 3px 1px @thmblue;
+    }
+    button:hover {
+        background: @orgcol;
+    }
+    button:active {
+        background: @thmcol;
+    }
+}
+
+
+
+#balance{
+
+    textarea{
+        min-height: 90px;
+    }
+
+    .result{
+        margin-top: 10px;
+        padding: 10px;
+        background: #ddd;
+        .total{
+            font-size: 13px;
+            b{
+                font-size: 14px;
+                font-weight: bold;
+                color: darkgreen;
+            }
+        }
+        .list{
+            li{
+                font-size: 13px;
+            }
+        }
+
+    }
+}
+
+
+#txstatus{
+    textarea{
+        min-height: 30px;
+    }
+    .result{
+        padding-top: 20px;
+        p{
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        p.stat{
+            padding: 5px 10px;
+            color: #fff;
+            background: darkkhaki;
+        }
+        p.stat.block{
+            background: darkslateblue;
+        }
+        p.stat.confirm{
+            background: cadetblue;
+        }
+        p.stat.notfind{
+            background: darkgray;
+        }
+        b.tt, .ok{
+            font-size: 16px;
+            color: darkgreen;
+            font-weight: bold;
+        }
+        table{
+            border-top: 1px #ddd solid;
+            border-left: 1px #ddd solid;
+            border-collapse: 0px;
+            border-spacing: 0px;
+            td{
+                padding: 5px 10px;
+                word-break: break-all;
+                border-bottom: 1px #ddd solid;
+                border-right: 1px #ddd solid;
+            }
+        }
+
+    }
+}
+
+
+#sendtx{
+    .result{
+        padding: 10px;
+        border: #ddd 1px dotted;
+        margin: 10px 0;
+        p{
+            font-size: 14px;
+        }
+        .ok{
+            color: darkgreen;
+        }
+        .err{
+            color: chocolate;
+        }
+    }
+    textarea{
+        min-height: 90px;
+    }
+}
+
 
 
 
@@ -342,52 +495,6 @@ p.wrap.w2 {
     margin-right: 20px;
 }
 
-.card{
-    padding: 40px 0;
-    h1.title {
-        color: #fff;
-        font-size: 20px;
-    }
-    p.tip {
-        font-size: 16px;
-        color: #999;
-        margin-top: 10px;
-        b {
-            font-size: inherit;
-            color: #c48c8c;
-
-        }
-    }
-
-    textarea{
-        display: block;
-        margin: 10px 0;
-        padding: 10px;
-        border: 1px #999 solid;
-        width: 100%;
-        min-height: 60px;
-        font-size: 13px;
-        line-height: 15px;
-    }
-
-}
-
-.card.dark {
-    background-color: #222;
-}
-
-.card.gray {
-    background-color: #2a2a2a;
-}
-
-
-.card.white {
-    border-bottom: 1px #ccc solid;
-    h1.title {
-        color: #555;
-    }
-}
-
 
 .card.wallet {
     border-bottom: none;
@@ -457,108 +564,6 @@ p.wrap.w2 {
         }
     }
 
-}
-
-
-#balance{
-
-    textarea{
-        min-height: 90px;
-    }
-
-    .result{
-        margin-top: 10px;
-        padding: 10px;
-        background: #ddd;
-        .total{
-            font-size: 13px;
-            b{
-                font-size: 14px;
-                font-weight: bold;
-                color: darkgreen;
-            }
-        }
-        .list{
-            li{
-                font-size: 13px;
-            }
-        }
-
-    }
-}
-
-
-#txstatus{
-    button.submit{
-        background: teal;
-    }
-    textarea{
-        min-height: 30px;
-    }
-    .result{
-        padding-top: 20px;
-        p{
-            margin-bottom: 10px;
-            word-break: break-all;
-        }
-        p.stat{
-            padding: 5px 10px;
-            color: #fff;
-            background: darkkhaki;
-        }
-        p.stat.block{
-            background: darkslateblue;
-        }
-        p.stat.confirm{
-            background: cadetblue;
-        }
-        p.stat.notfind{
-            background: darkgray;
-        }
-        b.tt, .ok{
-            font-size: 16px;
-            color: darkgreen;
-            font-weight: bold;
-        }
-        table{
-            border-top: 1px #ddd solid;
-            border-left: 1px #ddd solid;
-            border-collapse: 0px;
-            border-spacing: 0px;
-            td{
-                padding: 5px 10px;
-                word-break: break-all;
-                border-bottom: 1px #ddd solid;
-                border-right: 1px #ddd solid;
-            }
-        }
-
-    }
-}
-
-
-
-#sendtx{
-    button.submit{
-        background: darkslateblue;
-    }
-    .result{
-        padding: 10px;
-        border: #ddd 1px dotted;
-        margin: 10px 0;
-        p{
-            font-size: 14px;
-        }
-        .ok{
-            color: darkgreen;
-        }
-        .err{
-            color: chocolate;
-        }
-    }
-    textarea{
-        min-height: 90px;
-    }
 }
 
 
