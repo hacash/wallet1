@@ -1,70 +1,11 @@
 /* index.js */
 
-var createdAddr = null;
-var walletLeaveTip = $id('hdrtip1').innerText;
-var walletLeaveTip2 = $id('hdrtip2').innerText;
-window.onbeforeunload=function(e){
-    if(createdAddr){
-        e = e || window.event || {}
-        e.returnValue = walletLeaveTip
-        return ifCreateWallet
-    }
-}
-
-
-
-function createWalletRandom() {
-    var genbtckey = new Bitcoin.ECKey(false)
-    , address = genbtckey.getBitcoinAddressCompressed()
-    , prikeys = bytesToHex(genbtckey.getBitcoinPrivateKeyByteArray())
-    return {
-        genbtckey: genbtckey,
-        address: address,
-        prikeys: prikeys,
-    }
-}
-
-var vAppWallet = new Vue({
-    el: '#wallet',
-    data: {
-        addr: "",
-        prikey: "",
-    },
-    methods:{
-        selectCopy: function(e) {
-            var tarelm = e.target;
-            // select
-            var selection = window.getSelection();
-            selection.removeAllRanges();
-            var range = document.createRange();
-            range.selectNodeContents(tarelm.firstChild);
-            selection.addRange(range);
-            // copy
-            document.execCommand('copy');
-        },
-        create: function(){
-            var t = this
-            if(t.addr && !confirm(walletLeaveTip2)) {
-                return
-            }
-            // 创建钱包地址
-            setTimeout(function(){
-                var addrobj = createWalletRandom()
-                t.addr = addrobj.address;
-                t.prikey = addrobj.prikeys;
-                // set
-                createdAddr = t.addr+''
-            }, 30)
-        }
-    }
-})
-// vAppWallet.create()
-
 
 var vAppBalance = new Vue({
     el: '#balance',
     data: {
         addrs: "",
+        // addrs: "1MzNY1oA3kfgYi75zquj3SRUPYztzXHzK9,18Yt6UbnDKaXaBaMPnBdEHomRYVKwcGgyH",
         balances: [],
         totalamt: "",
     },
@@ -101,6 +42,8 @@ var vAppBalance = new Vue({
     }
 })
 
+// vAppBalance.getBalance()
+
 
 
 
@@ -110,6 +53,10 @@ var vAppTxStatus = new Vue({
         txhash: "",
         txhash_show: "",
         result: null,
+        // txhash_show: "40e43b578ceddcaa82362878c06a18997256e1b59fba1c3566fbcd2bc7fb544d",
+        // result: {status: "txpool"},
+        // result: {err: "txpool"},
+
     },
     methods:{
         statusTx: function(){
@@ -143,6 +90,8 @@ var vAppSendTx = new Vue({
     data: {
         txbody: "",
         result: null,
+        // result: {ret:0, txhash: "40e43b578ceddcaa82362878c06a18997256e1b59fba1c3566fbcd2bc7fb544d"}
+        // result: {ret:1, err: "Balance not enaght"}
     },
     methods:{
         sendTx: function(){

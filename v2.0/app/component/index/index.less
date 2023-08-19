@@ -28,7 +28,7 @@ input, textarea{
     }
 }
 
-#src {
+#scr {
     padding: 70px 0 40px 0;
     .box {
         display: flex;
@@ -235,10 +235,20 @@ input, textarea{
 
         }
     }
+    a.ck {
+        margin: 0 10px;
+        background: #127aca;
+        border-radius: 100px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+    }
 
     textarea{
         display: block;
-        margin: 10px 0;
+        margin: 20px 0 10px;
         padding: 10px;
         border: 1px solid #ffffff44;
         width: 100%;
@@ -248,6 +258,9 @@ input, textarea{
         background: #ffffff10;
         box-shadow: none;
         border-radius: 8px;
+    }
+    textarea:hover {
+        border-color: #ffffff66;
     }
     textarea:focus {
         background: #ffffff22;
@@ -282,19 +295,27 @@ input, textarea{
 
     .result{
         margin-top: 10px;
-        padding: 10px;
-        background: #ddd;
+        padding: 20px;
+        background: #dfcba547;
         .total{
-            font-size: 13px;
+            // font-size: 13px;
             b{
-                font-size: 14px;
+                font-size: inherit;
                 font-weight: bold;
-                color: darkgreen;
+                color: #e7bc6c;
             }
         }
         .list{
-            li{
-                font-size: 13px;
+            margin-top: 20px;
+            border-collapse: collapse;
+            .addr {
+                padding-right: 20px;
+            }
+            td {
+                padding: 5px 0;
+            }
+            tr {
+                border-bottom: 1px solid #ffffff44;
             }
         }
 
@@ -307,7 +328,9 @@ input, textarea{
         min-height: 30px;
     }
     .result{
-        padding-top: 20px;
+        margin-top: 12px;
+        padding: 10px;
+        border: 1px dotted #ffffff44;
         p{
             margin-bottom: 10px;
             word-break: break-all;
@@ -343,24 +366,34 @@ input, textarea{
                 border-right: 1px #ddd solid;
             }
         }
-
+        a.lk {
+            color: #127aca;
+            font-size: 14px;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }
 
 
 #sendtx{
     .result{
-        padding: 10px;
-        border: #ddd 1px dotted;
         margin: 10px 0;
         p{
-            font-size: 14px;
+            padding: 10px;
+            border: #ffffff66 1px dotted;
+            // font-size: 14px;
         }
         .ok{
             color: darkgreen;
+            border-color: darkgreen;
+            background: #00640044;
         }
         .err{
             color: chocolate;
+            border-color: chocolate;
+            background: #d2691e44;
         }
     }
     textarea{
@@ -372,271 +405,69 @@ input, textarea{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-a.dld{
-    display: inline-block;
-    font-size: 14px;
-    line-height: 20px;
-    color: #fff;
-    background-color: #3a85ce;
-    padding: 6px 20px;
-    border-radius: 100px;
-}
-a.dld.d2 {
-    background-color: #e0a231;
-}
-a.dld.d3 {
-    background-color: #0a9185;
-}
-a.dld.d4 {
-    background-color: #c75555;
-}
-a.dld.d5 {
-    background-color: #a8a6a8;
-}
-a.dld.d6 {
-    background-color: #723d96;
-}
-
-p.wrap {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #3a85ce2f;
-    border-radius: 4px;
-    .plat {
-        font-size: 14px;
-        padding: 4px 10px;
-        color: #3a85ce;
-    }
-    .tip {
-        font-size: 14px;
-        padding: 2px 2px 2px 12px ;
-    }
-}
-
-p.wrap.w2 {
-    background-color: transparent;
-    border: 1px solid #3a85ce66;
-}
-
-.download {
-    p.p {
-        color: #999;
-    }
-}
-
-
-.crtbtn {
-    padding: 10px 30px;
-    border-radius: 4px;
-    border: 1px #ffffff44 solid;
-    background-color: salmon;
-    background: linear-gradient(to bottom, salmon, #d86255);
-    &:hover {
-        background: linear-gradient(to bottom, salmon, salmon);
-        box-shadow: 2px 2px 4px #000000bb;            
-    }
-    &:active {
-        background: #d86255;
-        box-shadow: none;
-    }
-}
-
-.crtbtn.green {
-    background-color: green;
-    background: linear-gradient(to bottom, #0a9185, #02796f);
-    &:hover {
-        background: linear-gradient(to bottom, #0a9185, #0a9185);        
-    }
-    &:active {
-        background: #02796f;
-    }
-}
-
-.crtbtn.blue {
-    background-color: #3a85ce;
-    background: linear-gradient(to bottom, #3a85ce, #2970b8);
-    &:hover {
-        background: linear-gradient(to bottom, #3a85ce, #3a85ce);        
-    }
-    &:active {
-        background: #2970b8;
-    }
-}
-
-.crtbtn.gold {
-    background-color: #e0a231;
-    background: linear-gradient(to bottom, #e0a231, #c98e20);
-    &:hover {
-        background: linear-gradient(to bottom, #e0a231, #e0a231);        
-    }
-    &:active {
-        background: #c98e20;
-    }
-}
-
-.crtbtn.dld {
-    padding: 10px;
-    margin-right: 20px;
-}
-
-
-.card.wallet {
-    border-bottom: none;
-    .crts {
-        padding-top: 10px;
-    }
-    .addrwrap {
-        margin: 20px 0 0 0;
-        background-color: #ffffff99;
-        padding: 10px;
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px #999 solid;
-            background-color: #fff;
-            td {
-                border: 1px #999 solid;
-                padding: 10px;
-            }
-            td.max {
-                b {
-
-                    max-width: 400px;
-                    display: block;
-                    word-break: break-all;
-                }
-            }
-            .addr {
-                font-size: 18px;
-                color: #000;
-            }
-            .prikey {
-                color: #c75555;
-                font-size: 16px;
-            }
-            .tp {
-                font-size: 13px;
-                color: green;
-                max-width: 150px;
-                &.warning {
-                    color: red;
-                }
-            }
-            .tt {
-                font-size: 14px;
-                font-weight: bold;
-                color: #666;
-            }
-        }
-    }
-}
-
-.tip.warning {
-    color: red;
-}
-
-
-#download {
-
-
-    .wdtips {
-        .wrap {
-            display: block;
-            margin: 20px;
-            font-size: 14px;
-            color: #987;
-        }
-    }
-
-}
-
-
-#other {
-
-    border: none;
-}
-
-
-#github {
-    margin-top: 20px;
-    background: #dfdfdf;
-    .title {
-        color: #333;
-    }
-    .urls {
-        margin: 20px 0;
-        a {
-            color: #3a85ce;
-            word-break: break-all;
-        }
-    }
-}
-
-#footer {
-    margin: 0 !important;
-}
-
-
 @media screen and (max-width: 640px) {
 
-.card{
-    padding: 24px 0;
-}
+    .card{
+        padding: 30px 0;
+    }
 
-.card.wallet {
-
-    .addrwrap {
-        padding: 0;
-        table {
+    #scr {
+        text-align: center;
+        .box {
             display: block;
-            tr, td {
+        }
+        .ttw {
+            font-size: 58px;
+        }
+        .ttw, .desc {
+            transform: none;
+        }
+        .cvimg {
+            top: auto;
+            margin-top: 40px;
+            height: 128px;
+        }
+
+
+    }
+
+    #wlt {
+        .wrap {
+            display: block;
+        }
+        .item {
+            margin: 50px 0;
+            width: auto;
+        }
+    }
+
+    .pttl {
+        text-align: center;
+    }
+
+
+    #balance .result {
+        padding: 10px;
+        .list{
+            display: block;
+            width: 100%;
+            tbody, tr, td {
+                width: 100%;
                 display: block;
-                border: none;
+                margin: 0;
                 padding: 0;
-                max-width: none !important;
+                border: none;
             }
             tr {
-                padding: 10px;
+                padding: 10px 0;
+                border-bottom: 1px solid #ffffff44;
             }
-            b {
-                max-width: none !important;
-                word-break: break-all !important;
-            }
-            td.tt {
-                margin-bottom: 10px;
-                font-size: 18px;
+            .addr {
+                font-size: 14px;
+                padding: 0;
             }
         }
     }
-}
-
-
-#download {
-
-    .wdtips {
-        .wrap {
-            margin: 10px;
-        }
-    }
-
-}
-
 
 
 

@@ -1,8 +1,8 @@
 module.exports = {
 
     // page view
-    '/': 'VIEW:index',
-    '/old': 'VIEW:indexold',
+    '/new': 'VIEW:index',
+    '/': 'VIEW:indexold',
 
     // api test
     // '/api/data/get': 'api/data/get',

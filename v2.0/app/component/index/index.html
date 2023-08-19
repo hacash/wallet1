@@ -5,13 +5,13 @@
 :]
 
 
-<div id="src"><div class="container">
+<div id="scr"><div class="container">
     <div class="box [:=cnft:]">
         <div>
             <h1 class="ttw">[:=ind.scr[0]:]</h1>
             <p class="desc">[:=ind.scr[1]:]</p>
         </div>
-        <div><img src="/favicon.ico" /></div>
+        <div><img class="cvimg" src="/favicon.ico" /></div>
         <!-- <div><h1 class="ttw">FIND A HACASH WALLET</h1></div> -->
     </div>
 </div></div>
@@ -81,13 +81,26 @@
 
 <div id="sendtx" class="card">
     <div class="container"><div class="box">
-        <h1 class="title">[:=ind.stat[0]:]</h1>
-        <p class="tip">[:=ind.stat[1]:]</p>
+        <h1 class="title">[:=ind.send[0]:]</h1>
+        <p class="tip">[:=ind.send[1]:]</p>
         <textarea v-model="txbody" placeholder="txbody..."></textarea>
-        <button ref="btn" class="submit" @click="sendTx">[:=ind.stat[2]:]</button>
+        <button ref="btn" class="submit" @click="sendTx">[:=ind.send[2]:]</button>
         <div class="result" v-if="result">
-            <p class="ok" v-if="result.ret==0">交易发送成功！<br>txhash: {{result.txhash}}</p>
-            <p class="err" v-if="result.err">发送失败： {{result.err}}</p>
+            <p class="ok" v-if="result.ret==0">
+                [:if(cnft){:]
+                    交易发送成功！
+                [:}else{:]
+                    Transaction sent successfully! 
+                [:}:]
+                <br/><br/>The TxHash: {{result.txhash}} <a target="_blank" class="ck" :href="'https://explorer.hacash.org/tx/'+result.txhash">↪</a>
+            </p>
+            <p class="err" v-if="result.err">
+                [:if(cnft){:]
+                    发送失败：
+                [:}else{:]
+                    Send failed: 
+                [:}:] 
+                {{result.err}}</p>
         </div>
     </div></div>
 </div>
@@ -95,20 +108,56 @@
 
 <div id="txstatus" class="card">
     <div class="container"><div class="box">
-        <h1 class="title">查询交易状态</h1>
-        <p class="tip">将交易Hash（txhash）值粘贴到下面的框中，点击确认查询交易状态。</p>
+        <h1 class="title">[:=ind.stat[0]:]</h1>
+        <p class="tip">[:=ind.stat[1]:]</p>
         <textarea v-model="txhash" placeholder="txhash..."></textarea>
-        <button ref="btn" class="submit" @click="statusTx">确认查询</button>
+        <button ref="btn" class="submit" @click="statusTx">[:=ind.stat[2]:]</button>
         <div class="result" v-if="result && result.err">
             <p class="stat notfind" >{{result.err}}</p>
         </div>
         <div class="result" v-if="result && !txhash">
-            <p>{{txhash_show}}</p>
-            <p :class="'stat '+result.status" >当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'交易不存在'}[result.status] }}</p>
+            <p>TxHash: <a target="_blank" class="lk" :href="'https://explorer.hacash.org/tx/'+txhash_show">{{txhash_show}}</a></p>
+            <p :class="'stat '+result.status" >
+            
+                [:if(cnft){:]
+
+                    当前交易状态：{{ {'txpool':'交易池内等待打包','block':'交易已经打包正在挖矿','confirm':'已出块并成功确认','notfind':'区块链上不存在此交易'}[result.status] }}
+
+                [:}else{:]
+
+                    status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find in blockchain'}[result.status] }}
+
+                [:}:] 
+            
+            </p>
             <table v-if="result.block_height">
-                <tr><td>区块高度:</td><td>{{result.block_height}}</td></tr>
-                <tr v-if="result.status!='block'"><td>区块hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
-                <tr v-if="result.confirm_height"><td>已确认:</td><td>{{result.confirm_height}}</td></tr>
+                <tr><td>
+                    
+                [:if(cnft){:]
+                    区块高度:
+                [:}else{:]
+                    Block Height:
+                [:}:] 
+                
+                </td><td>{{result.block_height}}</td></tr>
+                <tr v-if="result.status!='block'"><td>
+                    
+                    [:if(cnft){:]
+                        区块Hash：
+                    [:}else{:]
+                        Block Hash:
+                    [:}:] 
+                
+                </td><td>{{result.block_hash.toUpperCase()}}</td></tr>
+                <tr v-if="result.confirm_height"><td>
+                    
+                    [:if(cnft){:]
+                        已确认区块数：
+                    [:}else{:]
+                        Confirmed Height:
+                    [:}:] 
+                
+                </td><td>{{result.confirm_height}}</td></tr>
             </table>
         </div>
     </div></div>
@@ -117,16 +166,27 @@
 
 <div id="balance" class="card">
     <div class="container"><div class="box">
-        <h1 class="title">查询HAC余额</h1>
-        <p class="tip">将钱包地址输入或粘贴到下面的框中，一行一个或用逗号、空格隔开。点击“确认查询”则显示账户余额。一次查询不超过20个账号地址。</p>
+        <h1 class="title">[:=ind.bnls[0]:]</h1>
+        <p class="tip">[:=ind.bnls[1]:]</p>
         <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
-        <button ref="btn" class="submit" @click="getBalance">确认查询</button>
+        <button ref="btn" class="submit" @click="getBalance">[:=ind.bnls[2]:]</button>
         <div class="result"v-if="balances.length>0">
-            <p class="total">{{balances.length}} 个地址总余额 : <b>{{totalamt}}</b></p>
+            <p class="total">
+                
+                [:if(cnft){:]
+                    {{balances.length}} 个地址总余额：
+                [:}else{:]
+                    Total balance of {{balances.length}} addresses:
+                [:}:] 
+                
+                <b>{{totalamt}}</b> <a target="_blank" class="ck" :href="'https://hacash.org/hac_unit?hac_amount='+totalamt">?</a></p>
             <table class="list">
                 <tr v-for="one in balances">
-                    <td>{{one.addr}} :</td>
-                    <td>{{one.amt}}</td>
+                    <td class="addr">{{one.addr}}</td>
+                    <td>
+                        {{one.amt}}
+                        <a target="_blank" class="ck" :href="'https://hacash.org/hac_unit?hac_amount='+one.amt">?</a>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -134,319 +194,4 @@
 </div>
 
 
-
-
-
-<br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/>  
-<br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/>  
-
-
-
-
-
-
-
-
-
-[: if(lang.useset == 'zh_CN') { :]
-
-<div id="hdrtip1" style="display: none;">离开、刷新或关闭页面后私钥也将丢弃，你是否已经备份好了私钥？</div>
-<div id="hdrtip2" style="display: none;">再次创建钱包将覆盖已经创建的私钥和地址的显示，你是否已经备份好了要使用的私钥和地址？</div>
-<div id="wallet" class="card gray wallet">
-    <div class="container">
-        <h1 class="title">快速创建 Hacash 钱包：</h1>
-        <p class="tip">立即随机创建一个有效的钱包地址，用于收取 Hacash 链上的 HAC 货币、 HACD 钻石和单向转移的 BTC 等资产。采用前端 JS 代码随机方式生成，您的私钥并不会在互联网上传输，也不会存储在任何远端的服务器上，安全可靠。<b>请务必备份好生成的私钥，且不要泄露，一旦丢失或泄露私钥，你的资产也将永远丢失无法找回！</b></p>
-        <div class="addrwrap" v-if="addr">
-            <table>
-                <tr><td class="tt">地址：</td><td><b class="slt addr" @click="selectCopy">{{addr}}</b></td><td class="tp">收取资产，可发送给别人</td></tr>
-                <tr><td class="tt">私钥：</td><td class="max"><b class="slt prikey" @click="selectCopy">{{prikey}} (私钥必须备份)</b></td><td class="tp warning">请务必安全备份，丢失或泄露私钥将导致资产永远无法找回！</td></tr>
-            </table>
-        </div>
-        <div class="crts">
-            <button class="crtbtn" @click="create">{{addr?'再次':''}}创建钱包</button>
-        </div>
-    </div>
-</div>
-
-
-<div class="card dark">
-    <div class="container">
-        <h1 class="title">在线网页钱包：</h1>
-        <p class="tip">打开一个URL网页即可立即使用，无需下载安装，方便快捷。请使用最新版网页浏览器（Safari,Chrome或火狐）打开。<b>但务必注意你的电脑是否出于安全环境之下，病毒、木马程序或恶意浏览器插件将可能盗取你的资产。</b></p>
-        <div class="crts">
-            <a href="https://wallet.hacash.org/webwallet/hacash_wallet.html" target="_blank"><button class="gold crtbtn">打开在线网页钱包</button></a>
-        </div>
-    </div>
-</div>
-
-
-<div class="card gray">
-    <div class="container">
-        <h1 class="title">离线网页钱包：</h1>
-        <p class="tip">可以下载使用的一个纯静态网页，兼容所有安装了最新版网页浏览器的设备，包括桌面电脑、手机、平板设备等。可离线也可在线使用，在离线环境中可完全确保私钥和资金的安全。</b></p>
-        <div class="crts">
-            <a href="https://download.hacash.org/hacash_offline_web_wallet.zip" target="_blank"><button class="blue crtbtn">⇩ 下载离线网页钱包</button></a>
-        </div>
-    </div>
-</div>
-
-<div class="card dark">
-    <div class="container">
-        <h1 class="title">离线桌面钱包：</h1>
-        <p class="tip">功能最全面，为资深用户和追求绝对安全的用户准备，可完全离线使用。</p>
-        
-        <!-- <h1 class="title" style="color: mediumseagreen;">下载离线安全桌面钱包：</h1> -->
-        <div class="crts">
-            <a href="https://download.hacash.org/hacash_desktop_wallet_windows64.zip" target="_blank"><button class="green crtbtn dld">⇩ Windows 64-bit</button></a>
-            <a href="https://download.hacash.org/hacash_desktop_wallet_ubuntu64.zip" target="_blank"><button class="green crtbtn dld">⇩ Ubuntu 64-bit</button></a>
-            <a href="https://download.hacash.org/hacash_desktop_wallet_macos64.zip" target="_blank"><button class="green crtbtn dld">⇩ MacOS 64-bit</button></a>
-        </div>
-
-    </div>
-</div>
-
-
-
-
-
-<!--
-<div id="download" class="card gray download">
-    <div class="container">
-        <p class="p wdtips">
-            Hacash 开发者社区开发了多种不同类型的钱包，涵盖离线桌面钱包、WEB离线钱包和WEB在线钱包等。每种钱包具备各自不同的特点和适用场景：
-            <span class="wrap">
-            1、桌面离线安全钱包：<br/>
-            2、WEB离线钱包：供下载使用的一个网页，兼容所有安装了最新版网页浏览器的设备，可离线也可在线使用<br/>
-            3、WEB在线钱包：打开一个URL网页即可立即使用，无需任何下载安装，最为便捷，但可能有潜在的资产安全风险
-            </span>
-            请按需要选择使用钱包。提示：如果下载的桌面离线钱包运行时遇到兼容问题，请升级操作系统或者下载使用WEB离线钱包。
-        </p>
-        <br/><br/>
-
-        <h1 class="title" style="color: mediumseagreen;">下载离线安全桌面钱包：</h1>
-        <p class="p"><br/><a class="dld" href="https://download.hacash.org/hacash_desktop_wallet_windows64.zip" target="_blank">⇩ 下载离线桌面安全钱包（Windows 64-bit 版本）</a></p>
-        <p class="p"><br/><a class="dld d2" href="https://download.hacash.org/hacash_desktop_wallet_ubuntu64.zip" target="_blank">⇩ 下载离线桌面安全钱包（Ubuntu 64-bit 版本）</a></p>
-        <p class="p"><br/><a class="dld d3" href="https://download.hacash.org/hacash_desktop_wallet_macos64.zip" target="_blank">⇩下载离线桌面安全钱包（MacOS 64-bit版本）</a></p>
-        
-        <br/><br/>
-        <h1 class="title" style="color: #c75555;">下载网页钱包：</h1>
-        <p class="p wrap">
-            <i class="plat">Windows, Linux, MacOS and Android:</i>
-            <br/><a class="dld d4" href="https://download.hacash.org/hacash_offline_web_wallet.zip" target="_blank">⇩ 下载离线网页钱包 (推荐使用)</a><br/><i class="tip">使用最新版网页浏览器打开（Safari,Chrome或火狐）</i></p>
-        <p class="p"><br/>矿工使用：<a class="dld d5" href="https://download.hacash.org/hacash_web_wallet_html.zip" target="_blank">⇩ 下载网页钱包（需配合全节点使用）</a></p>
-
-        <br/><br/>  
-        <h1 class="title" style="color: #9027b1;">使用在线网页钱包:</h1>
-        <p class="p wrap w2">
-            <i class="plat">iPhnone或其它:</i>
-            <br/><a class="dld d6" href="https://wallet.hacash.org/webwallet/hacash_wallet.html" target="_blank">立即使用在线网页钱包 ( 无需下载 )</a><br/><i class="tip">须用最新版浏览器打开（Safari,Chrome或火狐）</i></p>
-    </div>
-</div>  
--->
-
-<div id="other" class="card white"><div class="container">
-
-    <p class="p"><br/>矿工使用：<a class="dld d2" href="https://download.hacash.org/hacash_web_wallet_html.zip" target="_blank">⇩ 下载网页钱包（需配合全节点使用）</a></p>
-   
-</div></div>
-
-
-<div id="github" class="card"><div class="container">
-    <h1 class="title">钱包开源代码 Github 地址</h1>
-    <p class="tip">Hacash 开发者社区开发的所有类型钱包均来自开源社区的贡献，如果您需要验证钱包代码的安全性、自己编译部署钱包、自定义修改钱包功能或加入钱包开发者社区，以下是各钱包开源代码的地址：</p>
-    <p class="urls">
-        <b>本网站：</b><a target="_blank" href="https://github.com/hacash/wallet">https://github.com/hacash/wallet</a><br>
-        <b>离线安全桌面钱包：</b><a target="_blank" href="https://github.com/hacash/pcwallet">https://github.com/hacash/pcwallet</a><br>
-        <b>网页钱包 JS SDK：</b><a target="_blank" href="https://github.com/hacash/jssdk">https://github.com/hacash/jssdk</a><br>
-        <b>网页钱包（在线及离线）：</b><a target="_blank" href="https://github.com/hacash/jssdk/tree/main/webwallet">https://github.com/hacash/jssdk/tree/main/webwallet</a><br>
-        <b>命令行钱包工具：</b><a target="_blank" href="https://github.com/hacash/cmdwallet">https://github.com/hacash/cmdwallet</a><br>
-    </p>
-    
-</div></div>
-
-
-[: }else{ :]
-
-
-<div id="hdrtip1" style="display: none;">The private key will be discarded after leaving, refreshing or closing the page. Have you backed up the private key?</div>
-<div id="hdrtip2" style="display: none;">Creating the wallet again will overwrite the display of the created private key and address. Have you backed up the private key and address to use?</div>
-<div id="wallet" class="card gray wallet">
-    <div class="container">
-        <h1 class="title">Create a Hacash wallet:</h1>
-        <p class="tip">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain. The  wallet is generated randomly by  front-end JS code. Your private key will not be transmitted on the Internet or stored on any remote server. It is safe and reliable. <b>Please make sure to back up the generated private key and do not disclose it. Once you lose or disclose the private key, your assets will be lost forever. </b></p>
-        <div class="addrwrap" v-show="addr">
-            <table>
-                <tr><td class="tt">Address:</td><td><b class="slt addr" @click="selectCopy">{{addr}}</b></td><td class="tp">For collection, can show to others</td></tr>
-                <tr><td class="tt">Private key:</td><td class="max"><b class="slt prikey" @click="selectCopy">{{prikey}} (Must be backed up)</b></td><td class="tp warning">Please be sure to back up private key safely. The loss or disclosure of the private key will cause the asset to lost forever!</td></tr>
-            </table>
-        </div>
-        <div class="crts">
-            <button class="crtbtn" @click="create">Create Wallet{{addr?' Again':''}}</button>
-        </div>
-    </div>
-</div>
-
-
-<div class="card dark">
-    <div class="container">
-        <h1 class="title">WEB Online Wallet:</h1>
-        <p class="tip">Open a URL webpage and use it immediately without any download and installation, which is the most convenient, but may have potential asset security risks</b></p>
-        <div class="crts">
-            <a href="https://wallet.hacash.org/webwallet/hacash_wallet.html" target="_blank"><button class="gold crtbtn">Use Online Wallet</button></a>
-        </div>
-    </div>
-</div>
-
-
-<div class="card gray">
-    <div class="container">
-        <h1 class="title">WEB Offline Wallet:</h1>
-        <p class="tip">a single webpage by download, compatible with all devices with the latest version of web browser installed, which can be used offline or online.</b></p>
-        <div class="crts">
-            <a href="https://download.hacash.org/hacash_offline_web_wallet.zip" target="_blank"><button class="blue crtbtn">⇩ Download Offline Web Wallet</button></a>
-        </div>
-    </div>
-</div>
-
-<div class="card dark">
-    <div class="container">
-        <h1 class="title"> Offline Security Desktop Wallet:</h1>
-        <p class="tip">the most comprehensive function, prepared for experienced users and users who pursue absolute security, and can be used completely offline</p>
-        <div class="crts">
-            <a href="https://download.hacash.org/hacash_desktop_wallet_windows64.zip" target="_blank"><button class="green crtbtn dld">⇩ Windows 64-bit</button></a>
-            <a href="https://download.hacash.org/hacash_desktop_wallet_ubuntu64.zip" target="_blank"><button class="green crtbtn dld">⇩ Ubuntu 64-bit</button></a>
-            <a href="https://download.hacash.org/hacash_desktop_wallet_macos64.zip" target="_blank"><button class="green crtbtn dld">⇩ MacOS 64-bit</button></a>
-        </div>
-
-    </div>
-</div>
-
-
-
-
-
-
-<!--
-<div id="download" class="card download">
-    <div class="container">
-
-        <p class="p wdtips">
-        The Hacash developer community has developed many different types of wallets, including Offline Secure Desktop Wallet, WEB Offline Wallet, and WEB Online Wallet. Each wallet has its own characteristics and applicable scenarios:
-        <span class="wrap">
-            1. Offline Security Desktop Wallet: the most comprehensive function, prepared for experienced users and users who pursue absolute security, and can be used completely offline<br>
-            2. WEB Offline Wallet: a single webpage by download, compatible with all devices with the latest version of web browser installed, which can be used offline or online<br>
-            3. WEB Online Wallet: Open a URL webpage and use it immediately without any download and installation, which is the most convenient, but may have potential asset security risks
-        </span>
-        Please choose to use the wallet as needed. NOTE: If the downloaded Offline Desktop Wallet encounters compatibility problems when running, please upgrade or change the operating system or download and use the WEB Offline Wallet.
-        </p>
-        <br/><br/>
-
-
-        <h1 class="title" style="color: mediumseagreen;">Download Offline Secure Desktop Wallet:</h1>
-        <p class="p"><br/><a class="dld" href="https://download.hacash.org/hacash_desktop_wallet_windows64.zip" target="_blank">⇩ Download Offline Desktop Wallet for Windows 64-bit</a></p>
-        <p class="p"><br/><a class="dld d2" href="https://download.hacash.org/hacash_desktop_wallet_ubuntu64.zip" target="_blank">⇩ Download Offline Desktop Wallet  for Ubuntu 64-bit</a></p>
-        <p class="p"><br/><a class="dld d3" href="https://download.hacash.org/hacash_desktop_wallet_macos64.zip" target="_blank">⇩ Download Offline Desktop Wallet  for MacOS 64-bit</a></p>
-        
-        <br/><br/>
-        <h1 class="title" style="color: #c75555;">Download Web Wallet:</h1>
-        <p class="p wrap">
-            <i class="plat">Windows, Linux, MacOS and Android:</i>
-            <br/><a class="dld d4" href="https://download.hacash.org/hacash_offline_web_wallet.zip" target="_blank">⇩ Download Offline Web Wallet (Recommended)</a><br/><i class="tip">Open the html file with latest web browser</i></p>
-        <p class="p"><br/>For miner: <a class="dld d5" href="https://download.hacash.org/hacash_web_wallet_html.zip" target="_blank">⇩ Download full node web wallet</a></p>
-
-        <br/><br/>  
-        <h1 class="title" style="color: #9027b1;">Use Online Web Wallet:</h1>
-        <p class="p wrap w2">
-            <i class="plat">iPhone and others:</i>
-            <br/><a class="dld d6" href="https://wallet.hacash.org/webwallet/hacash_wallet.html" target="_blank">Use Online Web Wallet ( NOT download )</a><br/><i class="tip">Need use with the latest web browser</i></p>
-    </div>
-</div>  
--->
-
-<div id="balance" class="card white">
-    <div class="container">
-        <h1 class="title">Check Balance:</h1>
-        <p class="tip">Type or paste the wallet address into the box below, one by one or separated by commas and spaces. Click "confirm query" to display the account balance. No more than 20 account addresses can be queried at a time.</p>
-        <textarea v-model="addrs" placeholder="Example: 1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
-        <button ref="btn" class="submit" @click="getBalance">Confirm Query</button>
-        <div class="result"v-if="balances.length>0">
-            <p class="total">Total balance of {{balances.length}} addresses : <b>{{totalamt}}</b></p>
-            <table class="list">
-                <tr v-for="one in balances">
-                    <td>{{one.addr}} :</td>
-                    <td>{{one.amt}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div id="sendtx" class="card white">
-    <div class="container">
-        <h1 class="title">Send Transaction:</h1>
-        <p class="tip">Paste the txbody value of the transaction into the box below, and click confirm to submit it to the blockchain network for confirmation.</p>
-        <textarea v-model="txbody" placeholder="txbody..."></textarea>
-        <button ref="btn" class="submit" @click="sendTx">Send Tx</button>
-        <div class="result" v-if="result">
-            <p class="ok" v-if="result.ret==0">Transaction sent successfully! <br>txhash: {{result.txhash}}</p>
-            <p class="err" v-if="result.err">Send failed: {{result.err}}</p>
-        </div>
-    </div>
-</div>
-
-
-<div id="txstatus" class="card white">
-    <div class="container">
-        <h1 class="title">Check Transaction Status:</h1>
-        <p class="tip">Paste the transaction hash (txhash) value into the box below, and click "Query" to query the transaction status.</p>
-        <textarea v-model="txhash" placeholder="txhash..."></textarea>
-        <button ref="btn" class="submit" @click="statusTx">Query</button>
-        <div class="result" v-if="result && result.err">
-            <p class="stat notfind" >{{result.err}}</p>
-        </div>
-        <div class="result" v-if="result && !txhash">
-            <p>{{txhash_show}}</p>
-            <p :class="'stat '+result.status" >status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[result.status] }}</p>
-            <table v-if="result.block_height">
-                <tr><td>Block height:</td><td>{{result.block_height}}</td></tr>
-                <tr v-if="result.status!='block'"><td>Block hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
-                <tr v-if="result.confirm_height"><td>Confirmed height:</td><td>{{result.confirm_height}}</td></tr>
-            </table>
-
-        </div>
-    </div>
-</div>
-
-<div id="other" class="card white"><div class="container">
-
-    <p class="p"><br/>For miner: <a class="dld d2" href="https://download.hacash.org/hacash_web_wallet_html.zip" target="_blank">⇩ Download full node web wallet</a></p>
-   
-</div></div>
-
-<div id="github" class="card white"><div class="container">
-    <h1 class="title">Wallet open source code on Github</h1>
-    <p class="tip">All types of wallets developed by the Hacash developer community are contributed by the open source community. If you need to verify the security of the wallet code, compile and deploy the wallet yourself, customize the wallet function or join the wallet developer community, the following is the open source code of each wallet address:</p>
-    <p class="urls">
-        <b>This Website:</b><a target="_blank" href="https://github.com/hacash/wallet">https://github.com/hacash/wallet</a><br>
-        <b>Offline Secure Desktop Wallet:</b><a target="_blank" href="https://github.com/hacash/pcwallet">https://github.com/hacash/pcwallet</a><br>
-        <b>Web Wallet JS SDK:</b><a target="_blank" href="https://github.com/hacash/jssdk">https://github.com/hacash/jssdk</a><br>
-        <b>Web Wallet (Online or Offline)</b><a target="_blank" href="https://github.com/hacash/jssdk/tree/main/webwallet">https://github.com/hacash/jssdk/tree/main/webwallet</a><br>
-        <b>CMD Wallet:</b><a target="_blank" href="https://github.com/hacash/cmdwallet">https://github.com/hacash/cmdwallet</a><br>
-    </p>
-    
-</div></div>
-
-
-
-[: } :]
-
-
-
-<script src="/jslib/hacaddress.min.js"></script>
 
