@@ -4,20 +4,24 @@
 
 .container {
     margin: 0 auto;
-    max-width: 880px;
+    max-width: 980px;
     // background-color: #f3f3f3;
 }
 
-    
+@orgcol: #f7af34ff;
+// @thmcol: #f7af34;
+@thmcol: #da8c36ff;
+@thmblue: #0b3a5bff;
 
 
 #topbar {
+    position: relative;
     user-select: none;
-    @tbh: 30px;
+    z-index: 10;
+
+    @tbh: 32px;
     @tsft: 0.25s;
-
-    @actvcl: cadetblue;
-
+    
     * {
         transition: all @tsft ease-out;
         color: whitesmoke;
@@ -30,10 +34,11 @@
     margin: 0;
     padding: 1px 0;
 
-    background-color: #222;
+    background-color: #3f3f3f;
     width: 100%;
 
-    @itemshowcl: #ffffff88;
+    @itemshowcl: #aaa;
+
     .container {
         padding: 1px 0;
     }
@@ -46,24 +51,29 @@
     .logoft {
         float: left;
         cursor: pointer;
-        b {
+        position: relative;
+        top: 1px;
+        .ico {
             display: inline-block;
-            vertical-align: baseline;
+            height: @tbh;
+            vertical-align: top;
+            position: relative;
+            top: -3px;
+            margin-right: 10px;
+            // transform: scale(1.25);
+        }
+        b {
+            vertical-align: top;
+            display: inline-block;
+            vertical-align: top;
             line-height: @tbh;
             height: @tbh;
-            color: @actvcl;
-        }
-        .hacash {
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .tblG {
-            transition: all @tsft;
-            position: relative;
-            top: -1px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-right: 5px;  
+            font-size: 26px;
+            color: @thmcol;
+            font-weight: normal;
+            text-shadow: 2px 2px 1px @thmblue;
+            transform: scaleX(0.5);
+            transform-origin: left;
         }
     }
 
@@ -104,9 +114,9 @@
             color: @itemshowcl;
         }
         .lk:hover {
-            color: @actvcl;
+            color: @orgcol;
             i {
-                color: @actvcl;
+                color: @orgcol;
             }
         }
         .b {
@@ -132,11 +142,11 @@
             min-width: 128px;
             display: none;
             background: #222;
-            border-top: 1px solid @actvcl;
+            border-top: 1px solid @orgcol;
             li {
                 a {
                     display: block;
-                    text-align: right;
+                    text-align: left;
                     padding: 5px 20px;
                     line-height: @tbh;
                     height: @tbh;
@@ -146,16 +156,20 @@
                 }
                 a:hover {
                     background-color: #00000022;
-                    color: @actvcl;
+                    color: @orgcol;
                 }
             }
         }
     }
+    .item.end {
+        padding-right: 0;
+        margin-right: 0;
+    }
     .item:hover {
         .b {
-            color: @actvcl;
+            color: @orgcol;
             i {
-                color: @actvcl;
+                color: @orgcol;
             }
             &::after{
                 content: "\e80a";

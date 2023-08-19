@@ -15,6 +15,7 @@ static/jscss/*.css
 */static/jscss/*.js
 */static/jscss/*.css
 */app/component/*/*.css
+*/app/component/*/*/*.css
 
 config.use.js
 

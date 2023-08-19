@@ -2,10 +2,11 @@ module.exports = {
 
     // page view
     '/': 'VIEW:index',
+    '/old': 'VIEW:indexold',
 
     // api test
-    '/api/data/get': 'api/data/get',
-    'POST:/api/data/save': 'api/data/save',
+    // '/api/data/get': 'api/data/get',
+    // 'POST:/api/data/save': 'api/data/save',
 
     ///////////////////////////
 
