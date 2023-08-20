@@ -1,10 +1,13 @@
 /* footer.less */
 
 #footer {
-    margin-top: 200px;
+    margin-top: 160px;
     // padding: 30px 0;
     // background-color: #222;
+    background-image: linear-gradient(to bottom, #ffffff11, #000000ff);
     color: #ffe4c488;
+    border-top: 1px solid #ffffff33;
+    padding-top: 50px;
     .bbtl {
         margin-top: 60px;
         padding: 20px 0;
@@ -15,11 +18,14 @@
 
 .source {
     text-align: center;
+    // background-color: #ffffff11;
     * {
         color: #ffffff99;
+        font-size: 15px !important;
     }
     .title {
-        font-size: 40px;
+        font-size: 32px;
+        display: none;
     }
     .tip {
         margin: 40px 0;
@@ -32,7 +38,7 @@
             padding: 10px;
         }
         tr {
-            border-bottom: 1px solid #ffffff66;
+            border-bottom: 1px dotted #ffffff33;
         }
         a {
             color: cadetblue;
@@ -40,3 +46,28 @@
     }
 }
 
+
+
+
+@media screen and (max-width: 640px) {
+
+    .source {
+        table {
+            display: block;
+            tr, td {
+                display: block;
+                padding: 0;
+            }
+            tr {
+                padding: 10px;
+            }
+            .lkls {
+                word-break: break-all;
+                font-size: 14px;
+            }
+        }
+
+    }
+
+
+}

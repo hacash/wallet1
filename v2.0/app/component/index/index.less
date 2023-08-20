@@ -9,8 +9,17 @@ html, body {
     background: #000;
 }
 
-input, textarea{
-    box-shadow: 2px 2px 3px #eee inset;
+.container {
+    max-width: 980px;
+}
+
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
 }
 
 .pttl {
@@ -28,8 +37,21 @@ input, textarea{
     }
 }
 
+#scr.hide {
+    opacity: 0;
+    img {
+        opacity: 0;
+        filter: blur(14px);
+        transform: rotate3d(1, 1, 0, 120deg) scale(1.5);
+    }
+} 
 #scr {
-    padding: 70px 0 40px 0;
+
+    transition: all 1.5s;
+
+    opacity: 1;
+
+    padding: 130px 0 40px 0;
     .box {
         display: flex;
         // display: block;
@@ -37,6 +59,14 @@ input, textarea{
         justify-content: space-between;
     }
     img {
+
+
+        transition: all 1.5s;
+
+        opacity: 1;
+        filter: blur(0px);
+        transform: rotate3d(1, 1, 1, 0deg) scale(1);
+
         position: relative;
         top: -20px;
         padding: 14px;
@@ -78,8 +108,14 @@ input, textarea{
 }
 
 
+#wlt.anim {
+    top: -360px;
+}
 
 #wlt {
+    transition: all 0.5s;
+    position: relative;
+    top: 0px;
     .wrap {
         display: flex;
         flex-wrap: wrap;
@@ -87,6 +123,11 @@ input, textarea{
         
     }
     .item {
+        // hide
+        opacity: 0;
+        filter: blur(10px);
+        transform: perspective(400px) rotate3d(0,1,0,60deg);
+
         transition: all 0.5s;
         background: #ffffff00;
         width: 30%;
@@ -95,6 +136,12 @@ input, textarea{
         border-radius: 16%;
         box-shadow: 4px 4px 1px @thmblue, 10px 10px 16px #ffffff33 inset;
         overflow: hidden;
+        backface-visibility: hidden;
+    }
+    .item.show {
+        opacity: 1;
+        filter: blur(0px);
+        transform: perspective(400px) rotate3d(0,1,0,0deg);
     }
     .box {
         display: block;
@@ -212,7 +259,7 @@ input, textarea{
 }
 
 
-.card{
+.card {
     // margin-top: 50px;
     padding: 50px 0;
     background-image: linear-gradient(to top, #ffffff09, #ffffff00);
@@ -246,43 +293,6 @@ input, textarea{
         text-align: center;
     }
 
-    textarea{
-        display: block;
-        margin: 20px 0 10px;
-        padding: 10px;
-        border: 1px solid #ffffff44;
-        width: 100%;
-        min-height: 60px;
-        font-size: 13px;
-        line-height: 15px;
-        background: #ffffff10;
-        box-shadow: none;
-        border-radius: 8px;
-    }
-    textarea:hover {
-        border-color: #ffffff66;
-    }
-    textarea:focus {
-        background: #ffffff22;
-        border-color: #ffffff88;
-        box-shadow: 2px 2px 8px #000 inset;
-    }
-
-    button {
-        background: @thmcol;
-        line-height: 40px;
-        height: 40px;
-        padding: 0 20px;
-        font-size: 16px;
-        border-radius: 20%;
-        box-shadow: 3px 3px 1px @thmblue;
-    }
-    button:hover {
-        background: @orgcol;
-    }
-    button:active {
-        background: @thmcol;
-    }
 }
 
 

@@ -1,0 +1,126 @@
+
+#create {
+
+    .card.hide {
+        opacity: 0;
+        filter: blur(14px);
+        transform: rotate3d(1, 1, 0, 120deg) scale(1.5);
+    }
+
+    .card {
+
+
+        transition: all 1.5s;
+
+        opacity: 1;
+        filter: blur(0px);
+        transform: rotate3d(1, 1, 1, 0deg) scale(1);
+
+
+        position: relative;
+        display: block;
+        padding: 80px;
+        margin: 100px 80px;
+        background-color: #ffffff1f;
+        background-image: linear-gradient(to right bottom
+        , #ffffff22, #da8c3644);
+        border-radius: 20px;
+        border: 1px solid #ffffff33;
+        box-shadow: 4px 4px 1px @thmblue;
+        overflow: hidden;
+    }
+
+    .card * {
+        text-shadow: 1px 1px 0 #000, 0 0 8px #00000088;
+    }
+
+    .con {
+        position: relative;
+        z-index: 2;
+    }
+
+
+    .bgico {
+        transition: all 0.5s;
+        position: absolute;
+        z-index: 1;
+        transform-origin: right bottom;
+        transform: rotate(-30deg) scale(1);
+        right: -70px;
+        bottom: 70px;
+        .fic {
+            transition: all 0.5s;
+            font-size: 400px;
+            opacity: 0.8; 
+            color: #ffffff33;
+            text-shadow: 140px 150px 24px #0b3a5b66;
+            filter: blur(10px);
+        }
+    }
+
+
+    .title {
+        font-size: 38px;
+    }
+    .tip {
+        font-size: 18px;
+        margin: 20px 0;
+    }
+
+    .addrwrap {
+        padding: 20px;
+        background-color: #ffffff22;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        label {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        span {
+            margin-top: 5px;
+            display: block;
+            font-size: 14px;
+            color:teal;
+            &.warn {
+                color: indianred;
+            }
+        }
+        .adr {
+            font-size: 22px;
+            word-break: break-all;
+        }
+    
+        .prikey {
+            padding: 12px;
+            border: 1px solid #ffffff44;
+            border-radius: 8px;
+            word-break: break-all;
+            background: #00000044;
+        }    
+
+    }
+
+
+}
+
+
+@media screen and (max-width: 640px) {
+
+
+    #create {
+        .card {
+            margin: 80px 5px;
+            padding: 15px;
+        }
+
+
+        .addrwrap {
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+    }
+
+}

@@ -18,7 +18,8 @@ exports.datas = async function(cnf, ctx)
     return {
         // isMobile: types.isMobile(ctx.req),
         // numToThousands: utilnumber.numToThousands,
-        title: "Hacash Wallet Center"
+        // title: "Hacash Wallet Center"
+        title: "",
     }
 }
 

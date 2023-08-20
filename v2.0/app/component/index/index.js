@@ -1,6 +1,35 @@
 /* index.js */
 
 
+var $wlt = document.getElementById('wlt')
+, $wltits = $wlt.getElementsByClassName('item')
+, wltitslen = $wltits.length
+, wltitsidx = 0;
+
+function showOneWLT() {
+    $wltits[wltitsidx].classList.add('show')
+    wltitsidx++
+    if(wltitsidx < wltitslen){
+        setTimeout(showOneWLT, 180)
+    }
+}
+showOneWLT()
+
+
+var $scr = document.getElementById('scr')
+setTimeout(function(){
+    $wlt.classList.remove('anim')
+}, 1800)
+setTimeout(function(){
+    $scr.classList.remove('hide')
+}, 2200)
+
+
+
+/****************************************** */
+
+
+
 var vAppBalance = new Vue({
     el: '#balance',
     data: {

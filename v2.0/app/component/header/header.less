@@ -4,7 +4,7 @@
 
 .container {
     margin: 0 auto;
-    max-width: 980px;
+    max-width: 820px;
     // background-color: #f3f3f3;
 }
 
@@ -12,6 +12,47 @@
 // @thmcol: #f7af34;
 @thmcol: #da8c36ff;
 @thmblue: #0b3a5bff;
+
+
+textarea{
+    display: block;
+    margin: 20px 0 10px;
+    padding: 10px;
+    border: 1px solid #ffffff44;
+    width: 100%;
+    min-height: 60px;
+    font-size: 13px;
+    line-height: 15px;
+    background: #ffffff10;
+    box-shadow: none;
+    border-radius: 8px;
+}
+textarea:hover {
+    border-color: #ffffff66;
+}
+textarea:focus {
+    background: #ffffff22;
+    border-color: #ffffff88;
+    box-shadow: 2px 2px 8px #000 inset;
+}
+
+button {
+    background: @thmcol;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 16px;
+    border-radius: 20%;
+    box-shadow: 3px 3px 1px @thmblue;
+}
+button:hover {
+    background: @orgcol;
+}
+button:active {
+    background: @thmcol;
+}
+
+
 
 
 #topbar {
@@ -110,8 +151,9 @@
             line-height: @tbh;
             height: @tbh;
             font-weight: normal;
-            font-size: 18px;
+            font-size: 16px;
             color: @itemshowcl;
+            // border: 1px solid @orgcol;
         }
         .lk:hover {
             color: @orgcol;
@@ -121,7 +163,6 @@
         }
         .b {
             color: @itemshowcl;
-            font-size: 13px;
             &::after{
                 content: "\e807";
                 margin-left: 5px;
@@ -130,6 +171,9 @@
             i {
                 font-weight: normal;
             }
+        }
+        b.lang {
+            font-size: 13px;
         }
         .b.nt::after{
             content: "";
@@ -223,6 +267,19 @@
     #topbar {
         .container {
             margin: 0;
+        }
+        .hacash {
+            display: none !important;
+        }
+        .navs {
+            .item {
+                margin: 0;
+                padding: 0 8px;
+            }
+        }
+        .logoft {
+            position: relative;
+            left: 8px;
         }
     }
 

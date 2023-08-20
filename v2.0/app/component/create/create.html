@@ -1,0 +1,86 @@
+[:
+    var iscn = lang.useset == 'zh_CN';
+:]
+
+[: if(iscn) { :]
+[:}else{:]
+[:}:]
+
+<div id="create"><div class="container">
+
+    <div class="card hide">
+        <div class="con">
+            <div v-if="!addr">
+                <h1 class="title">
+                    [: if(iscn) { :]
+                    快速创建 Hacash 钱包
+                    [:}else{:]
+                    Create a Hacash Wallet
+                    [:}:]
+                </h1>
+                <p class="tip">
+                    [: if(iscn) { :]
+                    立即创建一个有效可用的 Hacash 钱包地址，用于收取链上的 HAC、 HACD和单向转移的 BTC 等资产。<b>请务必备份且保密好生成的私钥</b>。
+                    [:}else{:]
+                    Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC.
+                    [:}:]
+                </p>
+            </div>
+            <div class="addrwrap" v-if="addr">
+                <label>[:if(iscn){:] 地址：[:}else{:] Address: [:}:]</label>
+                <p class="adr" @click="selectCopy">{{addr}}</p>
+                <span>
+                    [:if(iscn){:]
+                        收取资产，可发送给别人
+                    [:}else{:]
+                        For collection, can show to others 
+                    [:}:]
+                </span>
+                <br/>
+                <label>[:if(iscn){:] 私钥：[:}else{:] Private key: [:}:]</label>
+                <p class="prikey" @click="selectCopy">{{prikey}}</p>
+                <span class="warn">
+                    [:if(iscn){:]
+                        请务必安全备份，丢失或泄露私钥将导致资产永远无法找回！
+                    [:}else{:]
+                        Please be sure to back up private key safely. The loss or disclosure of the private key will cause the asset to lost forever! 
+                    [:}:]
+                </span>
+                <br/>
+
+            </div>
+            <div class="crts">
+                <button class="crtbtn" @click="create">
+                    [: if(iscn) { :]
+                    {{addr?'再次':'立即'}}创建钱包
+                    [:}else{:]
+                    Create Wallet{{addr?' Again':' Now'}}
+                    [:}:]
+                </button>
+            </div>
+        </div>
+        <div class="bgico"><i class="fic">&#xe6b3;</i></div>
+    </div>
+    
+
+
+
+</div></div>
+
+
+
+[: if(iscn) { :]
+
+    <div id="hdrtip1" style="display: none;">离开、刷新或关闭页面后私钥也将丢弃，你是否已经备份好了私钥？</div>
+    <div id="hdrtip2" style="display: none;">再次创建钱包将覆盖已经创建的私钥和地址的显示，你是否已经备份好了要使用的私钥和地址？</div>
+
+[: }else{ :]
+
+    <div id="hdrtip1" style="display: none;">The private key will be discarded after leaving, refreshing or closing the page. Have you backed up the private key?</div>
+    <div id="hdrtip2" style="display: none;">Creating the wallet again will overwrite the display of the created private key and address. Have you backed up the private key and address to use?</div>
+
+[: } :]    
+
+
+<script src="/jslib/hacaddress.min.js"></script>
+

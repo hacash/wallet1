@@ -1,12 +1,23 @@
-
+[:
+    var cmn = lang.common;
+:]
 
 <div id="topbar" class="hide"><div class="container">
 
     <div class="box">
         <a class="logoft bktt" title="Back to top" href="/">
-            <img class="ico" src="/favicon.ico" /><b class="hacash">[:=lang.index.topbarttl:]</b>
+            <img class="ico" src="/favicon.ico" /><b class="hacash">[:=cmn.topbarttl:]</b>
         </a>
         <div class="navs">
+
+            <a class="item" href="/create">
+                <b class="lk">[:=cmn.tbits[1]:]</b>
+            </a>
+            <a class="item" href="/#tools">
+                <b class="lk">[:=cmn.tbits[0]:]</b>
+            </a>
+
+
             <div class="item end">
                 <!-- 
                     'fr_FR': 'Français',
@@ -16,7 +27,7 @@
                     'zh_CN': '🇨🇳 简体中文',
                 }; :]
                 <!-- <b class="b"><i class="ftico">&#xf1ab;</i>[:=langlist[lang.useset]:]</b> -->
-                <b class="b nt">
+                <b class="b nt lang">
                     EN/中
                     [:if(lang.useset=="en_US"){:]🇺🇸[:}else{:]🇨🇳[:}:]
                 </b>
