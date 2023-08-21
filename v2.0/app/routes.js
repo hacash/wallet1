@@ -6,6 +6,8 @@ module.exports = {
 
     '/create': 'VIEW:create',
 
+    '/web': 'VIEW:webwallet',
+
     // api test
     // '/api/data/get': 'api/data/get',
     // 'POST:/api/data/save': 'api/data/save',

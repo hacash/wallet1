@@ -17,6 +17,11 @@ static/jscss/*.css
 */app/component/*/*.css
 */app/component/*/*/*.css
 
+*web_page*.html
+*sdk*.wasm
+*base64.txt
+*base64.js
+
 config.use.js
 
 

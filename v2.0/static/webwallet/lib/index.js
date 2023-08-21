@@ -12,7 +12,7 @@ var $init = document.getElementById("init")
 ;
 
 // loading progress
-window.hacash_sdk_loading_progress = function (percent) {
+var hacash_sdk_loading_progress = function (percent) {
     $init_progress.classList.add("show")
     $init_bar.style.width = percent + "%";
 }
@@ -32,9 +32,21 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
         });
     }
     if(window.hacash_sdk_wasm_code_callback) {
-        hacash_sdk_wasm_code_callback(buildWasm)
-    }else if(window.hacash_sdk_wasm_code) {
+        
+        hacash_sdk_wasm_code_callback(buildWasm, hacash_sdk_loading_progress)
+
+    }else if(window.parse_hacash_sdk_wasm_code) {
+        
+        var hacash_sdk_wasm_code = parse_hacash_sdk_wasm_code(hacash_sdk_loading_progress)
+        // console.log(hacash_sdk_wasm_code)
         buildWasm(hacash_sdk_wasm_code)
+
+    }else if(window.hacash_sdk_wasm_code) {
+
+        // alert('window.hacash_sdk_wasm_code')
+        console.log(hacash_sdk_wasm_code)
+        buildWasm(hacash_sdk_wasm_code)
+    
     }
 }
 
@@ -69,7 +81,7 @@ function hacash_wallet_main(wasm){
     init_hacd_transfer()
 
     // loading ok
-    $init.className = "ok";
+    $init.classList.add("ok");
 
 }
 
@@ -346,7 +358,60 @@ function init_create_account() {
 }
 
 
+/*
+// auto iframe height
+if(parent) {
+    // alert("parent!")
+    var web = parent.document.getElementById("web_wallet_iframe");
+    console.log(web)
+    console.log(document.body.scrollHeight)
+    var upheifunc = function(){
+        web.style.height = document.body.scrollHeight; 
+    }
+    upheifunc()
+    setInterval(upheifunc, 1000)
+}
+*/
+
+
+/*
+
+
+function base64ToBuffer(b) {
+    const str = window.atob(b);
+    const buffer = new Uint8Array(str.length);
+    for (let i=0; i < str.length; i++) {
+        buffer[i] = str.charCodeAt(i);
+    }
+    return buffer;
+}
+var hacash_sdk_wasm_code = base64ToBuffer(hacash_sdk_wasm_code_base64);
 
 
 
 
+function base64ToBuffer(b, progress_call) {
+  var str = window.atob(b)
+  , strlen = str.length
+  , spx = strlen / 100
+  , buffer = new Uint8Array(strlen);
+  for (var i=0; i < strlen; i++) {
+    buffer[i] = str.charCodeAt(i);
+    if(i % spx == 0){
+      var per = parseFloat(i) / parseFloat(strlen) * 100
+      setTimeout(progress_call, 5, per)
+    }
+  }
+  return buffer;
+}
+
+window.parse_hacash_sdk_wasm_code = function(progress_call) {
+  return base64ToBuffer(hacash_sdk_wasm_code_base64, progress_call);
+}
+
+
+
+
+
+
+*/
