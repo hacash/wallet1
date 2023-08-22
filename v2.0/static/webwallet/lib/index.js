@@ -2,20 +2,68 @@
 // document.getElementById("init").className = "ok";
 
 // getElementsByClassName one
+function $id(a) {
+    return document.getElementById(a)
+}
 function $cno(a, n) {
     return a.getElementsByClassName(n)[0]
 }
 
-var $init = document.getElementById("init")
-, $init_progress = $cno($init, "progress")
-, $init_bar = $cno($init_progress, "bar")
+
+var $load = $id('load')
+, $load_box = $cno($load, 'box')
+, $load_loading = $cno($load, "loading")
+, $load_progress = $cno($load, "progress")
+, $load_bar = $cno($load_progress, "slider")
+, $load_pgt = $cno($load, "pgt")
+, $load_tips = $cno($load, "tips")
 ;
 
+var $wlt = $id('wlt')
+
+;
+
+setTimeout(function(){
+    $load_box.classList.remove('hide')
+}, 5)
+
 // loading progress
+var is_progress_started = false
 var hacash_sdk_loading_progress = function (percent) {
-    $init_progress.classList.add("show")
-    $init_bar.style.width = percent + "%";
+    if(!is_progress_started){
+        $load_loading.style.display = 'none'
+        $load_progress.style.display = 'block' 
+        $load_tips.innerText = 'Loading wallet program, please wait...'
+        is_progress_started = true 
+    }
+    var peri = parseInt(percent)
+    $load_bar.style.width = percent + "%";
+    $load_pgt.innerText = peri + "%";
+    if(peri == 70){
+        $load_tips.innerText = ' Loading will be completed soon...'
+    }
+    if(peri == 95){
+        $load_tips.innerText = 'Loading completed'
+    }
+    if(peri >= 100){
+        $load_pgt.innerText = "Completed";
+        $load_tips.innerText = 'Initializing program...'
+        $load_progress.classList.add('hide')
+        setTimeout(function(){
+            $load_box.classList.add('hide')
+            setTimeout(function(){
+                $load.style.display = 'none'
+                $wlt.style.display = 'block'
+                $wlt.classList.remove('hide')
+            }, 800)
+        }, 1000) 
+    }
+    // console.log(percent)
 }
+
+
+
+
 
 // check WebAssembly
 var WebAssemblyIsOK = false
@@ -44,7 +92,7 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
     }else if(window.hacash_sdk_wasm_code) {
 
         // alert('window.hacash_sdk_wasm_code')
-        console.log(hacash_sdk_wasm_code)
+        // console.log(hacash_sdk_wasm_code)
         buildWasm(hacash_sdk_wasm_code)
     
     }
@@ -81,7 +129,7 @@ function hacash_wallet_main(wasm){
     init_hacd_transfer()
 
     // loading ok
-    $init.classList.add("ok");
+    $load.classList.add("ok");
 
 }
 
@@ -352,6 +400,10 @@ function init_create_account() {
         result(acc, v)
         $btn1.classList.remove("ban")
     }
+
+
+    // test
+    // $btn1.click()
 
 
 
