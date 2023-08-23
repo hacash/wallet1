@@ -185,7 +185,7 @@ function init_hacd_transfer() {
                 $success.style.display = "block"
                 $cno($success, "hx").innerText = txhash
             }else{
-                alert(r.data.msg)
+                alert(r.data.err)
             }
         }).catch(function(e){
             $btn3.classList.remove("ban")
@@ -289,7 +289,7 @@ function init_hac_transfer() {
                 $success.style.display = "block"
                 $cno($success, "hx").innerText = txhash
             }else{
-                alert(r.data.msg)
+                alert(r.data.err)
             }
         }).catch(function(e){
             $btn3.classList.remove("ban")
