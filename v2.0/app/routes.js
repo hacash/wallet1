@@ -5,8 +5,8 @@ module.exports = {
     '/old': 'VIEW:indexold',
 
     '/create': 'VIEW:create',
-
     '/web': 'VIEW:webwallet',
+    '/desktop': 'VIEW:desktop',
 
     // api test
     // '/api/data/get': 'api/data/get',
