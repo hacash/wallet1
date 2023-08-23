@@ -22,12 +22,12 @@
                     [: if(iscn) { :]
                     立即创建一个有效可用的 Hacash 钱包地址，用于收取链上的 HAC、 HACD和单向转移的 BTC 等资产。<b>请务必备份且保密好生成的私钥</b>。
                     [:}else{:]
-                    Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC.
+                    Instantly create a valid and functional Hacash wallet address for receiving HAC, HACD, and one-way transferred BTC. Be sure to back up and securely store the generated private key.
                     [:}:]
                 </p>
             </div>
             <div class="addrwrap" v-if="addr">
-                <label>[:if(iscn){:] 地址：[:}else{:] Address: [:}:]</label>
+                <label>[:if(iscn){:] 地址 [:}else{:] Address [:}:]</label>
                 <p class="adr" @click="selectCopy">{{addr}}</p>
                 <span>
                     [:if(iscn){:]
@@ -37,7 +37,7 @@
                     [:}:]
                 </span>
                 <br/>
-                <label>[:if(iscn){:] 私钥：[:}else{:] Private key: [:}:]</label>
+                <label>[:if(iscn){:] 私钥 [:}else{:] Private Key [:}:]</label>
                 <p class="prikey" @click="selectCopy">{{prikey}}</p>
                 <span class="warn">
                     [:if(iscn){:]

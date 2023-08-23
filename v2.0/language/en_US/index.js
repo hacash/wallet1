@@ -13,7 +13,7 @@ module.exports = {
         miner: ["Miner's Node Wallet","Set up a full node to run a web wallet, capable of manual HACD bidding","Download the web page, supports all devices","Download"],
     },
 
-    desktop: ["Download Hacash Desktop Wallet", "the most comprehensive function, prepared for experienced users and users who pursue absolute security, and can be used completely offline"],
+    desktop: ["Download Hacash Desktop Wallet", "The most comprehensive function, prepared for experienced users and users who pursue absolute security, and can be used completely offline"],
 
     send: [
         "Send Transaction to Blockchain",

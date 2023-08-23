@@ -178,7 +178,7 @@
     <div class="container"><div class="box">
         <h1 class="title">[:=ind.bnls[0]:]</h1>
         <p class="tip">[:=ind.bnls[1]:]</p>
-        <textarea v-model="addrs" placeholder="例如：1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
+        <textarea v-model="addrs" placeholder="[:if(cnft){:]例如：[:}else{:]Such as:[:}:]1J1kWanVB7vWS93vv2uFUYsfe4rustzGxh,19bJU8JU6AYQHZnHcLzYj6ZvP1ARVpdRJJ"></textarea>
         <button ref="btn" class="submit" @click="getBalance">[:=ind.bnls[2]:]</button>
         <div class="result"v-if="balances.length>0">
             <p class="total">
