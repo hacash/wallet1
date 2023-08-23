@@ -2,6 +2,7 @@
 [:
     var cnft = lang.useset != "en_US" ? ' clnfthm' : '';
     var ind = lang.index;
+    var wlts = lang.index.wlts;
 :]
 
 
@@ -17,55 +18,57 @@
 </div></div>
 
 
+
+
 <a name="wallets"></a>
 <div id="wlt" class="anim"><div class="container">
     <div class="wrap">
         
-        <div class="item i1"><a target="_blank" class="box" href="">
-            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe6b3;</i> Create Address</h1></div>
-            <div class="li"><p class="intro">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain.</p></div>
-            <div class="li"><p class="tip cl">No download required, supports all devices</p></div>
-            <div class="li"><button>Quick Create</button></div>
+        <div class="item i1"><a target="_blank" class="box" href="/create">
+            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe6b3;</i> [:=wlts.create[0]:]</h1></div>
+            <div class="li"><p class="intro">[:=wlts.create[1]:]</p></div>
+            <div class="li"><p class="tip cl">[:=wlts.create[2]:]</p></div>
+            <div class="li"><button>[:=wlts.create[3]:]</button></div>
             <div class="bgico"><i class="fic">&#xe6b3;</i></div>
         </a></div>
         
-        <div class="item i2"><a target="_blank" class="box" href="">
-            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe616;</i> Online Web</h1></div>
-            <div class="li"><p class="intro">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain.</p></div>
-            <div class="li"><p class="tip cl">No download required, supports all devices</p></div>
-            <div class="li"><button>Open to Use</button></div>
+        <div class="item i2"><a target="_blank" class="box" href="/web">
+            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe616;</i> [:=wlts.online[0]:]</h1></div>
+            <div class="li"><p class="intro">[:=wlts.online[1]:]</p></div>
+            <div class="li"><p class="tip cl">[:=wlts.online[2]:]</p></div>
+            <div class="li"><button>[:=wlts.online[3]:]</button></div>
             <div class="bgico"><i class="fic">&#xe616;</i></div>
         </a></div>
         
-        <div class="item i3"><a target="_blank" class="box" href="">
-            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe626;</i> Web Page</h1></div>
-            <div class="li"><p class="intro">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain.</p></div>
-            <div class="li"><p class="tip cl">No download required, supports all devices</p></div>
-            <div class="li"><button>Download</button></div>
+        <div class="item i3"><a target="_blank" class="box" href="https://download.hacash.org/hacash_offline_web_wallet.zip">
+            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe626;</i> [:=wlts.offline[0]:]</h1></div>
+            <div class="li"><p class="intro">[:=wlts.offline[1]:]</p></div>
+            <div class="li"><p class="tip cl">[:=wlts.offline[2]:]</p></div>
+            <div class="li"><button>[:=wlts.offline[3]:]</button></div>
             <div class="bgico"><i class="fic">&#xe626;</i></div>
         </a></div>
         
-        <div class="item i4"><a target="_blank" class="box" href="">
-            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe607;</i> Desktop</h1></div>
-            <div class="li"><p class="intro">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain.</p></div>
-            <div class="li"><p class="tip cl">No download required, supports all devices</p></div>
-            <div class="li"><button>Download</button></div>
+        <div class="item i4"><a target="_blank" class="box" href="/desktop">
+            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe607;</i> [:=wlts.desktop[0]:]</h1></div>
+            <div class="li"><p class="intro">[:=wlts.desktop[1]:]</p></div>
+            <div class="li"><p class="tip cl">[:=wlts.desktop[2]:]</p></div>
+            <div class="li"><button>[:=wlts.desktop[3]:]</button></div>
             <div class="bgico"><i class="fic">&#xe607;</i></div>
         </a></div>
         
-        <div class="item i5"><a target="_blank" class="box" href="">
-            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe600;</i> Command</h1></div>
-            <div class="li"><p class="intro">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain.</p></div>
-            <div class="li"><p class="tip cl">No download required, supports all devices</p></div>
-            <div class="li"><button>Github</button></div>
+        <div class="item i5"><a target="_blank" class="box" href="https://github.com/hacash/cmdwallet">
+            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe600;</i> [:=wlts.cmds[0]:]</h1></div>
+            <div class="li"><p class="intro">[:=wlts.cmds[1]:]</p></div>
+            <div class="li"><p class="tip cl">[:=wlts.cmds[2]:]</p></div>
+            <div class="li"><button>[:=wlts.cmds[3]:]</button></div>
             <div class="bgico"><i class="fic">&#xe600;</i></div>
         </a></div>
         
-        <div class="item i6"><a target="_blank" class="box" href="">
-            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe672;</i> Miner</h1></div>
-            <div class="li"><p class="intro">Immediately randomly create an available wallet address, which can be used to collect assets such as HAC currency, HACD diamonds and one-way transfer BTC on the Hacash chain.</p></div>
-            <div class="li"><p class="tip cl">No download required, supports all devices</p></div>
-            <div class="li"><button>Open to Use</button></div>
+        <div class="item i6"><a target="_blank" class="box" href="https://download.hacash.org/hacash_fullnode_web_wallet.zip">
+            <div class="li f"><h1 class="ttl cl"><i class="fic">&#xe672;</i> [:=wlts.miner[0]:]</h1></div>
+            <div class="li"><p class="intro">[:=wlts.miner[1]:]</p></div>
+            <div class="li"><p class="tip cl">[:=wlts.miner[2]:]</p></div>
+            <div class="li"><button>[:=wlts.miner[3]:]</button></div>
             <div class="bgico"><i class="fic">&#xe672;</i></div>
         </a></div>
 
@@ -83,6 +86,7 @@
 
 
 
+<a name="sendtx"></a>
 <div id="sendtx" class="card">
     <div class="container"><div class="box">
         <h1 class="title">[:=ind.send[0]:]</h1>
@@ -110,6 +114,7 @@
 </div>
 
 
+<a name="txstatus"></a>
 <div id="txstatus" class="card">
     <div class="container"><div class="box">
         <h1 class="title">[:=ind.stat[0]:]</h1>
@@ -168,6 +173,7 @@
 </div>
 
 
+<a name="balance"></a>
 <div id="balance" class="card">
     <div class="container"><div class="box">
         <h1 class="title">[:=ind.bnls[0]:]</h1>
