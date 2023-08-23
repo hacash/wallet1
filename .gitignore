@@ -17,6 +17,7 @@ static/jscss/*.css
 */app/component/*/*.css
 */app/component/*/*/*.css
 
+*wallet.zip
 *web_page*.html
 *sdk*.wasm
 *base64.txt
