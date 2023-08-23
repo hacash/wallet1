@@ -30,6 +30,7 @@ setTimeout(function(){
 // loading progress
 var is_progress_started = false
 var hacash_sdk_loading_progress = function (percent) {
+    console.log(percent)
     if(!is_progress_started){
         $load_loading.style.display = 'none'
         $load_progress.style.display = 'block' 
@@ -46,22 +47,24 @@ var hacash_sdk_loading_progress = function (percent) {
         $load_tips.innerText = 'Loading completed'
     }
     if(peri >= 100){
-        $load_pgt.innerText = "Completed";
-        $load_tips.innerText = 'Initializing program...'
-        $load_progress.classList.add('hide')
-        setTimeout(function(){
-            $load_box.classList.add('hide')
-            setTimeout(function(){
-                $load.style.display = 'none'
-                $wlt.style.display = 'block'
-                $wlt.classList.remove('hide')
-            }, 800)
-        }, 1000) 
+        loadFinishShowWallet()
     }
     // console.log(percent)
 }
 
-
+function loadFinishShowWallet(){
+    $load_pgt.innerText = "Completed";
+    $load_tips.innerText = 'Initializing program...'
+    $load_progress.classList.add('hide')
+    setTimeout(function(){
+        $load_box.classList.add('hide')
+        setTimeout(function(){
+            $load.style.display = 'none'
+            $wlt.style.display = 'block'
+            $wlt.classList.remove('hide')
+        }, 800)
+    }, 1000) 
+}
 
 
 
@@ -85,15 +88,17 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
 
     }else if(window.parse_hacash_sdk_wasm_code) {
         
-        var hacash_sdk_wasm_code = parse_hacash_sdk_wasm_code(hacash_sdk_loading_progress)
+        var hacash_sdk_wasm_code = parse_hacash_sdk_wasm_code()
         // console.log(hacash_sdk_wasm_code)
         buildWasm(hacash_sdk_wasm_code)
+        loadFinishShowWallet()
 
     }else if(window.hacash_sdk_wasm_code) {
 
         // alert('window.hacash_sdk_wasm_code')
         // console.log(hacash_sdk_wasm_code)
         buildWasm(hacash_sdk_wasm_code)
+        loadFinishShowWallet()
     
     }
 }

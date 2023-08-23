@@ -16,23 +16,19 @@ fs.writeFileSync(__dirname+"/lib/hacash_sdk_wasm_code_base64.js",
     `var hacash_sdk_wasm_code_base64 = "` +
     wasm.toString('base64')+
     `";
-    function base64ToBuffer(b, progress_call) {
+    function base64ToBuffer(b) {
         var str = window.atob(b)
         , strlen = str.length
         , spx = strlen / 100
         , buffer = new Uint8Array(strlen);
         for (var i=0; i < strlen; i++) {
             buffer[i] = str.charCodeAt(i);
-            if(i % spx == 0){
-            var per = parseFloat(i) / parseFloat(strlen) * 100
-            setTimeout(progress_call, 5, per)
-            }
         }
         return buffer;
     }
     
-    window.parse_hacash_sdk_wasm_code = function(progress_call) {
-        return base64ToBuffer(hacash_sdk_wasm_code_base64, progress_call);
+    window.parse_hacash_sdk_wasm_code = function() {
+        return base64ToBuffer(hacash_sdk_wasm_code_base64);
     }
     `
 )
