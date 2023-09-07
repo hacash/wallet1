@@ -267,8 +267,11 @@ html, body {
 
         </div></div>
 
+        <div id="cid"><div class="container">
+            <div class="cidtip"></div>
+        </div></div>
 
-        <div id="hactrs" class="pgw trscommon" style="display: block;"><div class="container">
+        <div id="hactrs" class="pgw trscommon"><div class="container">
             <div class="ptt"><h1>HAC Transfer</h1></div>
             <div class="box1">
                 <div class="input">
@@ -387,6 +390,70 @@ html, body {
 
 
         </div>
+
+
+        <div id="sattrs" class="pgw trscommon"><div class="container">
+            <div class="ptt"><h1>BTC Transfer</h1></div>
+            <div class="box1">
+                <div class="input">
+                    <label>Payment PrivateKey or Password:</label>
+                    <input class="ipt1" placeholder="" autocomplete="off" />
+                </div>
+                <div class="input">
+                    <label>Collection Address:</label>
+                    <input class="ipt2" placeholder="format: '1MzNY1oA3kfgYi75zquj3SRUPYztzXHzK9'" />
+                </div>
+                <div class="input">
+                    <label>Transfer Satoshi:</label>
+                    <input class="ipt3" placeholder="format: 10, 10000, 100000000" />
+                    <p class="nt">Unit: Satoshi</p>
+                </div>
+                <div class="input">
+                    <label>PrivateKey or Password to Pay Fee:</label>
+                    <input class="ipt4" placeholder="" autocomplete="off" >
+                </div>
+                <div class="input">
+                    <label>Fee:</label>
+                    <input class="ipt5" value="0.0001" placeholder="format: '1:244', '1:246'or '0.0001', '0.01'" />
+                    <p class="nt">Recommended fee: 0.0001 HAC</p>
+                </div>
+                <div class="btns">
+                    <button class="btn1">Create Transaction</button>
+                </div>
+            </div>
+            <div class="box2">
+                <div class="check">
+                    <p>Please check the transfer:</p>
+                    <table>
+                        <tr><td><i>Pay:</i></td><td><b class="pay">---</b></td></tr>
+                        <tr><td><i>Receive:</i></td><td><b class="get">---</b></td></tr>
+                        <tr><td><i>Amount:</i></td><td><b class="amt">1:248</b></td></tr>
+                        <tr><td><i>Fee:</i></td><td><b class="fee">1:244</b></td></tr>
+                    </table>
+                </div>
+                <div class="tx">
+                    <label>Tx Hash:</label>
+                    <p class="txhx">---</p>
+                    <label>Tx Body:</label>
+                    <textarea class="txbody">---</textarea>
+                    <p class="tip">If you are offline, please copy the [TxBody] in the abover textarea box and submit it on <a target="_blank" href="https://wallet.hacash.org#tools">wallet.hacash.org</a></p>
+                </div>
+                <div class="offline">
+                    <p>Please copy the [TxBody] in the abover textarea box and submit it on <a target="_blank" href="https://wallet.hacash.org#tools">wallet.hacash.org</a></p>
+                </div>
+                <div class="success">
+                    <p>The transaction (tx_hash: <b class="hx">---</b>) was uploaded successfully! Please wait for blockchain confirmation.</p>
+                </div>
+                <div class="btns">
+                    <button class="btn2 gray">‹ Back</button>
+                    <button class="btn3 red">Confirm to Submit Transaction</button>
+                </div>
+            </div>
+
+
+        </div></div>
+
+
     
     </div>
 

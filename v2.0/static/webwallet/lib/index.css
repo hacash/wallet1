@@ -91,6 +91,17 @@ div.btns > button {
 
 
 
+#cid {
+  display: none;
+}
+#cid .cidtip {
+  margin-top: 50px;
+  color: darkturquoise;
+  padding: 20px;
+  background: #123;
+  font-size: 18px;
+}
+
 
 
 .pgw {
