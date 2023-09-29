@@ -549,6 +549,19 @@ function init_create_account() {
 }
 
 
+
+
+var $footer = $id('footer')
+;
+if(location.host != 'wallet.hacash.org') {
+    $footer.style.display = 'none'
+}
+
+
+
+
+
+
 /*
 // auto iframe height
 if(parent) {
@@ -606,3 +619,5 @@ window.parse_hacash_sdk_wasm_code = function(progress_call) {
 
 
 */
+
+
