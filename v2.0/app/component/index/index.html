@@ -100,7 +100,7 @@
                 [:}else{:]
                     Transaction sent successfully! 
                 [:}:]
-                <br/><br/>The TxHash: {{result.txhash}} <a target="_blank" class="ck" :href="'https://explorer.hacash.org/tx/'+result.txhash">↪</a>
+                <br/><br/>TxHash: {{result.txhash}} <a target="_blank" class="ck" :href="'https://explorer.hacash.org/tx/'+result.txhash">↪</a>
             </p>
             <p class="err" v-if="result.err">
                 [:if(cnft){:]
@@ -134,7 +134,7 @@
 
                 [:}else{:]
 
-                    status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find in blockchain'}[result.status] }}
+                    status: {{ {'txpool':'Waiting for packing in the tx pool','block':'Tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find in blockchain'}[result.status] }}
 
                 [:}:] 
             

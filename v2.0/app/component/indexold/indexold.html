@@ -314,7 +314,7 @@
         </div>
         <div class="result" v-if="result && !txhash">
             <p>{{txhash_show}}</p>
-            <p :class="'stat '+result.status" >status: {{ {'txpool':'Waiting for packing in the tx pool','block':'The tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[result.status] }}</p>
+            <p :class="'stat '+result.status" >status: {{ {'txpool':'Waiting for packing in the tx pool','block':'Tx packed. Mining','confirm':'Confirm successfully','notfind':'Not find'}[result.status] }}</p>
             <table v-if="result.block_height">
                 <tr><td>Block height:</td><td>{{result.block_height}}</td></tr>
                 <tr v-if="result.status!='block'"><td>Block hash:</td><td>{{result.block_hash.toUpperCase()}}</td></tr>
