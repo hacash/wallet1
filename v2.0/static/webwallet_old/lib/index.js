@@ -1,5 +1,3 @@
-var chrome_tip = "Your browser version is too low and private key generation is not secure. Please use the latest version of Chrome browser";
-
 
 // test
 // document.getElementById("init").className = "ok";
@@ -93,8 +91,8 @@ function loadFinishShowWallet(){
             $load.style.display = 'none'
             $wlt.style.display = 'block'
             $wlt.classList.remove('hide')
-        }, 200)
-    }, 400) 
+        }, 800)
+    }, 1000) 
 }
 
 
@@ -107,8 +105,10 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
     WebAssemblyIsOK = true
     function buildWasm(hacash_sdk_wasm_code) {
         // console.log(hacash_sdk_wasm_code)
-        wasm_bindgen(hacash_sdk_wasm_code).then(function(){
-            hacash_wallet_main(wasm_bindgen);
+        var go = new Go();
+        WebAssembly.instantiate(hacash_sdk_wasm_code, go.importObject).then(function({module, instance}){
+            go.run(instance);
+            hacash_wallet_main(instance.exports);
         });
     }
     if(window.hacash_sdk_wasm_code_callback) {
@@ -133,29 +133,36 @@ if(!WebAssembly || !WebAssembly.Instance || !WebAssembly.Module) {
 }
 
 
-/** API:
- * create_account_by
- * hac_transfer
- * sat_transfer
- * hacd_transfer
+/**
+ * CreateNewRandomAccount
+ * GetAccountByPrivateKeyOrPassword
+ * CreateHacTransfer
+ * CreateSatTransfer
+ * CreateHacdTransfer
+ * 
+ * 
  */
 
 
 // start
-function hacash_wallet_main(API){
+function hacash_wallet_main(wasm){
     if(!WebAssemblyIsOK){
         return
     }
 
     // test
-    var acc = JSON.parse(API.create_account_by("123456"))
-    console.log(acc, acc.address)
+    var acc = CreateNewRandomAccount()
+    console.log(acc, acc.Address)
+
+    // var acc = GetAccountByPrivateKeyOrPassword("123456")
+    // console.log(acc, acc.Address)
+
 
     // init
-    init_create_account(API)
-    init_hac_transfer(API)
-    init_sat_transfer(API)
-    init_hacd_transfer(API)
+    init_create_account()
+    init_hac_transfer()
+    init_sat_transfer()
+    init_hacd_transfer()
 
     // loading ok
     $load.classList.add("ok");
@@ -163,7 +170,7 @@ function hacash_wallet_main(API){
 }
 
 // hacd transfer
-function init_hacd_transfer(API) {
+function init_hacd_transfer() {
     var $acc = document.getElementById("hacdtrs")
     , $ipt1 = $cno($acc, "ipt1")
     , $ipt2 = $cno($acc, "ipt2")
@@ -203,7 +210,7 @@ function init_hacd_transfer(API) {
             txbody: txbody,
         }).then(function(r){
             $btn3.classList.remove("ban")
-            // console.log(r.data)
+            console.log(r.data)
             if(r.data.ret == 0){
                 $btn3.style.display = "none"
                 $success.style.display = "block"
@@ -219,20 +226,20 @@ function init_hacd_transfer(API) {
 
     // set tx body
     function genTx(tx) {
-        var a1 = tx.paymenta_ddress
-        , a2 = tx.collection_address
+        var a1 = tx.PaymentAddress
+        , a2 = tx.CollectionAddress
         $cno($box2, "pay").innerText = a1
         $cno($box2, "get").innerText = a2
-        $cno($box2, "num").innerText = tx.diamond_count
-        $cno($box2, "amt").innerText = tx.diamonds
-        $cno($box2, "fee").innerText = tx.fee
-        $cno($box2, "txhx").innerText = tx.tx_hash
-        $cno($box2, "txbody").innerText = tx.tx_body
+        $cno($box2, "num").innerText = tx.DiamondCount
+        $cno($box2, "amt").innerText = tx.Diamonds
+        $cno($box2, "fee").innerText = tx.Fee
+        $cno($box2, "txhx").innerText = tx.TxHash
+        $cno($box2, "txbody").innerText = tx.TxBody
         $box2.style.display = "block";
         $box1.style.display = "none";
-        confirmTip = "Payment account " + a1 + " transfer HAC " + tx.amount + " to address " + a2 + " (fee: "+tx.fee+")"
-        txhash = tx.tx_hash
-        txbody = tx.tx_body
+        confirmTip = "Payment account " + a1 + " transfer HAC " + tx.Amount + " to address " + a2 + " (fee: "+tx.Fee+")"
+        txhash = tx.TxHash
+        txbody = tx.TxBody
     }
 
     // back
@@ -254,14 +261,12 @@ function init_hacd_transfer(API) {
             return alert("please fill the form correctly.")
         }
         // 创建交易
-        // console.log(chain_id, v1, v4, v2, v3, v5)
-        var ret = API.hacd_transfer(chain_id, v1, v4, v2, v3, v5, "0")
-        ret = JSON.parse(ret);
-        // console.log(ret)
-        if(ret.error) {
-            return alert(ret.error)
+        var ret = CreateHacdTransfer(chain_id, v1, v2, v3, v4, v5)
+        console.log(ret)
+        if(ret.Error) {
+            return alert(ret.Error)
         }
-        if(ret.diamonds) {
+        if(ret.Diamonds) {
             genTx(ret)
         }
     }
@@ -270,7 +275,7 @@ function init_hacd_transfer(API) {
 
 
 // hac transfer
-function init_hac_transfer(API) {
+function init_hac_transfer() {
     var $acc = document.getElementById("hactrs")
     , $ipt1 = $cno($acc, "ipt1")
     , $ipt2 = $cno($acc, "ipt2")
@@ -309,7 +314,7 @@ function init_hac_transfer(API) {
             txbody: txbody,
         }).then(function(r){
             $btn3.classList.remove("ban")
-            // console.log(r.data)
+            console.log(r.data)
             if(r.data.ret == 0){
                 $btn3.style.display = "none"
                 $success.style.display = "block"
@@ -325,19 +330,19 @@ function init_hac_transfer(API) {
 
     // set tx body
     function genTx(tx) {
-        var a1 = tx.payment_address
-        , a2 = tx.collection_address
+        var a1 = tx.PaymentAddress
+        , a2 = tx.CollectionAddress
         $cno($box2, "pay").innerText = a1
         $cno($box2, "get").innerText = a2
-        $cno($box2, "amt").innerText = tx.amount
-        $cno($box2, "fee").innerText = tx.gee
-        $cno($box2, "txhx").innerText = tx.tx_hash
-        $cno($box2, "txbody").innerText = tx.tx_body
+        $cno($box2, "amt").innerText = tx.Amount
+        $cno($box2, "fee").innerText = tx.Fee
+        $cno($box2, "txhx").innerText = tx.TxHash
+        $cno($box2, "txbody").innerText = tx.TxBody
         $box2.style.display = "block";
         $box1.style.display = "none";
-        confirmTip = "Payment account " + a1 + " transfer HAC " + tx.amount + " to address " + a2 + " (fee: "+tx.fee+")"
-        txhash = tx.tx_hash
-        txbody = tx.tx_body
+        confirmTip = "Payment account " + a1 + " transfer HAC " + tx.Amount + " to address " + a2 + " (fee: "+tx.Fee+")"
+        txhash = tx.TxHash
+        txbody = tx.TxBody
     }
 
     // back
@@ -358,14 +363,12 @@ function init_hac_transfer(API) {
             return alert("please fill the form correctly.")
         }
         // 创建交易
-        // console.log(chain_id, v1, v2, v3, v4)
-        var ret = API.hac_transfer(chain_id, v1, v2, v3, v4, "0")
-        ret = JSON.parse(ret);
-        // console.log(ret)
-        if(ret.error) {
-            return alert(ret.error)
+        var ret = CreateHacTransfer(chain_id, v1, v2, v3, v4)
+        console.log(ret)
+        if(ret.Error) {
+            return alert(ret.Error)
         }
-        if(ret.amount) {
+        if(ret.Amount) {
             genTx(ret)
         }
     }
@@ -373,7 +376,7 @@ function init_hac_transfer(API) {
 }
 
 // satoshi transfer
-function init_sat_transfer(API) {
+function init_sat_transfer() {
     var $acc = document.getElementById("sattrs")
     , $ipt1 = $cno($acc, "ipt1")
     , $ipt2 = $cno($acc, "ipt2")
@@ -413,7 +416,7 @@ function init_sat_transfer(API) {
             txbody: txbody,
         }).then(function(r){
             $btn3.classList.remove("ban")
-            // console.log(r.data)
+            console.log(r.data)
             if(r.data.ret == 0){
                 $btn3.style.display = "none"
                 $success.style.display = "block"
@@ -429,19 +432,19 @@ function init_sat_transfer(API) {
 
     // set tx body
     function genTx(tx) {
-        var a1 = tx.payment_address
-        , a2 = tx.collection_address
+        var a1 = tx.PaymentAddress
+        , a2 = tx.CollectionAddress
         $cno($box2, "pay").innerText = a1
         $cno($box2, "get").innerText = a2
-        $cno($box2, "amt").innerText = tx.amount + ' SAT'
-        $cno($box2, "fee").innerText = tx.fee
-        $cno($box2, "txhx").innerText = tx.tx_hash
-        $cno($box2, "txbody").innerText = tx.tx_body
+        $cno($box2, "amt").innerText = tx.Amount + ' SAT'
+        $cno($box2, "fee").innerText = tx.Fee
+        $cno($box2, "txhx").innerText = tx.TxHash
+        $cno($box2, "txbody").innerText = tx.TxBody
         $box2.style.display = "block";
         $box1.style.display = "none";
-        confirmTip = "Payment account " + a1 + " transfer " + tx.amount + " SAT to address " + a2 + " (fee: "+tx.fee+")"
-        txhash = tx.tx_hash
-        txbody = tx.tx_body
+        confirmTip = "Payment account " + a1 + " transfer " + tx.Amount + " SAT to address " + a2 + " (fee: "+tx.Fee+")"
+        txhash = tx.TxHash
+        txbody = tx.TxBody
     }
 
     // back
@@ -463,14 +466,12 @@ function init_sat_transfer(API) {
             return alert("please fill the form correctly.")
         }
         // 创建交易
-        // console.log(chain_id, v1, v4, v2, v3, v5);
-        var ret = API.sat_transfer(chain_id, v1, v4, v2, v3, v5, "0");
-        ret = JSON.parse(ret);
-        // console.log(ret)
-        if(ret.error) {
-            return alert(ret.error)
+        var ret = CreateSatTransfer(chain_id, v1, v2, v3, v4, v5)
+        console.log(ret)
+        if(ret.Error) {
+            return alert(ret.Error)
         }
-        if(ret.amount) {
+        if(ret.Amount) {
             genTx(ret)
         }
     }
@@ -479,19 +480,7 @@ function init_sat_transfer(API) {
 
 
 // create account
-function init_create_account(API) {
-
-    var crypto = window.crypto || window.webkitCrypto || window.mozCrypto || window.oCrypto || window.msCrypto;
-
-    var get_rand_bytes = function(){
-        if(!crypto) {
-            return null
-        }
-        var rdarr = new Uint8Array(256);
-        crypto.getRandomValues(rdarr);
-        return (new TextDecoder('utf-8')).decode(rdarr)
-    }
-
+function init_create_account() {
     var $acc = document.getElementById("acc")
     , $ipt1 = $cno($acc, "ipt1")
     , $btn1 = $cno($acc, "btn1")
@@ -511,7 +500,6 @@ function init_create_account(API) {
     $ipt1.onchange = in1chg
     // result
     var result = function(acc, usepass) {
-        acc = JSON.parse(acc);
         var $res = $cno($acc, "result")
         , $mark =  $cno($res, "mark")
         , $b1 =    $cno($res, "addr")
@@ -519,9 +507,9 @@ function init_create_account(API) {
         , $b3 =    $cno($res, "prikey")
         ;   
         $mark.innerText = '( by '+ (usepass?('password '+usepass):'randomly') +' )'
-        $b1.innerText = acc.address
-        $b2.innerText = acc.public_key
-        $b3.innerText = acc.private_key
+        $b1.innerText = acc.Address
+        $b2.innerText = acc.PublicKey
+        $b3.innerText = acc.PrivateKey
         $res.classList.add("show")
     }
     // random create
@@ -529,12 +517,7 @@ function init_create_account(API) {
         $ipt1.value = ""
         $btn2.classList.add("ban")
         $btn1.classList.add("ban")
-        var rdstr = get_rand_bytes()
-        // console.log(rdstr)
-        if(!rdstr){
-            return alert(chrome_tip);
-        }
-        var acc = API.create_account_by(rdstr)
+        var acc = CreateNewRandomAccount()
         result(acc)
         $btn1.classList.remove("ban")
     }
@@ -552,7 +535,7 @@ function init_create_account(API) {
             return alert("unsupported symbol")
         }
         $btn1.classList.add("ban")
-        var acc = API.create_account_by(v)
+        var acc = GetAccountByPrivateKeyOrPassword(v)
         result(acc, v)
         $btn1.classList.remove("ban")
     }

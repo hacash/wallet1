@@ -1,7 +1,4 @@
 /**
- * 
-
-cp -f ./pkg/hacash_sdk.js ./pkg/hacash_sdk.wasm ./pkg/hacash_sdk.zip  /home/jji/hacash/nodejs/wallet/v2.0/static/webwallet/lib/
 
 node static/webwallet/parkage.node.js 
 
@@ -13,9 +10,9 @@ const fs = require("fs")
 // wasm
 
 
-var wasm = fs.readFileSync(__dirname+"/lib/hacash_sdk.wasm")
+var wasm = fs.readFileSync(__dirname+"/lib/hacash_sdk_tiny.wasm")
 
-fs.writeFileSync(__dirname+"/lib/hacash_sdk_wasm.js", 
+fs.writeFileSync(__dirname+"/lib/hacash_sdk_wasm_code_base64.js", 
     `var hacash_sdk_wasm_code_base64 = "` +
     wasm.toString('base64')+
     `";
@@ -50,11 +47,11 @@ var insert_cons = {
     '<link rel="stylesheet" href="./lib/index.css">': 
     fs.readFileSync(__dirname+"/lib/index.css") + '',
 
-    '<!--<script src="./lib/hacash_sdk_wasm.js"></script>-->': 
-    fs.readFileSync(__dirname+"/lib/hacash_sdk_wasm.js") + '',
+    '<script src="./lib/go_js_wasm_exec.js"></script>': 
+    fs.readFileSync(__dirname+"/lib/go_js_wasm_exec.js") + '',
 
-    '<script src="./lib/hacash_sdk.js"></script>': 
-    fs.readFileSync(__dirname+"/lib/hacash_sdk.js") + '',
+    '<!--<script src="./lib/hacash_sdk_wasm_code_base64.js"></script>-->': 
+    fs.readFileSync(__dirname+"/lib/hacash_sdk_wasm_code_base64.js") + '',
     
     '<script src="./lib/index.js"></script>': 
     fs.readFileSync(__dirname+"/lib/index.js") + '',

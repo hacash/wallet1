@@ -7,7 +7,7 @@ window.hacash_sdk_wasm_code_callback = function (func, progress_call) {
 }
 
 // download wasm zip
-JSZipUtils.getBinaryContent('./lib/hacash_sdk.zip', {
+JSZipUtils.getBinaryContent('./lib/hacash_sdk_tiny.zip', {
     progress: function (event) {
         // console.log(event.percent + "% of " + event.path+ " loaded")
         var call = loading_progress || function (){}
@@ -23,7 +23,7 @@ JSZipUtils.getBinaryContent('./lib/hacash_sdk.zip', {
         var zip = new JSZip();
         zip.loadAsync(data, {binary: true}).then(function (zip) {
             // console.log(zip, zip.file("hacash_sdk_tiny.wasm"))
-            zip.file("hacash_sdk.wasm").async("uint8array").then(function (u8s) {
+            zip.file("hacash_sdk_tiny.wasm").async("uint8array").then(function (u8s) {
                 for (var i in hswccs) {
                     // console.log(u8)
                     hswccs[i](u8s)
