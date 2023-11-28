@@ -189,13 +189,13 @@
                     Total balance of {{balances.length}} addresses:
                 [:}:] 
                 
-                <b>{{totalamt}}</b> <a target="_blank" class="ck" :href="'https://hacash.org/hac_unit?hac_amount='+totalamt">?</a></p>
+                <b>{{totalamt}}</b> <a target="_blank" class="ck" :href="'https://hacash.org/HAC-unit?amount='+totalamt">?</a></p>
             <table class="list">
                 <tr v-for="one in balances">
                     <td class="addr">{{one.addr}}</td>
                     <td>
                         {{one.amt}}
-                        <a target="_blank" class="ck" :href="'https://hacash.org/hac_unit?hac_amount='+one.amt">?</a>
+                        <a target="_blank" class="ck" :href="'https://hacash.org/HAC-unit?amount='+one.amt">?</a>
                     </td>
                 </tr>
             </table>
