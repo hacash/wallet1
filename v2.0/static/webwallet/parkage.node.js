@@ -15,25 +15,25 @@ const fs = require("fs")
 
 var wasm = fs.readFileSync(__dirname+"/lib/hacash_sdk.wasm")
 
+// var atob = typeof window === 'undefined' ? atob : window.atob;
 fs.writeFileSync(__dirname+"/lib/hacash_sdk_wasm.js", 
     `var hacash_sdk_wasm_code_base64 = "` +
     wasm.toString('base64')+
     `";
-    function base64ToBuffer(b) {
-        var str = window.atob(b)
-        , strlen = str.length
-        , spx = strlen / 100
-        , buffer = new Uint8Array(strlen);
-        for (var i=0; i < strlen; i++) {
-            buffer[i] = str.charCodeAt(i);
-        }
-        return buffer;
+function base64ToBuffer(b) {
+    var str = atob(b)
+    , strlen = str.length
+    , spx = strlen / 100
+    , buffer = new Uint8Array(strlen);
+    for (var i=0; i < strlen; i++) {
+        buffer[i] = str.charCodeAt(i);
     }
-    
-    window.parse_hacash_sdk_wasm_code = function() {
-        return base64ToBuffer(hacash_sdk_wasm_code_base64);
-    }
-    `
+    return buffer;
+}
+var parse_hacash_sdk_wasm_code = function() {
+    return base64ToBuffer(hacash_sdk_wasm_code_base64);
+}
+`
 )
 
 
