@@ -132,6 +132,63 @@ __exports.create_account_by = function(s) {
 };
 
 /**
+* @param {string} amount
+* @returns {string}
+*/
+__exports.hac_to_mei = function(amount) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(amount, wasm.__wbindgen_export_0, wasm.__wbindgen_export_1);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.hac_to_mei(retptr, ptr0, len0);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        deferred2_0 = r0;
+        deferred2_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export_2(deferred2_0, deferred2_1, 1);
+    }
+};
+
+/**
+* @param {bigint} chain_id
+* @param {string} from_pass
+* @param {string} to_addr
+* @param {string} amountex
+* @param {string} fee
+* @param {bigint} timestamp
+* @returns {string}
+*/
+__exports.general_transfer = function(chain_id, from_pass, to_addr, amountex, fee, timestamp) {
+    let deferred5_0;
+    let deferred5_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(from_pass, wasm.__wbindgen_export_0, wasm.__wbindgen_export_1);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(to_addr, wasm.__wbindgen_export_0, wasm.__wbindgen_export_1);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(amountex, wasm.__wbindgen_export_0, wasm.__wbindgen_export_1);
+        const len2 = WASM_VECTOR_LEN;
+        const ptr3 = passStringToWasm0(fee, wasm.__wbindgen_export_0, wasm.__wbindgen_export_1);
+        const len3 = WASM_VECTOR_LEN;
+        wasm.general_transfer(retptr, chain_id, ptr0, len0, ptr1, len1, ptr2, len2, ptr3, len3, timestamp);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        deferred5_0 = r0;
+        deferred5_1 = r1;
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export_2(deferred5_0, deferred5_1, 1);
+    }
+};
+
+/**
 * @param {bigint} chain_id
 * @param {string} from_pass
 * @param {string} to_addr
