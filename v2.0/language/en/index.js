@@ -2,6 +2,9 @@ module.exports = {
 
     scr: ["Choose Your<br/>Hacash Wallet", "Select the Most Suitable Wallet Based on Usage and User Preferences"],
 
+    thrd: "Third-party Wallets",
+    thrdtip: "Disclaimer: Security comes from third-party developers, please check carefully before using",
+
     pttl: "Wallet Tools",
 
     wlts: {

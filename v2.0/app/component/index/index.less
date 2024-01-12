@@ -35,6 +35,10 @@ html, body {
         padding: 0 0 4px 0;
         // border-bottom: 3px solid #ffffff99;
     }
+    .tip {
+        margin-top: 10px;
+        color: darkgoldenrod;
+    }
 }
 
 #scr.hide {
@@ -300,6 +304,54 @@ html, body {
 }
 
 
+#thrd {
+    .wbox{
+        margin-top: 50px;
+    }
+    .item {
+        border: 1px solid #fff2;
+        display: flex;
+        justify-content: space-between;
+        &:hover {
+            border-color: #fff4;
+        }
+    }
+    .left {
+        padding: 32px;
+        .hd {
+            * {
+                line-height: 32px;
+                height: 32px;
+                vertical-align: middle;
+                display: inline-block;
+            }
+            b {
+                font-size: 20px;
+                margin-left: 10px;
+            }
+            img {
+            }
+        }
+        .intro {
+            margin: 20px 0;
+        }
+        button {
+            margin: 0;
+            box-shadow: none;
+            background: #fff4;
+            &:hover {
+                background: @thmcol;
+            }
+        }
+    }
+    .right {
+        padding-right: 40px;
+        img {
+            display: block;
+        }
+    }
+}
+
 
 #balance{
 
@@ -461,6 +513,23 @@ html, body {
 
     .pttl {
         text-align: center;
+    }
+
+    #thrd {
+        .item {
+            display: block;
+            text-align: center;
+            // border: none;
+            
+        }
+        .right {
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            .cvw {
+            }
+        }
     }
 
 
