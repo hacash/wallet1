@@ -202,6 +202,26 @@ div.btns > button {
   font-size: 16px;
   color: #ffffff99;
 }
+#acc .show {
+  display: block !important;
+}
+#acc .hide {
+  display: none !important;
+}
+#acc .crt1 {
+  display: none;
+}
+#acc .crt2 {
+  display: flex;
+  justify-content: space-between;
+}
+#acc .crt2 div {
+  margin: 0;
+}
+#acc .note p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 #acc .result {
   display: none;
   position: relative;

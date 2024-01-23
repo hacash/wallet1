@@ -242,19 +242,29 @@ html, body {
 
         <div id="acc" class="pgw" style="display: block;"><div class="container">
             <div class="ptt"><h1>Create Account</h1></div>
-            <div class="note"  style="display: none;">
-                <p>Generate a private key through a private password and create a address (Note: please keep remember your password or private key, once the password or private key is lost, the funds in the account will be permanently lost)<br>This program will not back up, store or disclose your password or private key.</p>
-                <p>If the password is empty, the private key will be created randomly</p>
-                <p class="warning">Warning: a password that is too simple is not secure (for example, 123456 or birthday), and may be guessed and stolen by others.<br>Be sure to use a password that contains a combination of uppercase and lowercase letters, numbers, and special characters of not less than 16 digits.</p>
+            <div class="crt1">
+                <div class="note" >
+                    <p>Generate a private key through a private password and create a address (Note: please keep remember your password or private key, once the password or private key is lost, the funds in the account will be permanently lost)<br>This program will not back up, store or disclose your password or private key.</p>
+                    <p>If the password is empty, the private key will be created randomly</p>
+                    <p class="warning">Warning: a password that is too simple is not secure (for example, 123456, abc123, jbd184082376654 or birthday), and may be guessed and stolen by others or machine.<br>Be sure to use a password that contains a combination of uppercase and lowercase letters, numbers, and special characters of not less than 16 digits.</p>
+                </div>
+                <div class="input">
+                    <label>Password:</label>
+                    <textarea class="ipt1" autocomplete="off" placeholder="support case sensitive letters, numbers, symbols ~! @ # $%^&*_ +-=,.:;, no spaces, Chinese and Chinese symbols, no less than 6, no more than 255"></textarea>
+                    <p class="nt"></p>
+                </div>
+                <div class="btns">  
+                    <button class="green ban btn2">Create by Password</button>
+                    <button class="btn1">Create Randomly</button>
+                </div>
             </div>
-            <div class="input">
-                <label>Password:</label>
-                <textarea class="ipt1" autocomplete="off" placeholder="support case sensitive letters, numbers, symbols ~! @ # $%^&*_ +-=,.:;, no spaces, Chinese and Chinese symbols, no less than 6, no more than 255"></textarea>
-                <p class="nt"></p>
-            </div>
-            <div class="btns">  
-                <button class="green ban btn2">Create by Password</button>
-                <button class="btn1">Create Randomly</button>
+            <div class="crt2">     
+                <div>
+                    <button class="btn1_1">Create Wallet</button>
+                </div>     
+                <div>
+                    <input type="checkbox" id="crtpswd" /> <label for="crtpswd">Create by password</label>
+                </div>                    
             </div>
             <div class="result">
                 <h5 class="tt">Account created successfully! <span class="mark">( by randomly )</span></h5>

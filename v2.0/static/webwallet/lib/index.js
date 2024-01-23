@@ -495,7 +495,21 @@ function init_create_account(API) {
     var $acc = document.getElementById("acc")
     , $ipt1 = $cno($acc, "ipt1")
     , $btn1 = $cno($acc, "btn1")
+    , $btn1_1 = $cno($acc, "btn1_1")
     , $btn2 = $cno($acc, "btn2")
+    , $crt1 = $cno($acc, "crt1")
+    , $crt2 = $cno($acc, "crt2")
+
+    , crtpswd = document.getElementById('crtpswd')
+
+    crtpswd.onclick = function(){
+        if(!confirm("Creating by password will make account security issues (your assets may be stolen), are you sure you are aware of the risks?")){
+            crtpswd.checked = false
+            return
+        } 
+        $crt1.classList.add("show")
+        $crt2.classList.add("hide")
+    }
 
     var in1chg = function(){
         var v = $ipt1.value
@@ -525,7 +539,7 @@ function init_create_account(API) {
         $res.classList.add("show")
     }
     // random create
-    $btn1.onclick = function(){
+    function crtadr(){
         $ipt1.value = ""
         $btn2.classList.add("ban")
         $btn1.classList.add("ban")
@@ -538,6 +552,8 @@ function init_create_account(API) {
         result(acc)
         $btn1.classList.remove("ban")
     }
+    $btn1.onclick = crtadr
+    $btn1_1.onclick = crtadr
     // password create
     $btn2.onclick = function(){
         if($btn2.classList.contains("ban")){
