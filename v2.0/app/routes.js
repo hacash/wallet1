@@ -19,6 +19,7 @@ module.exports = {
     '/api/estimate_fee': 'api/estimate_fee',
     'POST:/api/send_tx': 'api/send_tx',
     'POST:/api/create_trs': 'api/create_trs',
+    'POST:/api/check_tx': 'api/check_tx',
     
 }
     

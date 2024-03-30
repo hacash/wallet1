@@ -107,12 +107,6 @@ exports.reqPostApi = async function (urlstr, postdata) {
                     resobj.ret = 0
                     ok(resobj)
                 }catch(e){
-                    // let errmsg = resstr.toLocaleLowerCase().replace(/\s+/ig, "")
-                    // if(errmsg.includes("feepurity")>0){
-                    //     resstr = "交易已经存在于交易池，正在等待确认，请勿重复添加"
-                    // }else if(resstr.includes("exist")>0){
-                    //     resstr = "交易已经被确认，转账成功。"
-                    // }
                     // console.log(e)
                     err(resstr)
                 }
@@ -129,9 +123,13 @@ exports.reqPostApi = async function (urlstr, postdata) {
 }
 
 
-exports.reqFuncOfNodeApiOperate = function(cnf, type, datas) {
+exports.reqFuncOfNodeApiOperate = function(cnf, type, datas, params) {
     // console.log(txbody)
-    let url = cnf.hcx_node_api_url + '/operate'
+    let url = cnf.hcx_node_api_url + '/operate?'
+    params = params || {}
+    for(var k in params){
+        url += `${k}=${params[k]}&`
+    }
     let contents = []
     contents.push( Buffer.from(type, 'hex') )
     contents.push( datas )
