@@ -503,10 +503,14 @@ function init_create_account(API) {
     , crtpswd = document.getElementById('crtpswd')
 
     crtpswd.onclick = function(){
-        if(!confirm("Creating by password will make account security issues (your assets may be stolen), are you sure you are aware of the risks?")){
+        if(!confirm("Creating by password will make account security issues (your all assets may be stolen), are you sure you are aware of the risks?")){
             crtpswd.checked = false
             return
-        } 
+        }
+        if('I KONW THE RISK' != prompt("Hackers may guess your password through rainbow tables or calculations, the password is the private key itself, there is no second line of defense! Your all assets may be STOLEN, please input 'I KNOW THE RISK' to continue")){
+            crtpswd.checked = false
+            return
+        }
         $crt1.classList.add("show")
         $crt2.classList.add("hide")
     }
